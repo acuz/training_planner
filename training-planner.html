@@ -153,8 +153,8 @@
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
     .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .rpe-badge { position: absolute; top: 3px; right: 3px; min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px; background: #475569; color: white; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-    .activity-badge { position: absolute; bottom: 3px; left: 4px; width: 18px; height: 18px; border-radius: 4px; color: white; font-size: 0.62rem; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; line-height: 1; }
+    .rpe-badge { position: absolute; top: 3px; right: 3px; min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px; color: white; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .activity-badge { position: absolute; top: 3px; right: 26px; width: 18px; height: 18px; border-radius: 4px; color: white; font-size: 0.62rem; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; line-height: 1; }
     .add-btn { color: #cbd5e1; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 50px; }
 
     /* Availability cells */
@@ -564,12 +564,19 @@ function fmtMins(m)    { const h=Math.floor(m/60),mm=Math.round(m%60); return h>
 function fmtDist(m)    { return m>=1000?`${(m/1000).toFixed(1)} km`:`${m} m`; }
 function activityBadge(url) {
   if (!url) return '';
-  const isStrava = /strava\.com/i.test(url);
-  const isGarmin = /garmin\.com/i.test(url);
-  const bg    = isStrava ? '#FC4C02' : isGarmin ? '#007CC3' : '#3b82f6';
-  const label = isStrava ? 'S' : isGarmin ? 'G' : '↗';
-  const title = isStrava ? 'Apri su Strava' : isGarmin ? 'Apri su Garmin' : 'Apri attività';
+  const isStrava  = /strava\.com/i.test(url);
+  const isGarmin  = /garmin\.com/i.test(url);
+  const isKomoot  = /komoot\.com/i.test(url);
+  const isBryton  = /bryton/i.test(url);
+  const bg    = isStrava ? '#FC4C02' : isGarmin ? '#007CC3' : isKomoot ? '#6DAB3C' : isBryton ? '#E8621A' : '#3b82f6';
+  const label = isStrava ? 'S' : isGarmin ? 'G' : isKomoot ? 'K' : isBryton ? 'B' : '↗';
+  const title = isStrava ? 'Apri su Strava' : isGarmin ? 'Apri su Garmin' : isKomoot ? 'Apri su Komoot' : isBryton ? 'Apri su Bryton' : 'Apri attività';
   return `<a href="${url}" target="_blank" rel="noopener" class="activity-badge" style="background:${bg}" title="${title}" onclick="event.stopPropagation()">${label}</a>`;
+}
+function rpeBadge(rpe) {
+  if (!rpe) return '';
+  const bg = rpe <= 12 ? '#22c55e' : rpe <= 16 ? '#ca8a04' : rpe <= 18 ? '#f97316' : '#ef4444';
+  return `<div class="rpe-badge" style="background:${bg}">${rpe}</div>`;
 }
 
 // ================================================================
@@ -775,7 +782,7 @@ function renderCalendar() {
           (s.actualDuration  ? `<div class="cell-dur">✓ ${s.actualDuration}</div>`
            : s.plannedDuration ? `<div class="cell-dur">${s.plannedDuration}</div>` : '') +
           (notes ? `<div class="cell-notes">${notes}</div>` : '') +
-          (s.rpe ? `<div class="rpe-badge">${s.rpe}</div>` : '') +
+          rpeBadge(s.rpe) +
           activityBadge(s.activityUrl);
       } else {
         cell.innerHTML = '<div class="add-btn">+</div>';
