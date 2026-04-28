@@ -154,6 +154,7 @@
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
     .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
     .rpe-badge { position: absolute; top: 3px; right: 3px; min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px; background: #475569; color: white; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .activity-badge { position: absolute; bottom: 3px; left: 4px; width: 18px; height: 18px; border-radius: 4px; color: white; font-size: 0.62rem; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; line-height: 1; }
     .add-btn { color: #cbd5e1; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 50px; }
 
     /* Availability cells */
@@ -426,6 +427,7 @@
         <div class="form-group"><label>Peso (kg)</label><input type="number" id="m-weight" step="0.1" placeholder="es. 72.5"></div>
       </div>
       <div class="form-group"><label>Note post-allenamento</label><textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea></div>
+      <div class="form-group"><label>Link attività (Strava, Garmin…)</label><input type="url" id="m-activity-url" placeholder="https://www.strava.com/activities/…"></div>
     </div>
     <div class="modal-actions">
       <button id="delete-session-btn" class="btn btn-danger btn-sm" onclick="deleteSession()" style="margin-right:auto">🗑 Elimina</button>
@@ -560,6 +562,15 @@ function weekLabel(id) { const d=getWeekDates(id); const[y,w]=id.split('-W'); re
 function parseMins(s)  { if(!s)return 0; const p=s.split(':').map(Number); return p.length===3?p[0]*60+p[1]+p[2]/60:p[0]*60+p[1]; }
 function fmtMins(m)    { const h=Math.floor(m/60),mm=Math.round(m%60); return h>0?`${h}h ${mm}m`:`${mm}m`; }
 function fmtDist(m)    { return m>=1000?`${(m/1000).toFixed(1)} km`:`${m} m`; }
+function activityBadge(url) {
+  if (!url) return '';
+  const isStrava = /strava\.com/i.test(url);
+  const isGarmin = /garmin\.com/i.test(url);
+  const bg    = isStrava ? '#FC4C02' : isGarmin ? '#007CC3' : '#3b82f6';
+  const label = isStrava ? 'S' : isGarmin ? 'G' : '↗';
+  const title = isStrava ? 'Apri su Strava' : isGarmin ? 'Apri su Garmin' : 'Apri attività';
+  return `<a href="${url}" target="_blank" rel="noopener" class="activity-badge" style="background:${bg}" title="${title}" onclick="event.stopPropagation()">${label}</a>`;
+}
 
 // ================================================================
 // AUTH
@@ -764,7 +775,8 @@ function renderCalendar() {
           (s.actualDuration  ? `<div class="cell-dur">✓ ${s.actualDuration}</div>`
            : s.plannedDuration ? `<div class="cell-dur">${s.plannedDuration}</div>` : '') +
           (notes ? `<div class="cell-notes">${notes}</div>` : '') +
-          (s.rpe ? `<div class="rpe-badge">${s.rpe}</div>` : '');
+          (s.rpe ? `<div class="rpe-badge">${s.rpe}</div>` : '') +
+          activityBadge(s.activityUrl);
       } else {
         cell.innerHTML = '<div class="add-btn">+</div>';
       }
@@ -858,6 +870,7 @@ function openSessionModal(date, disc, dayLetter, session) {
   document.getElementById('m-rpe').value              = session?.rpe             || '';
   document.getElementById('m-weight').value           = session?.weightKg        || '';
   document.getElementById('m-athlete-notes').value    = session?.athleteNotes    || '';
+  document.getElementById('m-activity-url').value     = session?.activityUrl     || '';
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
   const activeInt = document.querySelector(`.int-btn.${currentIntensity || 'none'}`);
   if (activeInt) activeInt.classList.add('selected');
@@ -891,6 +904,7 @@ async function saveSession() {
     rpe:             parseInt(document.getElementById('m-rpe').value)             || null,
     weightKg:        parseFloat(document.getElementById('m-weight').value)        || null,
     athleteNotes:    document.getElementById('m-athlete-notes').value.trim()      || null,
+    activityUrl:     document.getElementById('m-activity-url').value.trim()       || null,
     updatedAt:       firebase.firestore.FieldValue.serverTimestamp(),
   };
   Object.keys(data).forEach(k => { if(data[k]===null||data[k]===undefined) delete data[k]; });
