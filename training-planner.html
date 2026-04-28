@@ -123,8 +123,20 @@
     .chip-M { background: #fef9c3; color: #854d0e; }
     .chip-P { background: #dbeafe; color: #1e40af; }
     .chip-S { background: #ede9fe; color: #5b21b6; }
+    .chip-disc-Nuoto    { background: #dbeafe; color: #1e40af; }
+    .chip-disc-Bici     { background: #fef3c7; color: #92400e; }
+    .chip-disc-Rulli    { background: #ffedd5; color: #9a3412; }
+    .chip-disc-Corsa    { background: #dcfce7; color: #166534; }
+    .chip-disc-Palestra { background: #f3e8ff; color: #6b21a8; }
     .avail-cell-note { font-size: 0.68rem; color: var(--muted); width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
     .avail-empty { color: #cbd5e1; font-size: 0.75rem; line-height: 36px; text-align: center; width: 100%; }
+    .avail-disc-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .avail-disc-btn { padding: 0.3rem 0.75rem; border-radius: 9999px; border: 2px solid var(--border); background: white; font-size: 0.82rem; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .avail-disc-btn.sel-Nuoto    { border-color: #93c5fd; background: #dbeafe; color: #1e40af; }
+    .avail-disc-btn.sel-Bici     { border-color: #fcd34d; background: #fef3c7; color: #92400e; }
+    .avail-disc-btn.sel-Rulli    { border-color: #fdba74; background: #ffedd5; color: #9a3412; }
+    .avail-disc-btn.sel-Corsa    { border-color: #86efac; background: #dcfce7; color: #166534; }
+    .avail-disc-btn.sel-Palestra { border-color: #d8b4fe; background: #f3e8ff; color: #6b21a8; }
 
     /* ---- Intensity selector ---- */
     .intensity-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -332,13 +344,21 @@
   <div class="modal-card" style="max-width:420px;">
     <div class="modal-title">📅 <span id="avail-modal-title"></span></div>
     <div class="modal-section">
-      <div class="modal-section-title">Quando sei disponibile?</div>
+      <div class="modal-section-title">Discipline che puoi fare</div>
+      <div class="avail-disc-btns">
+        <button class="avail-disc-btn" id="disc-Nuoto"    onclick="toggleAvailDisc('Nuoto',this)">🏊 Nuoto</button>
+        <button class="avail-disc-btn" id="disc-Bici"     onclick="toggleAvailDisc('Bici',this)">🚴 Bici</button>
+        <button class="avail-disc-btn" id="disc-Rulli"    onclick="toggleAvailDisc('Rulli',this)">🎯 Rulli</button>
+        <button class="avail-disc-btn" id="disc-Corsa"    onclick="toggleAvailDisc('Corsa',this)">🏃 Corsa</button>
+        <button class="avail-disc-btn" id="disc-Palestra" onclick="toggleAvailDisc('Palestra',this)">🏋️ Palestra</button>
+      </div>
+      <div class="modal-section-title" style="margin-top:0.5rem">Quando sei disponibile? <span style="font-weight:400;color:var(--muted)">(facoltativo)</span></div>
       <div class="avail-slots">
         <button class="avail-slot-btn" id="slot-M" onclick="toggleAvailSlot('Mattina',this)">☀️ Mattina</button>
         <button class="avail-slot-btn" id="slot-P" onclick="toggleAvailSlot('Pomeriggio',this)">🌤 Pomeriggio</button>
         <button class="avail-slot-btn" id="slot-S" onclick="toggleAvailSlot('Sera',this)">🌙 Sera</button>
       </div>
-      <div class="form-group"><label>Note per l'allenatore</label><textarea id="avail-day-note" rows="2" placeholder="Es. solo dopo le 19, preferisco corsa..."></textarea></div>
+      <div class="form-group"><label>Note per l'allenatore</label><textarea id="avail-day-note" rows="2" placeholder="Es. solo dopo le 19..."></textarea></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeAvailModal()">Chiudi</button>
@@ -401,9 +421,10 @@ let currentWeekId     = getWeekId(new Date());
 let currentSessions   = {};
 let editingSession    = null;
 let currentIntensity  = null;
-let weekAvail         = {};   // { date: { slots:[], note:'' } }
+let weekAvail         = {};   // { date: { disciplines:[], slots:[], note:'' } }
 let editingAvailDate  = null;
 let tempAvailSlots    = [];
+let tempAvailDiscs    = [];
 
 // ================================================================
 // WEEK UTILS
@@ -540,12 +561,16 @@ function renderCalendar() {
   grid.appendChild(mkEl('div','📅', 'avail-label'));
   dates.forEach((date,i) => {
     const av   = weekAvail[date] || {};
+    const discs = av.disciplines || [];
     const slots = av.slots || [];
+    const hasAny = discs.length || slots.length || av.note;
     const cell = document.createElement('div');
-    cell.className = 'avail-cell' + (slots.length ? ' has-avail' : '');
-    if (slots.length) {
-      cell.innerHTML = slots.map(s => `<span class="avail-chip chip-${SLOT_KEYS[s]}">${s}</span>`).join('')
-        + (av.note ? `<div class="avail-cell-note">${av.note}</div>` : '');
+    cell.className = 'avail-cell' + (hasAny ? ' has-avail' : '');
+    if (hasAny) {
+      let html = discs.map(d => `<span class="avail-chip chip-disc-${d}">${d}</span>`).join('');
+      if (slots.length) html += slots.map(s => `<span class="avail-chip chip-${SLOT_KEYS[s]}">${s}</span>`).join('');
+      if (av.note) html += `<div class="avail-cell-note">${av.note}</div>`;
+      cell.innerHTML = html;
     } else {
       cell.innerHTML = '<div class="avail-empty">+</div>';
     }
@@ -597,15 +622,24 @@ async function savePeriod() {
 function openAvailModal(date, dayName) {
   editingAvailDate = date;
   const av = weekAvail[date] || {};
-  tempAvailSlots   = [...(av.slots || [])];
+  tempAvailSlots = [...(av.slots || [])];
+  tempAvailDiscs = [...(av.disciplines || [])];
   document.getElementById('avail-modal-title').textContent = `${dayName} ${fmtIT(date)}`;
   document.getElementById('avail-day-note').value = av.note || '';
-  // Update buttons
+  DISCIPLINES.forEach(d => {
+    const btn = document.getElementById(`disc-${d}`);
+    btn.className = 'avail-disc-btn' + (tempAvailDiscs.includes(d) ? ` sel-${d}` : '');
+  });
   ['Mattina','Pomeriggio','Sera'].forEach(s => {
     const btn = document.getElementById(`slot-${SLOT_KEYS[s]}`);
     btn.className = 'avail-slot-btn' + (tempAvailSlots.includes(s) ? ` sel-${SLOT_KEYS[s]}` : '');
   });
   document.getElementById('avail-modal').classList.remove('hidden');
+}
+function toggleAvailDisc(disc, btn) {
+  const idx = tempAvailDiscs.indexOf(disc);
+  if (idx >= 0) { tempAvailDiscs.splice(idx,1); btn.className = 'avail-disc-btn'; }
+  else           { tempAvailDiscs.push(disc);    btn.className = `avail-disc-btn sel-${disc}`; }
 }
 function toggleAvailSlot(slot, btn) {
   const k = SLOT_KEYS[slot];
@@ -615,7 +649,7 @@ function toggleAvailSlot(slot, btn) {
 }
 async function saveAvailDay() {
   const note = document.getElementById('avail-day-note').value.trim();
-  weekAvail[editingAvailDate] = { slots: tempAvailSlots, note };
+  weekAvail[editingAvailDate] = { disciplines: tempAvailDiscs, slots: tempAvailSlots, note };
   await db.collection('availability').doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
   closeAvailModal();
   renderCalendar();
