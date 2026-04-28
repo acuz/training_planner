@@ -192,22 +192,12 @@
   </div>
 </div>
 
-<!-- ROLE SELECTION (primo accesso) -->
+<!-- RUOLO NON ASSEGNATO -->
 <div id="role-screen" class="auth-screen hidden">
   <div class="auth-card">
     <h1>🏊‍♂️ Training Planner</h1>
-    <p>Benvenuto/a <strong id="role-name"></strong>. Come vuoi accedere?</p>
-    <button class="btn btn-primary btn-full" style="margin-bottom:0.75rem" onclick="setRole('atleta')">🏊 Sono l'atleta</button>
-    <button class="btn btn-secondary btn-full" onclick="showPinSection()">🏋️ Sono l'allenatore</button>
-    <div id="pin-section" class="hidden" style="margin-top:1rem">
-      <div class="form-group">
-        <label>PIN allenatore</label>
-        <input type="password" id="trainer-pin" placeholder="••••••"
-               onkeydown="if(event.key==='Enter')checkPin()">
-      </div>
-      <button class="btn btn-primary btn-full" onclick="checkPin()">Conferma</button>
-    </div>
-    <div id="role-error" class="auth-error"></div>
+    <p style="color:#dc2626">Ruolo non assegnato per <strong id="role-name"></strong>.<br>Contatta l'amministratore per configurare il tuo account.</p>
+    <button class="btn btn-secondary btn-full" onclick="logout()">Esci</button>
   </div>
 </div>
 
@@ -391,7 +381,6 @@ const firebaseConfig = {
   messagingSenderId: "286030804156",
   appId:             "1:286030804156:web:bc7279cf26586dc43e0cb9"
 };
-const TRAINER_PIN = "coach2024"; // Cambia questo PIN
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -466,8 +455,8 @@ auth.onAuthStateChanged(async user => {
   if (user) {
     currentUser = user;
     const snap = await db.collection('users').doc(user.uid).get();
-    if (snap.exists) {
-      userRole = snap.data().role || 'atleta';
+    if (snap.exists && snap.data().role) {
+      userRole = snap.data().role;
       showApp();
     } else {
       document.getElementById('login-screen').classList.add('hidden');
@@ -480,21 +469,6 @@ auth.onAuthStateChanged(async user => {
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
-
-function showPinSection() {
-  document.getElementById('pin-section').classList.remove('hidden');
-  document.getElementById('trainer-pin').focus();
-}
-async function checkPin() {
-  if (document.getElementById('trainer-pin').value === TRAINER_PIN) await setRole('allenatore');
-  else document.getElementById('role-error').textContent = 'PIN non corretto.';
-}
-async function setRole(role) {
-  await db.collection('users').doc(currentUser.uid).set({ role, email: currentUser.email, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-  userRole = role;
-  document.getElementById('role-screen').classList.add('hidden');
-  showApp();
-}
 
 // ================================================================
 // APP
