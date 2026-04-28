@@ -80,13 +80,48 @@
     .period-input:hover, .period-input:focus { background: #f1f5f9; outline: none; }
 
     /* ---- Week totals ---- */
-    .week-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; background: white; border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.625rem 1.25rem; margin-bottom: 0.4rem; font-size: 0.83rem; }
-    .week-totals span { color: var(--muted); }
-    .week-totals strong { color: var(--text); }
+    .week-totals { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: white; border: 1px solid var(--border); border-left-width: 4px; border-radius: 0.75rem; padding: 0.6rem 1.25rem; margin-bottom: 0.4rem; font-size: 0.83rem; transition: background 0.2s, border-color 0.2s; }
+    .week-stats-inner { display: flex; flex-wrap: wrap; gap: 1.25rem; flex: 1; }
+    .week-stats-inner span { color: var(--muted); }
+    .week-stats-inner strong { color: var(--text); }
+    .week-totals.load-green  { background:#f0fdf4; border-color:#86efac; border-left-color:#22c55e; }
+    .week-totals.load-yellow { background:#fefce8; border-color:#fde047; border-left-color:#eab308; }
+    .week-totals.load-orange { background:#fff7ed; border-color:#fdba74; border-left-color:#f97316; }
+    .week-totals.load-red    { background:#fff1f2; border-color:#fca5a5; border-left-color:#ef4444; }
+    .load-panel { display: flex; align-items: center; gap: 0.5rem; padding-left: 0.875rem; border-left: 1px solid var(--border); margin-left: auto; }
+    .load-color-btns { display: flex; gap: 0.3rem; }
+    .load-color-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; transition: transform 0.12s; }
+    .load-color-dot:hover { transform: scale(1.25); }
+    .load-color-dot.active { border-color: #1e293b; box-shadow: 0 0 0 1px white inset; }
+    .load-note-input { border: none; font-size: 0.88rem; font-weight: 700; background: transparent; font-family: inherit; color: var(--text); min-width: 160px; max-width: 340px; outline: none; }
+    .load-note-input::placeholder { font-weight: 400; color: #94a3b8; }
+    .load-note-input:read-only { cursor: default; }
     .disc-totals { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
     .disc-total-chip { display: flex; align-items: center; gap: 0.3rem; background: white; border: 1px solid var(--border); border-radius: 9999px; padding: 0.2rem 0.65rem; font-size: 0.78rem; }
     .disc-total-chip .dtc-name { font-weight: 700; }
     .disc-total-chip .dtc-val  { color: var(--muted); }
+
+    /* ---- Progress view ---- */
+    .progress-week-card { background: white; border: 1px solid var(--border); border-left-width: 4px; border-radius: 0.75rem; margin-bottom: 0.875rem; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+    .progress-week-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+    .progress-week-card.load-green  { border-left-color: #22c55e; }
+    .progress-week-card.load-yellow { border-left-color: #eab308; }
+    .progress-week-card.load-orange { border-left-color: #f97316; }
+    .progress-week-card.load-red    { border-left-color: #ef4444; }
+    .pw-header { padding: 0.65rem 1.25rem; display: flex; align-items: center; gap: 0.875rem; flex-wrap: wrap; background: #f8fafc; border-bottom: 1px solid var(--border); }
+    .pw-range  { font-weight: 700; font-size: 0.88rem; }
+    .pw-stats  { color: var(--muted); font-size: 0.8rem; }
+    .pw-note   { font-weight: 700; font-size: 0.85rem; margin-left: auto; color: var(--text); }
+    .pw-body   { padding: 0.625rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .pw-disc-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+    .pw-disc-tag { font-size: 0.7rem; font-weight: 700; color: white; padding: 0.18rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .pw-sessions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .pw-session-chip { font-size: 0.76rem; padding: 0.18rem 0.55rem; border-radius: 0.35rem; border: 1px solid var(--border); background: var(--card); white-space: nowrap; }
+    .pw-session-chip.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
+    .pw-session-chip.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
+    .pw-session-chip.int-hard   { background: var(--int-hard);   border-color: var(--int-hard-b); }
+    .pw-session-chip.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
+    .pw-done   { color: #16a34a; font-weight: 700; }
 
     /* ---- Calendar grid ---- */
     .scroll-x { overflow-x: auto; padding-bottom: 0.5rem; }
@@ -188,10 +223,32 @@
     #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.7rem 1.2rem; background: #1e293b; color: white; border-radius: 0.5rem; font-size: 0.875rem; z-index: 300; transition: opacity 0.3s; pointer-events: none; }
 
     @media (max-width: 640px) {
-      main { padding: 0.875rem; }
-      header, nav { padding: 0 0.875rem; }
+      main { padding: 0.75rem; }
+      header { height: auto; min-height: 56px; padding: 0.5rem 0.875rem; flex-wrap: wrap; gap: 0.375rem; }
+      header h1 { font-size: 0.95rem; }
+      nav { padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .nav-btn { padding: 0.6rem 0.875rem; font-size: 0.82rem; white-space: nowrap; }
+      #athlete-selector { order: 3; width: 100%; }
+      .week-header { gap: 0.5rem; }
+      .week-nav { gap: 0.5rem; }
+      .week-title { min-width: 0; font-size: 0.9rem; }
+      .week-totals { padding: 0.5rem 0.875rem; gap: 0.375rem; }
+      .week-stats-inner { gap: 0.75rem; }
+      .load-panel { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 0.4rem; margin-left: 0; width: 100%; flex-wrap: wrap; }
+      .load-note-input { min-width: 0; flex: 1; }
+      .disc-totals { gap: 0.35rem; }
+      .disc-total-chip { font-size: 0.73rem; padding: 0.15rem 0.5rem; }
       .two-col { grid-template-columns: 1fr; }
-      .modal-card { padding: 1.25rem; }
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal-card { padding: 1.25rem; border-radius: 1rem 1rem 0 0; max-width: 100%; max-height: 92vh; }
+      .btn { padding: 0.65rem 1rem; }
+      .btn-sm { padding: 0.5rem 0.75rem; }
+      .btn-icon { width: 38px; height: 38px; }
+      .intensity-btns { gap: 0.4rem; }
+      .int-btn { padding: 0.35rem 0.6rem; font-size: 0.78rem; }
+      .pw-header { padding: 0.5rem 0.875rem; gap: 0.5rem; }
+      .pw-body { padding: 0.5rem 0.875rem; }
+      .pw-note { margin-left: 0; }
     }
   </style>
 </head>
@@ -247,6 +304,7 @@
 
   <nav>
     <button class="nav-btn active" onclick="showView('settimana',this)">Settimana</button>
+    <button class="nav-btn" onclick="showView('progresso',this)">Progresso</button>
     <button class="nav-btn" onclick="showView('test',this)">Test & Prove</button>
   </nav>
 
@@ -256,11 +314,7 @@
       <div class="week-header">
         <div class="week-nav">
           <button class="btn-icon" onclick="changeWeek(-1)">&#8592;</button>
-          <div style="text-align:center">
-            <div class="week-title" id="week-title"></div>
-            <input class="period-input" id="period-input" placeholder="es. 1° carico"
-                   onblur="savePeriod()" onkeydown="if(event.key==='Enter')this.blur()">
-          </div>
+          <div class="week-title" id="week-title"></div>
           <button class="btn-icon" onclick="changeWeek(1)">&#8594;</button>
         </div>
         <div id="trainer-actions" class="hidden" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -268,11 +322,32 @@
           <button class="btn btn-secondary btn-sm" onclick="copyFromPrev()">📋 Copia sett. prec.</button>
         </div>
       </div>
-      <div id="week-totals" class="week-totals"></div>
+      <div id="week-totals" class="week-totals">
+        <div id="week-stats" class="week-stats-inner"></div>
+        <div id="load-panel" class="load-panel">
+          <div id="load-color-btns" class="load-color-btns" style="display:none">
+            <button class="load-color-dot" data-color="green"  style="background:#22c55e" onclick="setLoadColor('green')"  title="Leggero"></button>
+            <button class="load-color-dot" data-color="yellow" style="background:#eab308" onclick="setLoadColor('yellow')" title="Moderato"></button>
+            <button class="load-color-dot" data-color="orange" style="background:#f97316" onclick="setLoadColor('orange')" title="Alto"></button>
+            <button class="load-color-dot" data-color="red"    style="background:#ef4444" onclick="setLoadColor('red')"    title="Massimo"></button>
+          </div>
+          <input id="load-note-input" class="load-note-input" placeholder="Note settimana..."
+                 onblur="saveLoadNote()" onkeydown="if(event.key==='Enter')this.blur()">
+        </div>
+      </div>
       <div id="disc-totals" class="disc-totals"></div>
       <div class="scroll-x">
         <div id="calendar-grid" class="calendar-grid"></div>
       </div>
+    </div>
+
+    <!-- PROGRESSO -->
+    <div id="view-progresso" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+        <h2 style="font-size:1.05rem;font-weight:700;">Progresso</h2>
+        <button class="btn btn-secondary btn-sm" onclick="loadProgress()">↻ Aggiorna</button>
+      </div>
+      <div id="progress-list"></div>
     </div>
 
     <!-- TEST & PROVE -->
@@ -574,7 +649,19 @@ async function loadWeek(wId) {
   currentWeekId = wId; currentSessions = {};
   document.getElementById('week-title').textContent = weekLabel(wId);
   const wDoc = await weeksCol().doc(wId).get();
-  document.getElementById('period-input').value = wDoc.exists ? (wDoc.data().periodName||'') : '';
+  const wData = wDoc.exists ? wDoc.data() : {};
+  // Load banner
+  const bar = document.getElementById('week-totals');
+  bar.className = 'week-totals' + (wData.loadColor ? ` load-${wData.loadColor}` : '');
+  const noteInput = document.getElementById('load-note-input');
+  noteInput.value = wData.loadNote || '';
+  noteInput.readOnly = (userRole !== 'allenatore');
+  noteInput.placeholder = userRole === 'allenatore' ? 'Note settimana...' : '';
+  const colorBtns = document.getElementById('load-color-btns');
+  colorBtns.style.display = userRole === 'allenatore' ? 'flex' : 'none';
+  document.querySelectorAll('.load-color-dot').forEach(d =>
+    d.classList.toggle('active', d.dataset.color === wData.loadColor));
+
 
   const snap = await sessionsCol().where('weekId','==',wId).get();
   snap.forEach(doc => { const s=doc.data(); currentSessions[`${s.date}-${s.discipline}`]={id:doc.id,...s}; });
@@ -608,7 +695,7 @@ function renderCalendar() {
       if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
     }
   });
-  const te = document.getElementById('week-totals');
+  const te = document.getElementById('week-stats');
   te.innerHTML = tot === 0
     ? '<span>Nessuna sessione pianificata</span>'
     : `<span>📅 <strong>${tot}</strong> sessioni</span>`
@@ -690,8 +777,18 @@ function renderCalendar() {
 function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.className=cls; e.innerHTML=html; return e; }
 function changeWeek(d)   { loadWeek(addWeeks(currentWeekId, d)); }
 function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
-async function savePeriod() {
-  await weeksCol().doc(currentWeekId).set({ periodName: document.getElementById('period-input').value.trim(), weekId: currentWeekId }, { merge:true });
+async function setLoadColor(color) {
+  const bar = document.getElementById('week-totals');
+  const cur = [...bar.classList].find(c => c.startsWith('load-'))?.replace('load-','');
+  const next = cur === color ? null : color;
+  bar.className = 'week-totals' + (next ? ` load-${next}` : '');
+  document.querySelectorAll('.load-color-dot').forEach(d =>
+    d.classList.toggle('active', d.dataset.color === next));
+  await weeksCol().doc(currentWeekId).set({ loadColor: next||null, weekId: currentWeekId }, { merge:true });
+}
+async function saveLoadNote() {
+  const note = document.getElementById('load-note-input').value.trim();
+  await weeksCol().doc(currentWeekId).set({ loadNote: note, weekId: currentWeekId }, { merge:true });
 }
 
 // ================================================================
@@ -947,10 +1044,68 @@ async function exportExcel(){
 // NAVIGATION & TOAST
 // ================================================================
 function showView(name, btn) {
-  ['settimana','test'].forEach(v=>document.getElementById(`view-${v}`).classList.toggle('hidden',v!==name));
+  ['settimana','progresso','test'].forEach(v=>document.getElementById(`view-${v}`).classList.toggle('hidden',v!==name));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
   if(name==='test') loadTests();
+  if(name==='progresso') loadProgress();
+}
+
+function gotoWeek(wId) {
+  showView('settimana', document.querySelector('.nav-btn[onclick*="settimana"]'));
+  loadWeek(wId);
+}
+
+async function loadProgress() {
+  if (!currentAthleteId) return;
+  const list = document.getElementById('progress-list');
+  list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:2rem">Caricamento…</div>';
+  const snap = await sessionsCol().get();
+  const byWeek = {};
+  snap.forEach(doc => {
+    const s = doc.data();
+    if (!byWeek[s.weekId]) byWeek[s.weekId] = [];
+    byWeek[s.weekId].push({id:doc.id,...s});
+  });
+  const weekIds = Object.keys(byWeek).sort().reverse();
+  if (!weekIds.length) { list.innerHTML='<div style="color:var(--muted);text-align:center;padding:2rem">Nessuna settimana registrata</div>'; return; }
+  const weekMeta = {};
+  await Promise.all(weekIds.map(async wId => {
+    const d = await weeksCol().doc(wId).get();
+    weekMeta[wId] = d.exists ? d.data() : {};
+  }));
+  list.innerHTML = weekIds.map(wId => renderProgressCard(wId, byWeek[wId], weekMeta[wId])).join('');
+}
+
+function renderProgressCard(wId, sessions, meta) {
+  const dates = getWeekDates(wId);
+  const loadCls = meta.loadColor ? ` load-${meta.loadColor}` : '';
+  let tot=sessions.length, done=0, dist=0, aMins=0;
+  sessions.forEach(s => {
+    if (s.actualDuration) { done++; aMins+=parseMins(s.actualDuration); }
+    if (s.distanceMeters) dist+=s.distanceMeters;
+  });
+  const statsStr = [`${tot} sess.`, done?`✓ ${done}/${tot}`:'', dist?fmtDist(dist):'', aMins?fmtMins(aMins):''].filter(Boolean).join(' · ');
+  const noteHtml = meta.loadNote ? `<span class="pw-note">${meta.loadNote}</span>` : '';
+  const byDisc = {};
+  sessions.forEach(s => { if(!byDisc[s.discipline]) byDisc[s.discipline]=[]; byDisc[s.discipline].push(s); });
+  const discRows = DISCIPLINES.filter(d=>byDisc[d]).map(d => {
+    const sorted = byDisc[d].sort((a,b)=>a.date.localeCompare(b.date));
+    const chips = sorted.map(s => {
+      const di = dates.indexOf(s.date);
+      const day = di>=0 ? DAY_NAMES[di] : s.date.slice(8);
+      const parts = [day];
+      if (s.distanceMeters) parts.push(fmtDist(s.distanceMeters));
+      if (s.actualDuration||s.plannedDuration) parts.push(s.actualDuration||s.plannedDuration);
+      const done = s.actualDuration ? ' <span class="pw-done">✓</span>' : '';
+      return `<span class="pw-session-chip${s.intensity?' int-'+s.intensity:''}">${parts.join(' ')}${done}</span>`;
+    }).join('');
+    return `<div class="pw-disc-row"><span class="pw-disc-tag" style="background:${DISC_COLORS[d]||'#64748b'}">${d}</span><div class="pw-sessions">${chips}</div></div>`;
+  }).join('');
+  return `<div class="progress-week-card${loadCls}" onclick="gotoWeek('${wId}')">
+    <div class="pw-header"><span class="pw-range">${weekLabel(wId)}</span><span class="pw-stats">${statsStr}</span>${noteHtml}</div>
+    <div class="pw-body">${discRows||'<span style="color:var(--muted);font-size:0.83rem">Nessuna sessione</span>'}</div>
+  </div>`;
 }
 let toastTimer=null;
 function showToast(msg){
