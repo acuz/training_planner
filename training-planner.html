@@ -251,9 +251,11 @@
           </div>
           <button class="btn-icon" onclick="changeWeek(1)">&#8594;</button>
         </div>
-        <div id="trainer-actions" class="hidden" style="display:flex;gap:0.5rem;">
+        <div id="trainer-actions" class="hidden" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
           <button class="btn btn-secondary btn-sm" onclick="goToCurrentWeek()">Oggi</button>
           <button class="btn btn-secondary btn-sm" onclick="copyFromPrev()">📋 Copia sett. prec.</button>
+          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('import-json-input').click()">⬆ Importa JSON</button>
+          <input type="file" id="import-json-input" accept=".json" style="display:none" onchange="importSessionsJson(event)">
         </div>
       </div>
       <div id="week-totals" class="week-totals"></div>
@@ -774,6 +776,34 @@ async function copyFromPrev() {
     batch.set(db.collection('sessions').doc(),nd); n++;
   });
   await batch.commit(); loadWeek(currentWeekId); showToast(`${n} sessioni copiate ✓`);
+}
+
+async function importSessionsJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = '';
+  let sessions;
+  try { sessions = JSON.parse(await file.text()); } catch(e) { alert('File JSON non valido.'); return; }
+  if (!Array.isArray(sessions) || sessions.length === 0) { alert('Nessuna sessione trovata nel file.'); return; }
+  if (!confirm(`Importare ${sessions.length} sessioni? Le sessioni esistenti con lo stesso ID verranno sovrascritte.`)) return;
+  const batch = db.batch();
+  sessions.forEach(s => {
+    const docId = `${s.weekId}-${s.discipline}-${s.date}`;
+    const doc = { weekId: s.weekId, date: s.date, discipline: s.discipline, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+    if (s.distanceMeters)  doc.distanceMeters  = s.distanceMeters;
+    if (s.startTime)       doc.startTime       = s.startTime;
+    if (s.plannedDuration) doc.plannedDuration  = s.plannedDuration;
+    if (s.actualDuration)  doc.actualDuration   = s.actualDuration;
+    if (s.trainerNotes)    doc.trainerNotes     = s.trainerNotes;
+    if (s.athleteNotes)    doc.athleteNotes     = s.athleteNotes;
+    if (s.intensity)       doc.intensity        = s.intensity;
+    if (s.rpe)             doc.rpe              = s.rpe;
+    if (s.weightKg)        doc.weightKg         = s.weightKg;
+    batch.set(db.collection('sessions').doc(docId), doc);
+  });
+  await batch.commit();
+  loadWeek(currentWeekId);
+  showToast(`${sessions.length} sessioni importate ✓`);
 }
 
 // ================================================================
