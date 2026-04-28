@@ -117,10 +117,11 @@
     .pw-disc-tag { font-size: 0.7rem; font-weight: 700; color: white; padding: 0.18rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
     .pw-sessions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
     .pw-session-chip { font-size: 0.76rem; padding: 0.18rem 0.55rem; border-radius: 0.35rem; border: 1px solid var(--border); background: var(--card); white-space: nowrap; }
-    .pw-session-chip.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
-    .pw-session-chip.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
-    .pw-session-chip.int-hard   { background: var(--int-hard);   border-color: var(--int-hard-b); }
-    .pw-session-chip.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
+    .pw-session-chip.int-low    { background: var(--int-low);    border: 2px solid var(--int-low-b); }
+    .pw-session-chip.int-medium { background: var(--int-medium); border: 2px solid var(--int-medium-b); }
+    .pw-session-chip.int-hard   { background: var(--int-hard);   border: 2px solid var(--int-hard-b); }
+    .pw-session-chip.int-high   { background: var(--int-high);   border: 2px solid var(--int-high-b); }
+    .pw-rpe { display: inline-flex; align-items: center; justify-content: center; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 3px; color: white; font-size: 0.6rem; font-weight: 700; margin-left: 3px; vertical-align: middle; }
     .pw-done   { color: #16a34a; font-weight: 700; }
 
     /* ---- Calendar grid ---- */
@@ -145,10 +146,10 @@
     /* Session cells */
     .cal-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 68px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; font-size: 0.76rem; }
     .cal-cell:hover { border-color: var(--primary); box-shadow: 0 0 0 2px #dbeafe; }
-    .cal-cell.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
-    .cal-cell.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
-    .cal-cell.int-hard   { background: var(--int-hard);   border-color: var(--int-hard-b); }
-    .cal-cell.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
+    .cal-cell.int-low    { background: var(--int-low);    border: 2px solid var(--int-low-b); }
+    .cal-cell.int-medium { background: var(--int-medium); border: 2px solid var(--int-medium-b); }
+    .cal-cell.int-hard   { background: var(--int-hard);   border: 2px solid var(--int-hard-b); }
+    .cal-cell.int-high   { background: var(--int-high);   border: 2px solid var(--int-high-b); }
     .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
@@ -1101,6 +1102,7 @@ async function loadProgress() {
 function renderProgressCard(wId, sessions, meta) {
   const dates = getWeekDates(wId);
   const loadCls = meta.loadColor ? ` load-${meta.loadColor}` : '';
+  const headerBg = {green:'#dcfce7',yellow:'#fef9c3',orange:'#ffedd5',red:'#fee2e2'}[meta.loadColor] || '#f8fafc';
   let tot=sessions.length, done=0, dist=0, aMins=0;
   sessions.forEach(s => {
     if (s.actualDuration) { done++; aMins+=parseMins(s.actualDuration); }
@@ -1119,12 +1121,14 @@ function renderProgressCard(wId, sessions, meta) {
       if (s.distanceMeters) parts.push(fmtDist(s.distanceMeters));
       if (s.actualDuration||s.plannedDuration) parts.push(s.actualDuration||s.plannedDuration);
       const done = s.actualDuration ? ' <span class="pw-done">✓</span>' : '';
-      return `<span class="pw-session-chip${s.intensity?' int-'+s.intensity:''}">${parts.join(' ')}${done}</span>`;
+      const rpeBg = s.rpe ? (s.rpe<=12?'#22c55e':s.rpe<=16?'#ca8a04':s.rpe<=18?'#f97316':'#ef4444') : null;
+      const rpeHtml = rpeBg ? `<span class="pw-rpe" style="background:${rpeBg}">${s.rpe}</span>` : '';
+      return `<span class="pw-session-chip${s.intensity?' int-'+s.intensity:''}">${parts.join(' ')}${done}${rpeHtml}</span>`;
     }).join('');
     return `<div class="pw-disc-row"><span class="pw-disc-tag" style="background:${DISC_COLORS[d]||'#64748b'}">${d}</span><div class="pw-sessions">${chips}</div></div>`;
   }).join('');
   return `<div class="progress-week-card${loadCls}" onclick="gotoWeek('${wId}')">
-    <div class="pw-header"><span class="pw-range">${weekLabel(wId)}</span><span class="pw-stats">${statsStr}</span>${noteHtml}</div>
+    <div class="pw-header" style="background:${headerBg}"><span class="pw-range">${weekLabel(wId)}</span><span class="pw-stats">${statsStr}</span>${noteHtml}</div>
     <div class="pw-body">${discRows||'<span style="color:var(--muted);font-size:0.83rem">Nessuna sessione</span>'}</div>
   </div>`;
 }
