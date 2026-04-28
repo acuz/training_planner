@@ -1,0 +1,25 @@
+name: Daily Firestore Backup
+
+on:
+  schedule:
+    - cron: '0 3 * * *'   # 03:00 UTC ogni notte (05:00 ora italiana estate)
+  workflow_dispatch:        # Permette anche avvio manuale da GitHub
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install firebase-admin google-api-python-client google-auth
+
+      - name: Run backup
+        run: python scripts/backup_firestore.py
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
