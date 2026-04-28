@@ -143,6 +143,12 @@
     .avail-disc-btn.sel-Rulli    { border-color: #fdba74; background: #ffedd5; color: #9a3412; }
     .avail-disc-btn.sel-Corsa    { border-color: #86efac; background: #dcfce7; color: #166534; }
     .avail-disc-btn.sel-Palestra { border-color: #d8b4fe; background: #f3e8ff; color: #6b21a8; }
+    .avail-disc-btn.sel-Altro    { border-color: #94a3b8; background: #f1f5f9; color: #334155; }
+    .chip-disc-Altro { background: #f1f5f9; color: #334155; }
+    /* Athlete selector */
+    #athlete-selector { display:none; align-items:center; gap:0.5rem; background:#f0f9ff; border:1px solid #7dd3fc; border-radius:0.5rem; padding:0.3rem 0.75rem; }
+    #athlete-selector label { font-size:0.8rem; font-weight:600; color:#0369a1; white-space:nowrap; }
+    #athlete-select { font-size:0.83rem; font-family:inherit; border:none; background:transparent; color:#0c4a6e; font-weight:600; cursor:pointer; outline:none; }
 
     /* ---- Intensity selector ---- */
     .intensity-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -226,6 +232,12 @@
     <div class="header-left">
       <h1>🏊‍♂️ Training Planner</h1>
       <span id="user-badge" class="user-badge"></span>
+    </div>
+    <div id="athlete-selector">
+      <label>Atleta:</label>
+      <select id="athlete-select" onchange="selectAthlete(this.value)">
+        <option value="">— nessun atleta —</option>
+      </select>
     </div>
     <div style="display:flex;gap:0.5rem;align-items:center;">
       <button class="btn btn-secondary btn-sm" onclick="exportExcel()">⬇ Esporta Excel</button>
@@ -362,6 +374,7 @@
         <button class="avail-disc-btn" id="disc-Rulli"    onclick="toggleAvailDisc('Rulli',this)">🎯 Rulli</button>
         <button class="avail-disc-btn" id="disc-Corsa"    onclick="toggleAvailDisc('Corsa',this)">🏃 Corsa</button>
         <button class="avail-disc-btn" id="disc-Palestra" onclick="toggleAvailDisc('Palestra',this)">🏋️ Palestra</button>
+        <button class="avail-disc-btn" id="disc-Altro"    onclick="toggleAvailDisc('Altro',this)">➕ Altro</button>
       </div>
       <div class="modal-section-title" style="margin-top:0.5rem">Quando sei disponibile? <span style="font-weight:400;color:var(--muted)">(facoltativo)</span></div>
       <div class="avail-slots">
@@ -418,16 +431,17 @@ const auth = firebase.auth();
 const db   = firebase.firestore();
 
 // ---- Costanti ----
-const DISCIPLINES  = ['Nuoto','Bici','Rulli','Corsa','Palestra'];
+const DISCIPLINES  = ['Nuoto','Bici','Rulli','Corsa','Palestra','Altro'];
 const DAY_NAMES    = ['Lu','Ma','Me','Gi','Ve','Sa','Do'];
 const DAY_LETTERS  = ['L','M','M','G','V','S','D'];
-const DISC_COLORS  = { Nuoto:'#3b82f6', Bici:'#f59e0b', Rulli:'#f97316', Corsa:'#22c55e', Palestra:'#a855f7' };
+const DISC_COLORS  = { Nuoto:'#3b82f6', Bici:'#f59e0b', Rulli:'#f97316', Corsa:'#22c55e', Palestra:'#a855f7', Altro:'#64748b' };
 const MONTH_NAMES  = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
 const SLOT_KEYS    = { Mattina:'M', Pomeriggio:'P', Sera:'S' };
 
 // ---- Stato ----
 let currentUser       = null;
 let userRole          = null;
+let currentAthleteId  = null;   // UID dell'atleta visualizzato
 let currentWeekId     = getWeekId(new Date());
 let currentSessions   = {};
 let editingSession    = null;
@@ -436,6 +450,12 @@ let weekAvail         = {};   // { date: { disciplines:[], slots:[], note:'' } }
 let editingAvailDate  = null;
 let tempAvailSlots    = [];
 let tempAvailDiscs    = [];
+
+// ---- Collezioni scoped per atleta ----
+function sessionsCol() { return db.collection('users').doc(currentAthleteId).collection('sessions'); }
+function availCol()    { return db.collection('users').doc(currentAthleteId).collection('availability'); }
+function weeksCol()    { return db.collection('users').doc(currentAthleteId).collection('weeks'); }
+function testsCol()    { return db.collection('users').doc(currentAthleteId).collection('tests'); }
 
 // ================================================================
 // WEEK UTILS
@@ -489,6 +509,9 @@ auth.onAuthStateChanged(async user => {
     const snap = await db.collection('users').doc(user.uid).get();
     if (snap.exists && snap.data().role) {
       userRole = snap.data().role;
+      // Aggiorna email nel documento (utile per il selettore atleta del trainer)
+      if (snap.data().email !== user.email)
+        db.collection('users').doc(user.uid).update({ email: user.email });
       showApp();
     } else {
       document.getElementById('login-screen').classList.add('hidden');
@@ -512,26 +535,54 @@ function showApp() {
   if (userRole === 'allenatore') {
     badge.textContent = '🏋️ Allenatore'; badge.className = 'user-badge allenatore';
     const ta = document.getElementById('trainer-actions'); ta.classList.remove('hidden'); ta.style.display = 'flex';
+    loadAthletes();
   } else {
     badge.textContent = '🏊 Atleta'; badge.className = 'user-badge';
+    currentAthleteId = currentUser.uid;
+    loadWeek(currentWeekId);
   }
-  loadWeek(currentWeekId);
+}
+
+async function loadAthletes() {
+  const snap = await db.collection('users').where('role','==','atleta').get();
+  const sel = document.getElementById('athlete-select');
+  sel.innerHTML = '<option value="">— seleziona atleta —</option>';
+  snap.forEach(doc => {
+    const d = doc.data();
+    const opt = document.createElement('option');
+    opt.value = doc.id;
+    opt.textContent = d.name || d.email || doc.id;
+    sel.appendChild(opt);
+  });
+  document.getElementById('athlete-selector').style.display = 'flex';
+  // Auto-seleziona se c'è un solo atleta
+  if (snap.size === 1) {
+    sel.value = snap.docs[0].id;
+    selectAthlete(snap.docs[0].id);
+  }
+}
+
+function selectAthlete(uid) {
+  currentAthleteId = uid || null;
+  if (currentAthleteId) { loadWeek(currentWeekId); loadTests(); }
+  else { currentSessions = {}; renderCalendar(); }
 }
 
 // ================================================================
 // WEEK VIEW
 // ================================================================
 async function loadWeek(wId) {
+  if (!currentAthleteId) return;
   currentWeekId = wId; currentSessions = {};
   document.getElementById('week-title').textContent = weekLabel(wId);
-  const wDoc = await db.collection('weeks').doc(wId).get();
+  const wDoc = await weeksCol().doc(wId).get();
   document.getElementById('period-input').value = wDoc.exists ? (wDoc.data().periodName||'') : '';
 
-  const snap = await db.collection('sessions').where('weekId','==',wId).get();
+  const snap = await sessionsCol().where('weekId','==',wId).get();
   snap.forEach(doc => { const s=doc.data(); currentSessions[`${s.date}-${s.discipline}`]={id:doc.id,...s}; });
 
   // Load availability (single doc, no composite index needed)
-  const aDoc = await db.collection('availability').doc(wId).get();
+  const aDoc = await availCol().doc(wId).get();
   weekAvail = aDoc.exists ? (aDoc.data().days || {}) : {};
 
   renderCalendar();
@@ -646,7 +697,7 @@ function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.cl
 function changeWeek(d)   { loadWeek(addWeeks(currentWeekId, d)); }
 function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
 async function savePeriod() {
-  await db.collection('weeks').doc(currentWeekId).set({ periodName: document.getElementById('period-input').value.trim(), weekId: currentWeekId }, { merge:true });
+  await weeksCol().doc(currentWeekId).set({ periodName: document.getElementById('period-input').value.trim(), weekId: currentWeekId }, { merge:true });
 }
 
 // ================================================================
@@ -683,7 +734,7 @@ function toggleAvailSlot(slot, btn) {
 async function saveAvailDay() {
   const note = document.getElementById('avail-day-note').value.trim();
   weekAvail[editingAvailDate] = { disciplines: tempAvailDiscs, slots: tempAvailSlots, note };
-  await db.collection('availability').doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
+  await availCol().doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
   closeAvailModal();
   renderCalendar();
   showToast('Disponibilità salvata ✓');
@@ -747,14 +798,14 @@ async function saveSession() {
   };
   Object.keys(data).forEach(k => { if(data[k]===null||data[k]===undefined) delete data[k]; });
   try {
-    if (editingSession) await db.collection('sessions').doc(editingSession).update(data);
-    else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await db.collection('sessions').add(data); }
+    if (editingSession) await sessionsCol().doc(editingSession).update(data);
+    else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await sessionsCol().add(data); }
     closeModal(); loadWeek(currentWeekId); showToast('Salvato ✓');
   } catch(e) { console.error(e); showToast('Errore nel salvataggio'); }
 }
 async function deleteSession() {
   if (!editingSession || !confirm('Eliminare?')) return;
-  await db.collection('sessions').doc(editingSession).delete();
+  await sessionsCol().doc(editingSession).delete();
   closeModal(); loadWeek(currentWeekId); showToast('Eliminata');
 }
 
@@ -764,7 +815,7 @@ async function deleteSession() {
 async function copyFromPrev() {
   if (!confirm('Copiare le sessioni della settimana precedente?')) return;
   const prev=addWeeks(currentWeekId,-1), pd=getWeekDates(prev), cd=getWeekDates(currentWeekId);
-  const snap=await db.collection('sessions').where('weekId','==',prev).get();
+  const snap=await sessionsCol().where('weekId','==',prev).get();
   const batch=db.batch(); let n=0;
   snap.forEach(doc => {
     const s=doc.data(), i=pd.indexOf(s.date); if(i<0)return;
@@ -773,7 +824,7 @@ async function copyFromPrev() {
     if(s.plannedDuration) nd.plannedDuration=s.plannedDuration;
     if(s.trainerNotes)    nd.trainerNotes=s.trainerNotes;
     if(s.intensity)       nd.intensity=s.intensity;
-    batch.set(db.collection('sessions').doc(),nd); n++;
+    batch.set(sessionsCol().doc(),nd); n++;
   });
   await batch.commit(); loadWeek(currentWeekId); showToast(`${n} sessioni copiate ✓`);
 }
@@ -799,7 +850,7 @@ async function importSessionsJson(event) {
     if (s.intensity)       doc.intensity        = s.intensity;
     if (s.rpe)             doc.rpe              = s.rpe;
     if (s.weightKg)        doc.weightKg         = s.weightKg;
-    batch.set(db.collection('sessions').doc(docId), doc);
+    batch.set(sessionsCol().doc(docId), doc);
   });
   await batch.commit();
   loadWeek(currentWeekId);
@@ -810,7 +861,8 @@ async function importSessionsJson(event) {
 // TESTS
 // ================================================================
 async function loadTests() {
-  const snap=await db.collection('tests').orderBy('date','desc').get();
+  if (!currentAthleteId) return;
+  const snap=await testsCol().orderBy('date','desc').get();
   const tbody=document.getElementById('tests-tbody');
   if(snap.empty){tbody.innerHTML='<tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>';return;}
   tbody.innerHTML='';
@@ -828,7 +880,7 @@ function openTestModal(){
   document.getElementById('test-modal').classList.remove('hidden');
 }
 async function saveTest(){
-  await db.collection('tests').add({
+  await testsCol().add({
     date:document.getElementById('t-date').value, discipline:document.getElementById('t-discipline').value,
     testType:document.getElementById('t-type').value.trim(), result:document.getElementById('t-result').value.trim(),
     notes:document.getElementById('t-notes').value.trim(), createdAt:firebase.firestore.FieldValue.serverTimestamp()
@@ -836,7 +888,7 @@ async function saveTest(){
   document.getElementById('test-modal').classList.add('hidden'); loadTests(); showToast('Test salvato ✓');
 }
 async function deleteTest(id){
-  if(!confirm('Eliminare?'))return; await db.collection('tests').doc(id).delete(); loadTests();
+  if(!confirm('Eliminare?'))return; await testsCol().doc(id).delete(); loadTests();
 }
 
 // ================================================================
@@ -845,13 +897,13 @@ async function deleteTest(id){
 async function exportExcel(){
   showToast('Preparazione export...');
   const wb=XLSX.utils.book_new();
-  const tsn=await db.collection('tests').orderBy('date','desc').get();
+  const tsn=await testsCol().orderBy('date','desc').get();
   const tr=[['Disciplina','Data','Tipo test','Risultato','Note']];
   tsn.forEach(d=>{const t=d.data();tr.push([t.discipline,t.date,t.testType,t.result,t.notes]);});
   const wst=XLSX.utils.aoa_to_sheet(tr); wst['!cols']=[{wch:12},{wch:12},{wch:18},{wch:16},{wch:40}];
   XLSX.utils.book_append_sheet(wb,wst,'Test e Prove');
 
-  const sn=await db.collection('sessions').orderBy('date').get();
+  const sn=await sessionsCol().orderBy('date').get();
   const bm={};
   sn.forEach(doc=>{const s=doc.data(),m=s.date?s.date.substring(0,7):'nd';if(!bm[m])bm[m]=[];bm[m].push({id:doc.id,...s});});
   const hdr=['Giorno','Data','Disciplina','Distanza (m)','Ora inizio','Durata prevista','Durata effettiva','Intensità','Note allenatore','Note atleta','RPE','Kg','Disponibilità','Note disponibilità'];
@@ -864,7 +916,7 @@ async function exportExcel(){
       const [y,w]=wId.split('-W');
       rows.push([`── Settimana ${parseInt(w,10)} del ${y} ──`]);
       // Load availability for this week
-      const aDoc=await db.collection('availability').doc(wId).get();
+      const aDoc=await availCol().doc(wId).get();
       const avDays=aDoc.exists?(aDoc.data().days||{}):{};
       getWeekDates(wId).forEach((date,di)=>{
         const dayData=bw[wId][date]||{};
