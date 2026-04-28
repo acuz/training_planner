@@ -384,7 +384,7 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeAvailModal()">Chiudi</button>
-      <button class="btn btn-primary" onclick="saveAvailDay()">Salva</button>
+      <button id="avail-save-btn" class="btn btn-primary" onclick="saveAvailDay()">Salva</button>
     </div>
   </div>
 </div>
@@ -563,7 +563,7 @@ async function loadAthletes() {
 function selectAthlete(uid) {
   currentAthleteId = uid || null;
   if (currentAthleteId) { loadWeek(currentWeekId); loadTests(); }
-  else { currentSessions = {}; renderCalendar(); }
+  else { currentSessions = {}; weekAvail = {}; renderCalendar(); }
 }
 
 // ================================================================
@@ -657,11 +657,7 @@ function renderCalendar() {
       cell.innerHTML = '<div class="avail-empty">+</div>';
     }
     // Athlete can edit; trainer sees read-only
-    if (userRole === 'atleta') {
-      cell.onclick = () => openAvailModal(date, DAY_NAMES[i]);
-    } else {
-      cell.style.cursor = 'default';
-    }
+    cell.onclick = () => openAvailModal(date, DAY_NAMES[i]);
     grid.appendChild(cell);
   });
 
@@ -716,6 +712,10 @@ function openAvailModal(date, dayName) {
     const btn = document.getElementById(`slot-${SLOT_KEYS[s]}`);
     btn.className = 'avail-slot-btn' + (tempAvailSlots.includes(s) ? ` sel-${SLOT_KEYS[s]}` : '');
   });
+  const readOnly = (userRole === 'allenatore');
+  document.getElementById('avail-modal').querySelectorAll('button.avail-disc-btn, button.avail-slot-btn, textarea')
+    .forEach(el => el.disabled = readOnly);
+  document.getElementById('avail-save-btn').style.display = readOnly ? 'none' : '';
   document.getElementById('avail-modal').classList.remove('hidden');
 }
 function toggleAvailDisc(disc, btn) {
@@ -767,7 +767,9 @@ function openSessionModal(date, disc, dayLetter, session) {
   const ts = document.getElementById('trainer-section');
   ts.querySelectorAll('input,textarea,select,.int-btn').forEach(el => el.disabled = (userRole==='atleta'));
   ts.style.display = 'block';
-  document.getElementById('athlete-section').style.display = (userRole==='allenatore') ? 'none' : 'block';
+  const as = document.getElementById('athlete-section');
+  as.style.display = 'block';
+  as.querySelectorAll('input,textarea,select').forEach(el => el.disabled = (userRole==='allenatore'));
   document.getElementById('delete-session-btn').style.display = (session && userRole==='allenatore') ? 'inline-flex' : 'none';
   const m = document.getElementById('modal');
   m.dataset.date=date; m.dataset.disc=disc; m.dataset.weekId=currentWeekId;
