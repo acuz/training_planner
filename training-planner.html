@@ -20,6 +20,7 @@
       --muted: #64748b;
       --int-low:    #f0fdf4; --int-low-b:    #86efac;
       --int-medium: #fefce8; --int-medium-b: #fde047;
+      --int-hard:   #fff7ed; --int-hard-b:   #fdba74;
       --int-high:   #fff1f2; --int-high-b:   #fca5a5;
       --nuoto: #3b82f6; --bici: #f59e0b; --rulli: #f97316;
       --corsa: #22c55e; --palestra: #a855f7;
@@ -79,9 +80,13 @@
     .period-input:hover, .period-input:focus { background: #f1f5f9; outline: none; }
 
     /* ---- Week totals ---- */
-    .week-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; background: white; border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.625rem 1.25rem; margin-bottom: 1rem; font-size: 0.83rem; }
+    .week-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; background: white; border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.625rem 1.25rem; margin-bottom: 0.4rem; font-size: 0.83rem; }
     .week-totals span { color: var(--muted); }
     .week-totals strong { color: var(--text); }
+    .disc-totals { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .disc-total-chip { display: flex; align-items: center; gap: 0.3rem; background: white; border: 1px solid var(--border); border-radius: 9999px; padding: 0.2rem 0.65rem; font-size: 0.78rem; }
+    .disc-total-chip .dtc-name { font-weight: 700; }
+    .disc-total-chip .dtc-val  { color: var(--muted); }
 
     /* ---- Calendar grid ---- */
     .scroll-x { overflow-x: auto; padding-bottom: 0.5rem; }
@@ -107,6 +112,7 @@
     .cal-cell:hover { border-color: var(--primary); box-shadow: 0 0 0 2px #dbeafe; }
     .cal-cell.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
     .cal-cell.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
+    .cal-cell.int-hard   { background: var(--int-hard);   border-color: var(--int-hard-b); }
     .cal-cell.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
     .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
@@ -143,6 +149,7 @@
     .int-btn { padding: 0.35rem 0.875rem; border-radius: 9999px; border: 2px solid transparent; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; background: white; }
     .int-btn.low    { border-color: var(--int-low-b);    background: var(--int-low);    color: #166534; }
     .int-btn.medium { border-color: var(--int-medium-b); background: var(--int-medium); color: #854d0e; }
+    .int-btn.hard   { border-color: var(--int-hard-b);   background: var(--int-hard);   color: #9a3412; }
     .int-btn.high   { border-color: var(--int-high-b);   background: var(--int-high);   color: #9f1239; }
     .int-btn.none   { border-color: var(--border); color: var(--muted); }
     .int-btn.selected { box-shadow: 0 0 0 3px rgba(37,99,235,0.35); }
@@ -250,6 +257,7 @@
         </div>
       </div>
       <div id="week-totals" class="week-totals"></div>
+      <div id="disc-totals" class="disc-totals"></div>
       <div class="scroll-x">
         <div id="calendar-grid" class="calendar-grid"></div>
       </div>
@@ -292,9 +300,10 @@
       <div class="form-group">
         <label>Intensità</label>
         <div class="intensity-btns">
-          <button class="int-btn low"    onclick="selInt('low',this)">● Bassa</button>
-          <button class="int-btn medium" onclick="selInt('medium',this)">● Media</button>
-          <button class="int-btn high"   onclick="selInt('high',this)">● Alta</button>
+          <button class="int-btn low"    onclick="selInt('low',this)">● Leggero (RPE 6–12)</button>
+          <button class="int-btn medium" onclick="selInt('medium',this)">● Moderato (RPE 13–16)</button>
+          <button class="int-btn hard"   onclick="selInt('hard',this)">● Duro (RPE 17–18)</button>
+          <button class="int-btn high"   onclick="selInt('high',this)">● Massimale (RPE 19–20)</button>
           <button class="int-btn none"   onclick="selInt(null,this)">✕ Nessuna</button>
         </div>
       </div>
@@ -310,21 +319,21 @@
           <label>RPE — sforzo percepito (6–20)</label>
           <select id="m-rpe">
             <option value="">— seleziona —</option>
-            <option value="6">6 – Nessuna fatica</option>
+            <option value="6">6 – Fatica nulla: seduti o rilassati</option>
             <option value="7">7 – Estremamente leggero</option>
-            <option value="8">8</option>
-            <option value="9">9 – Molto leggero</option>
-            <option value="10">10</option>
-            <option value="11">11 – Leggero</option>
-            <option value="12">12</option>
-            <option value="13">13 – Abbastanza duro</option>
-            <option value="14">14</option>
-            <option value="15">15 – Duro</option>
-            <option value="16">16</option>
-            <option value="17">17 – Molto duro</option>
-            <option value="18">18</option>
-            <option value="19">19 – Estremamente duro</option>
-            <option value="20">20 – Sforzo massimale</option>
+            <option value="8">8 – Come 7 ma un po' di più</option>
+            <option value="9">9 – Molto leggero: simile a una normale camminata</option>
+            <option value="10">10 – Come 9 ma un po' di più</option>
+            <option value="11">11 – Leggero: riscaldamento leggero</option>
+            <option value="12">12 – Come 11 ma un po' di più</option>
+            <option value="13">13 – Abbastanza duro: attività leggermente impegnativa</option>
+            <option value="14">14 – Come 13 ma un po' di più</option>
+            <option value="15">15 – Duro: attività impegnativa</option>
+            <option value="16">16 – Come 15 ma un po' di più</option>
+            <option value="17">17 – Molto duro: attività molto impegnativa</option>
+            <option value="18">18 – Come 17 ma un po' di più</option>
+            <option value="19">19 – Estremamente duro: intensità molto alta, non sostenibile</option>
+            <option value="20">20 – Sforzo massimale: intensità massima, poco sostenibile</option>
           </select>
         </div>
         <div class="form-group"><label>Peso (kg)</label><input type="number" id="m-weight" step="0.1" placeholder="es. 72.5"></div>
@@ -534,11 +543,19 @@ function renderCalendar() {
 
   // Totals
   let pMins=0, aMins=0, dist=0, tot=0, done=0;
+  const dStats = {};
+  DISCIPLINES.forEach(d => { dStats[d] = {n:0, dist:0, pMins:0, aMins:0}; });
   Object.values(currentSessions).forEach(s => {
     tot++;
     if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
     if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
     if (s.distanceMeters)   dist   += s.distanceMeters;
+    if (dStats[s.discipline]) {
+      dStats[s.discipline].n++;
+      if (s.distanceMeters) dStats[s.discipline].dist  += s.distanceMeters;
+      if (s.plannedDuration) dStats[s.discipline].pMins += parseMins(s.plannedDuration);
+      if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
+    }
   });
   const te = document.getElementById('week-totals');
   te.innerHTML = tot === 0
@@ -547,7 +564,21 @@ function renderCalendar() {
       + (pMins ? `<span>⏱ pianificate <strong>${fmtMins(pMins)}</strong></span>` : '')
       + `<span>✓ <strong>${done}/${tot}</strong> completate</span>`
       + (aMins ? `<span>⏱ effettuate <strong>${fmtMins(aMins)}</strong></span>` : '')
-      + (dist  ? `<span>📏 <strong>${fmtDist(dist)}</strong></span>` : '');
+      + (dist  ? `<span>📏 <strong>${fmtDist(dist)}</strong> totali</span>` : '');
+
+  const DISC_ICONS = {Nuoto:'🏊',Bici:'🚴',Rulli:'🎯',Corsa:'🏃',Palestra:'🏋️'};
+  const de = document.getElementById('disc-totals');
+  de.innerHTML = DISCIPLINES
+    .filter(d => dStats[d].n > 0)
+    .map(d => {
+      const st = dStats[d];
+      const parts = [];
+      if (st.dist)  parts.push(fmtDist(st.dist));
+      if (st.aMins) parts.push(fmtMins(st.aMins));
+      else if (st.pMins) parts.push(fmtMins(st.pMins));
+      return `<div class="disc-total-chip"><span class="dtc-name">${DISC_ICONS[d]} ${d}</span>`
+           + `<span class="dtc-val">${st.n} sess.${parts.length?' · '+parts.join(' · '):''}</span></div>`;
+    }).join('');
 
   // Corner
   grid.appendChild(mkEl('div',''));
@@ -558,7 +589,7 @@ function renderCalendar() {
   )));
 
   // Availability row
-  grid.appendChild(mkEl('div','📅', 'avail-label'));
+  grid.appendChild(mkEl('div','Disponib.', 'avail-label'));
   dates.forEach((date,i) => {
     const av   = weekAvail[date] || {};
     const discs = av.disciplines || [];
