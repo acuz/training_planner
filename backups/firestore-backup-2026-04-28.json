@@ -1,0 +1,150 @@
+{
+  "5HOrWQoYbrVX6CUuYQp8vMgey5X2": {
+    "allenatore": "",
+    "email": "nico.pratesi@gmail.com",
+    "role": "allenatore",
+    "sessions": {},
+    "availability": {},
+    "weeks": {},
+    "tests": {}
+  },
+  "KV7tMMt1c9hwWeOxC9IvYgJErGr2": {
+    "email": "angelo.cuzzola@gmail.com",
+    "atleta": "",
+    "role": "atleta",
+    "sessions": {
+      "2026-W17-Bici-2026-04-26": {
+        "athleteNotes": "uscita in piano in solitaria provando a tenere un buon ritmo. Andata con vento a favore",
+        "rpe": 14,
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "plannedDuration": "01:26:00",
+        "weekId": "2026-W17",
+        "distanceMeters": 50520,
+        "discipline": "Bici",
+        "startTime": "18:40",
+        "date": "2026-04-26"
+      },
+      "2026-W17-Corsa-2026-04-24": {
+        "athleteNotes": "10km in pgr (4.42 - 4.33 - 4.29 - 4.22 - 4.24 - 4.11 - 4.05 - 4.02 - 3.56 - 4.03), sono partito pi\u00f9 veloce di quanto avessi programmato ma ho provato a tenere, sensazioni buone, la sera non ero troppo stanco, progressione venuta bene a parte ultimo km in cui ho perso secondi per virata e semaforo",
+        "rpe": 14,
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "plannedDuration": "00:44:00",
+        "weekId": "2026-W17",
+        "distanceMeters": 10230,
+        "discipline": "Corsa",
+        "startTime": "18:43",
+        "date": "2026-04-24"
+      },
+      "2026-W17-Corsa-2026-04-26": {
+        "athleteNotes": "corsa dopo bici, primi 5,5km zona tre bassa, ultimi 5,5 corsi con Irene",
+        "rpe": 13,
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "plannedDuration": "00:58:00",
+        "weekId": "2026-W17",
+        "distanceMeters": 11040,
+        "discipline": "Corsa",
+        "startTime": "20:16",
+        "date": "2026-04-26"
+      },
+      "2026-W17-Nuoto-2026-04-23": {
+        "athleteNotes": "300m risc + 8x50m rec.10\"  (target 1.56) + 10 x 100m rec.15\" (target 2.04)",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "plannedDuration": "00:46:20",
+        "weekId": "2026-W17",
+        "distanceMeters": 2100,
+        "discipline": "Nuoto",
+        "startTime": "13:06",
+        "date": "2026-04-23"
+      },
+      "2026-W17-Rulli-2026-04-21": {
+        "athleteNotes": "rampe aerobiche da 5 min 2x 117-149W, 3x  136-169W, 2min a 115w tra le rampe",
+        "rpe": 13,
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "plannedDuration": "00:53:13",
+        "weekId": "2026-W17",
+        "distanceMeters": 26520,
+        "discipline": "Rulli",
+        "startTime": "19:26",
+        "date": "2026-04-21"
+      },
+      "2026-W18-Bici-2026-04-30": {
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "discipline": "Bici",
+        "weekId": "2026-W18",
+        "distanceMeters": 35000,
+        "trainerNotes": "20' risc - 5 sprint da 10\" ogni 4' - 3 x 1' al medio 80 rpm rec.3' a 100 rpm - 5' aerobici ogni 4' vuol dire che se ti chiedo di fare 10\" di sprint hai 3'50\" per recuperare attivamente pedalando agile",
+        "date": "2026-04-30"
+      },
+      "2026-W18-Corsa-2026-04-29": {
+        "intensity": "medium",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "updatedAt": "2026-04-28 17:00:18.549000+00:00",
+        "discipline": "Corsa",
+        "weekId": "2026-W18",
+        "distanceMeters": 9000,
+        "trainerNotes": "15' risc - 5' andature - 4 all da 100m rec.30\" - 8 x 500m al medio/soglia rec.1'15\" - 5' aero - risc = riscaldaldamento (corri a bassa intensit\u00e0 per il tempo richiesto) andature (sono gli skip basso, skip alto, cal\u00ecciata dietro ecc.) - sentiamoci per teledono !!! all = allunghi (tratto di corsa in cui enfatizzi la lunghezza del passo con un aleggera progressione) medio / soglia = diciamo che esegui il tratto ad una velocit\u00e0 che ti porta ad affaticarti parecchio",
+        "date": "2026-04-29"
+      },
+      "2026-W18-Corsa-2026-05-02": {
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "discipline": "Corsa",
+        "weekId": "2026-W18",
+        "distanceMeters": 13500,
+        "trainerNotes": "15' risc - 5' andature - 3 all da 100m rec.30\" - 10 km (500 piu veloci + 1500m piu tranquilli) - sono al mare e spero di riuscire a metterci una nuotata in mare fammi avere il tempo dei 500m e dei 1500m magari in doppio con la corsa, nel posto dove sono forse trovo da fare delle ripetute in salita",
+        "date": "2026-05-02"
+      },
+      "2026-W18-Nuoto-2026-04-28": {
+        "intensity": "medium",
+        "actualStartTime": "13:07",
+        "athleteNotes": "Con traffico difficile fare bene le 8x50. In generale non ho tanto controllo delle velocit\u00e0, ne ho solo tre: vel max, sostenuta, relax",
+        "rpe": 12,
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "updatedAt": "2026-04-28 17:02:59.740000+00:00",
+        "discipline": "Nuoto",
+        "weekId": "2026-W18",
+        "distanceMeters": 1500,
+        "actualDuration": "00:34:10",
+        "trainerNotes": "300 risc - 6 x 50m (25m in pgr + 25 aero) rec.10\" - 8 x 25m v.max rec,20\" - 100 aero - 8 x 50m molto aero pgr = progressione - aero = aerobici / molto aero = nuotati tranquilli v.max = Velocit\u00e0 Massima",
+        "date": "2026-04-28"
+      },
+      "2026-W18-Rulli-2026-04-30": {
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "discipline": "Rulli",
+        "weekId": "2026-W18",
+        "distanceMeters": 30000,
+        "trainerNotes": "15' risc - 6 sprint da 10\" ogni 4' - 3 x 1' al medio 80 rpm rec.3' a 100 rpm - 5' aerobici al medio = 90% della Soglia Anaerobica = senti affanno ma tutto sommatio riesci a sostenerlo",
+        "date": "2026-04-30"
+      },
+      "2026-W19-Corsa-2026-05-04": {
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "hard",
+        "discipline": "Corsa",
+        "weekId": "2026-W19",
+        "distanceMeters": 10000,
+        "trainerNotes": "15' risc - 5' andature - 4 all da 100m rec.30\" - 5 x 1000m (400 Lungo + 300 Medio + 300 Soglia) rec.1' - Lungo = 80% della Soglia Anaerobica (\u00e8 un'intensit\u00e0 aerobica molto tranquilla Medio = 90% della Soglia Anaerobica (\u00e8 una intensit\u00e0 media in cui accusi affanno ma riesci a Soglia = 100% della Soglia Anaerobica (\u00e8 una intensit\u00e0 che tieni per pochi minuti, dai 3 ai 7')",
+        "date": "2026-05-04"
+      }
+    },
+    "availability": {
+      "2026-W18": {
+        "updatedAt": "2026-04-28 16:59:53.983000+00:00",
+        "weekId": "2026-W18",
+        "days": {
+          "2026-04-28": {
+            "slots": [],
+            "disciplines": [
+              "Nuoto",
+              "Rulli"
+            ],
+            "note": "Un buon giorno per fare nuoto 50/60 min di durata effettiva allenamento Posso fare anche rulli serali (1h,1h15), ma non sia nuoto che rulli"
+          }
+        }
+      }
+    },
+    "weeks": {},
+    "tests": {}
+  }
+}

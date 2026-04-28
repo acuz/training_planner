@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Planner</title>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --int-low:    #f0fdf4; --int-low-b:    #86efac;
+      --int-medium: #fefce8; --int-medium-b: #fde047;
+      --int-hard:   #fff7ed; --int-hard-b:   #fdba74;
+      --int-high:   #fff1f2; --int-high-b:   #fca5a5;
+      --nuoto: #3b82f6; --bici: #f59e0b; --rulli: #f97316;
+      --corsa: #22c55e; --palestra: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .hidden { display: none !important; }
+
+    /* ---- Login / Role ---- */
+    .auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0f2a4a 0%, #2563eb 100%); }
+    .auth-card { background: white; padding: 2.5rem; border-radius: 1rem; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .auth-card h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .auth-card p  { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.75rem; }
+    .auth-error   { color: #dc2626; font-size: 0.85rem; margin-top: 0.75rem; text-align: center; min-height: 1.2rem; }
+
+    /* ---- Forms ---- */
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.375rem; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 0.6rem 0.875rem; border: 1px solid var(--border);
+      border-radius: 0.5rem; font-size: 0.9rem; transition: border-color 0.2s;
+      background: white; font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+    .form-group input:disabled, .form-group textarea:disabled, .form-group select:disabled { background: #f8fafc; color: var(--muted); cursor: default; }
+
+    /* ---- Buttons ---- */
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
+    .btn-primary   { background: var(--primary); color: white; }
+    .btn-primary:hover  { background: #1d4ed8; }
+    .btn-full      { width: 100%; justify-content: center; }
+    .btn-secondary { background: #f1f5f9; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-danger    { background: #fee2e2; color: #dc2626; }
+    .btn-danger:hover { background: #fecaca; }
+    .btn-sm        { padding: 0.4rem 0.875rem; font-size: 0.82rem; }
+    .btn-icon { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: background 0.15s; }
+    .btn-icon:hover { background: var(--bg); }
+
+    /* ---- App shell ---- */
+    header { background: white; border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .header-left { display: flex; align-items: center; gap: 1rem; }
+    header h1 { font-size: 1.05rem; font-weight: 700; }
+    .user-badge { font-size: 0.78rem; padding: 0.25rem 0.6rem; border-radius: 9999px; background: #dbeafe; color: #1e40af; font-weight: 500; }
+    .user-badge.allenatore { background: #dcfce7; color: #166534; }
+    nav { background: white; border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; }
+    .nav-btn { padding: 0.75rem 1.1rem; font-size: 0.875rem; font-weight: 500; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; margin-bottom: -1px; font-family: inherit; }
+    .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .nav-btn:hover:not(.active) { color: var(--text); }
+    main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+
+    /* ---- Week header ---- */
+    .week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+    .week-nav { display: flex; align-items: center; gap: 0.75rem; }
+    .week-title { font-size: 1rem; font-weight: 600; min-width: 200px; text-align: center; }
+    .period-input { border: none; font-size: 0.82rem; font-weight: 500; color: var(--muted); background: transparent; text-align: center; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-family: inherit; width: 180px; }
+    .period-input:hover, .period-input:focus { background: #f1f5f9; outline: none; }
+
+    /* ---- Week totals ---- */
+    .week-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; background: white; border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.625rem 1.25rem; margin-bottom: 0.4rem; font-size: 0.83rem; }
+    .week-totals span { color: var(--muted); }
+    .week-totals strong { color: var(--text); }
+    .disc-totals { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .disc-total-chip { display: flex; align-items: center; gap: 0.3rem; background: white; border: 1px solid var(--border); border-radius: 9999px; padding: 0.2rem 0.65rem; font-size: 0.78rem; }
+    .disc-total-chip .dtc-name { font-weight: 700; }
+    .disc-total-chip .dtc-val  { color: var(--muted); }
+
+    /* ---- Calendar grid ---- */
+    .scroll-x { overflow-x: auto; padding-bottom: 0.5rem; }
+    .calendar-grid { display: grid; grid-template-columns: 78px repeat(7, minmax(110px, 1fr)); gap: 3px; min-width: 680px; }
+    .cal-header { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.5rem 0.375rem; text-align: center; }
+    .cal-header .day-name { font-weight: 700; font-size: 0.82rem; }
+    .cal-header .day-date { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+    .cal-header.today { background: #dbeafe; border-color: #93c5fd; }
+
+    /* Discipline labels */
+    .disc-label { display: flex; align-items: center; justify-content: center; padding: 0.4rem; font-size: 0.75rem; font-weight: 700; color: white; border-radius: 0.5rem; }
+    .disc-Nuoto    { background: var(--nuoto); }
+    .disc-Bici     { background: var(--bici); }
+    .disc-Rulli    { background: var(--rulli); }
+    .disc-Corsa    { background: var(--corsa); }
+    .disc-Palestra { background: var(--palestra); }
+
+    /* Availability label */
+    .avail-label { display: flex; align-items: center; justify-content: center; padding: 0.4rem; font-size: 0.72rem; font-weight: 700; color: #475569; background: #f1f5f9; border-radius: 0.5rem; }
+
+    /* Session cells */
+    .cal-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 68px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; font-size: 0.76rem; }
+    .cal-cell:hover { border-color: var(--primary); box-shadow: 0 0 0 2px #dbeafe; }
+    .cal-cell.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
+    .cal-cell.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
+    .cal-cell.int-hard   { background: var(--int-hard);   border-color: var(--int-hard-b); }
+    .cal-cell.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
+    .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
+    .cell-dist  { font-weight: 700; font-size: 0.8rem; }
+    .cell-dur   { color: var(--muted); font-size: 0.73rem; }
+    .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .rpe-badge { position: absolute; top: 3px; right: 3px; min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px; background: #475569; color: white; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .add-btn { color: #cbd5e1; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 50px; }
+
+    /* Availability cells */
+    .avail-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 46px; cursor: pointer; transition: border-color 0.15s; display: flex; flex-wrap: wrap; gap: 2px; align-content: flex-start; }
+    .avail-cell:hover { border-color: var(--primary); }
+    .avail-cell.has-avail { background: #f0f9ff; border-color: #7dd3fc; }
+    .avail-chip { font-size: 0.68rem; font-weight: 600; padding: 1px 5px; border-radius: 9999px; }
+    .chip-M { background: #fef9c3; color: #854d0e; }
+    .chip-P { background: #dbeafe; color: #1e40af; }
+    .chip-S { background: #ede9fe; color: #5b21b6; }
+    .chip-disc-Nuoto    { background: #dbeafe; color: #1e40af; }
+    .chip-disc-Bici     { background: #fef3c7; color: #92400e; }
+    .chip-disc-Rulli    { background: #ffedd5; color: #9a3412; }
+    .chip-disc-Corsa    { background: #dcfce7; color: #166534; }
+    .chip-disc-Palestra { background: #f3e8ff; color: #6b21a8; }
+    .avail-cell-note { font-size: 0.68rem; color: var(--muted); width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
+    .avail-empty { color: #cbd5e1; font-size: 0.75rem; line-height: 36px; text-align: center; width: 100%; }
+    .avail-disc-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .avail-disc-btn { padding: 0.3rem 0.75rem; border-radius: 9999px; border: 2px solid var(--border); background: white; font-size: 0.82rem; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .avail-disc-btn.sel-Nuoto    { border-color: #93c5fd; background: #dbeafe; color: #1e40af; }
+    .avail-disc-btn.sel-Bici     { border-color: #fcd34d; background: #fef3c7; color: #92400e; }
+    .avail-disc-btn.sel-Rulli    { border-color: #fdba74; background: #ffedd5; color: #9a3412; }
+    .avail-disc-btn.sel-Corsa    { border-color: #86efac; background: #dcfce7; color: #166534; }
+    .avail-disc-btn.sel-Palestra { border-color: #d8b4fe; background: #f3e8ff; color: #6b21a8; }
+    .avail-disc-btn.sel-Altro    { border-color: #94a3b8; background: #f1f5f9; color: #334155; }
+    .chip-disc-Altro { background: #f1f5f9; color: #334155; }
+    /* Athlete selector */
+    #athlete-selector { display:none; align-items:center; gap:0.5rem; background:#f0f9ff; border:1px solid #7dd3fc; border-radius:0.5rem; padding:0.3rem 0.75rem; }
+    #athlete-selector label { font-size:0.8rem; font-weight:600; color:#0369a1; white-space:nowrap; }
+    #athlete-select { font-size:0.83rem; font-family:inherit; border:none; background:transparent; color:#0c4a6e; font-weight:600; cursor:pointer; outline:none; }
+
+    /* ---- Intensity selector ---- */
+    .intensity-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .int-btn { padding: 0.35rem 0.875rem; border-radius: 9999px; border: 2px solid transparent; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; background: white; }
+    .int-btn.low    { border-color: var(--int-low-b);    background: var(--int-low);    color: #166534; }
+    .int-btn.medium { border-color: var(--int-medium-b); background: var(--int-medium); color: #854d0e; }
+    .int-btn.hard   { border-color: var(--int-hard-b);   background: var(--int-hard);   color: #9a3412; }
+    .int-btn.high   { border-color: var(--int-high-b);   background: var(--int-high);   color: #9f1239; }
+    .int-btn.none   { border-color: var(--border); color: var(--muted); }
+    .int-btn.selected { box-shadow: 0 0 0 3px rgba(37,99,235,0.35); }
+
+    /* ---- Tests ---- */
+    .tests-table { width: 100%; border-collapse: collapse; background: white; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+    .tests-table th { background: #f1f5f9; padding: 0.7rem 1rem; text-align: left; font-size: 0.82rem; font-weight: 600; }
+    .tests-table td { padding: 0.65rem 1rem; border-top: 1px solid var(--border); font-size: 0.875rem; }
+    .tests-table tr:hover td { background: var(--bg); }
+    .tests-empty { padding: 2rem; text-align: center; color: var(--muted); }
+
+    /* ---- Modal ---- */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-card { background: white; border-radius: 1rem; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 1.75rem; }
+    .modal-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .disc-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .modal-section { margin-bottom: 1.25rem; }
+    .modal-section-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.75rem; padding-bottom: 0.375rem; border-bottom: 1px solid var(--border); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
+
+    /* Availability modal slots */
+    .avail-slots { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .avail-slot-btn { padding: 0.4rem 1rem; border-radius: 9999px; border: 2px solid var(--border); background: white; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .avail-slot-btn.sel-M { border-color: #fcd34d; background: #fef9c3; color: #854d0e; }
+    .avail-slot-btn.sel-P { border-color: #93c5fd; background: #dbeafe; color: #1e40af; }
+    .avail-slot-btn.sel-S { border-color: #c4b5fd; background: #ede9fe; color: #5b21b6; }
+
+    /* ---- Toast ---- */
+    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.7rem 1.2rem; background: #1e293b; color: white; border-radius: 0.5rem; font-size: 0.875rem; z-index: 300; transition: opacity 0.3s; pointer-events: none; }
+
+    @media (max-width: 640px) {
+      main { padding: 0.875rem; }
+      header, nav { padding: 0 0.875rem; }
+      .two-col { grid-template-columns: 1fr; }
+      .modal-card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen" class="auth-screen">
+  <div class="auth-card">
+    <h1>🏊‍♂️ Training Planner</h1>
+    <p>Accedi per continuare</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="email@esempio.com"
+             onkeydown="if(event.key==='Enter')document.getElementById('login-pw').focus()">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pw" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="login()">Accedi</button>
+    <div id="login-error" class="auth-error"></div>
+  </div>
+</div>
+
+<!-- RUOLO NON ASSEGNATO -->
+<div id="role-screen" class="auth-screen hidden">
+  <div class="auth-card">
+    <h1>🏊‍♂️ Training Planner</h1>
+    <p style="color:#dc2626">Ruolo non assegnato per <strong id="role-name"></strong>.<br>Contatta l'amministratore per configurare il tuo account.</p>
+    <button class="btn btn-secondary btn-full" onclick="logout()">Esci</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header>
+    <div class="header-left">
+      <h1>🏊‍♂️ Training Planner</h1>
+      <span id="user-badge" class="user-badge"></span>
+    </div>
+    <div id="athlete-selector">
+      <label>Atleta:</label>
+      <select id="athlete-select" onchange="selectAthlete(this.value)">
+        <option value="">— nessun atleta —</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:0.5rem;align-items:center;">
+      <button class="btn btn-secondary btn-sm" onclick="exportExcel()">⬇ Esporta Excel</button>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Esci</button>
+    </div>
+  </header>
+
+  <nav>
+    <button class="nav-btn active" onclick="showView('settimana',this)">Settimana</button>
+    <button class="nav-btn" onclick="showView('test',this)">Test & Prove</button>
+  </nav>
+
+  <main>
+    <!-- SETTIMANA -->
+    <div id="view-settimana">
+      <div class="week-header">
+        <div class="week-nav">
+          <button class="btn-icon" onclick="changeWeek(-1)">&#8592;</button>
+          <div style="text-align:center">
+            <div class="week-title" id="week-title"></div>
+            <input class="period-input" id="period-input" placeholder="es. 1° carico"
+                   onblur="savePeriod()" onkeydown="if(event.key==='Enter')this.blur()">
+          </div>
+          <button class="btn-icon" onclick="changeWeek(1)">&#8594;</button>
+        </div>
+        <div id="trainer-actions" class="hidden" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button class="btn btn-secondary btn-sm" onclick="goToCurrentWeek()">Oggi</button>
+          <button class="btn btn-secondary btn-sm" onclick="copyFromPrev()">📋 Copia sett. prec.</button>
+        </div>
+      </div>
+      <div id="week-totals" class="week-totals"></div>
+      <div id="disc-totals" class="disc-totals"></div>
+      <div class="scroll-x">
+        <div id="calendar-grid" class="calendar-grid"></div>
+      </div>
+    </div>
+
+    <!-- TEST & PROVE -->
+    <div id="view-test" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
+        <h2 style="font-size:1.05rem;font-weight:700;">Test & Prove</h2>
+        <button class="btn btn-primary btn-sm" onclick="openTestModal()">+ Nuovo test</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tests-table">
+          <thead>
+            <tr><th>Data</th><th>Disciplina</th><th>Tipo test</th><th>Risultato</th><th>Note</th><th style="width:48px;"></th></tr>
+          </thead>
+          <tbody id="tests-tbody">
+            <tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL SESSIONE -->
+<div id="modal" class="modal-overlay hidden" onclick="closeModalOutside(event)">
+  <div class="modal-card">
+    <div class="modal-title">
+      <span class="disc-dot" id="modal-dot"></span>
+      <span id="modal-title-text"></span>
+    </div>
+    <div class="modal-section" id="trainer-section">
+      <div class="modal-section-title">Piano allenatore</div>
+      <div class="two-col">
+        <div class="form-group"><label>Distanza (m)</label><input type="number" id="m-distance" placeholder="es. 10000"></div>
+        <div class="form-group"><label>Durata prevista (hh:mm:ss)</label><input type="text" id="m-planned-duration" placeholder="es. 00:45:00"></div>
+      </div>
+      <div class="form-group"><label>Istruzioni</label><textarea id="m-trainer-notes" rows="4" placeholder="Descrivi l'allenamento..."></textarea></div>
+      <div class="form-group">
+        <label>Intensità</label>
+        <div class="intensity-btns">
+          <button class="int-btn low"    onclick="selInt('low',this)">● Leggero (RPE 6–12)</button>
+          <button class="int-btn medium" onclick="selInt('medium',this)">● Moderato (RPE 13–16)</button>
+          <button class="int-btn hard"   onclick="selInt('hard',this)">● Duro (RPE 17–18)</button>
+          <button class="int-btn high"   onclick="selInt('high',this)">● Massimale (RPE 19–20)</button>
+          <button class="int-btn none"   onclick="selInt(null,this)">✕ Nessuna</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-section" id="athlete-section">
+      <div class="modal-section-title">Risultato atleta</div>
+      <div class="two-col">
+        <div class="form-group"><label>Ora inizio</label><input type="time" id="m-start-time"></div>
+        <div class="form-group"><label>Durata effettiva (hh:mm:ss)</label><input type="text" id="m-actual-duration" placeholder="es. 00:47:30"></div>
+      </div>
+      <div class="two-col">
+        <div class="form-group">
+          <label>RPE — sforzo percepito (6–20)</label>
+          <select id="m-rpe">
+            <option value="">— seleziona —</option>
+            <option value="6">6 – Fatica nulla: seduti o rilassati</option>
+            <option value="7">7 – Estremamente leggero</option>
+            <option value="8">8 – Come 7 ma un po' di più</option>
+            <option value="9">9 – Molto leggero: simile a una normale camminata</option>
+            <option value="10">10 – Come 9 ma un po' di più</option>
+            <option value="11">11 – Leggero: riscaldamento leggero</option>
+            <option value="12">12 – Come 11 ma un po' di più</option>
+            <option value="13">13 – Abbastanza duro: attività leggermente impegnativa</option>
+            <option value="14">14 – Come 13 ma un po' di più</option>
+            <option value="15">15 – Duro: attività impegnativa</option>
+            <option value="16">16 – Come 15 ma un po' di più</option>
+            <option value="17">17 – Molto duro: attività molto impegnativa</option>
+            <option value="18">18 – Come 17 ma un po' di più</option>
+            <option value="19">19 – Estremamente duro: intensità molto alta, non sostenibile</option>
+            <option value="20">20 – Sforzo massimale: intensità massima, poco sostenibile</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Peso (kg)</label><input type="number" id="m-weight" step="0.1" placeholder="es. 72.5"></div>
+      </div>
+      <div class="form-group"><label>Note post-allenamento</label><textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button id="delete-session-btn" class="btn btn-danger btn-sm" onclick="deleteSession()" style="margin-right:auto">🗑 Elimina</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Chiudi</button>
+      <button class="btn btn-primary" onclick="saveSession()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DISPONIBILITÀ -->
+<div id="avail-modal" class="modal-overlay hidden" onclick="closeAvailOutside(event)">
+  <div class="modal-card" style="max-width:420px;">
+    <div class="modal-title">📅 <span id="avail-modal-title"></span></div>
+    <div class="modal-section">
+      <div class="modal-section-title">Discipline che puoi fare</div>
+      <div class="avail-disc-btns">
+        <button class="avail-disc-btn" id="disc-Nuoto"    onclick="toggleAvailDisc('Nuoto',this)">🏊 Nuoto</button>
+        <button class="avail-disc-btn" id="disc-Bici"     onclick="toggleAvailDisc('Bici',this)">🚴 Bici</button>
+        <button class="avail-disc-btn" id="disc-Rulli"    onclick="toggleAvailDisc('Rulli',this)">🎯 Rulli</button>
+        <button class="avail-disc-btn" id="disc-Corsa"    onclick="toggleAvailDisc('Corsa',this)">🏃 Corsa</button>
+        <button class="avail-disc-btn" id="disc-Palestra" onclick="toggleAvailDisc('Palestra',this)">🏋️ Palestra</button>
+        <button class="avail-disc-btn" id="disc-Altro"    onclick="toggleAvailDisc('Altro',this)">➕ Altro</button>
+      </div>
+      <div class="modal-section-title" style="margin-top:0.5rem">Quando sei disponibile? <span style="font-weight:400;color:var(--muted)">(facoltativo)</span></div>
+      <div class="avail-slots">
+        <button class="avail-slot-btn" id="slot-M" onclick="toggleAvailSlot('Mattina',this)">☀️ Mattina</button>
+        <button class="avail-slot-btn" id="slot-P" onclick="toggleAvailSlot('Pomeriggio',this)">🌤 Pomeriggio</button>
+        <button class="avail-slot-btn" id="slot-S" onclick="toggleAvailSlot('Sera',this)">🌙 Sera</button>
+      </div>
+      <div class="form-group"><label>Note per l'allenatore</label><textarea id="avail-day-note" rows="2" placeholder="Es. solo dopo le 19..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeAvailModal()">Chiudi</button>
+      <button class="btn btn-primary" onclick="saveAvailDay()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TEST -->
+<div id="test-modal" class="modal-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div class="modal-card" style="max-width:460px;">
+    <div class="modal-title">Aggiungi test</div>
+    <div class="two-col">
+      <div class="form-group"><label>Data</label><input type="date" id="t-date"></div>
+      <div class="form-group"><label>Disciplina</label>
+        <select id="t-discipline"><option>Nuoto</option><option>Bici</option><option>Rulli</option><option>Corsa</option><option>Palestra</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Tipo di test</label><input type="text" id="t-type" placeholder="es. FTP test"></div>
+    <div class="form-group"><label>Risultato</label><input type="text" id="t-result" placeholder="es. 190W, 1:45/100m"></div>
+    <div class="form-group"><label>Note</label><textarea id="t-notes" rows="2" placeholder="Condizioni, osservazioni..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="document.getElementById('test-modal').classList.add('hidden')">Annulla</button>
+      <button class="btn btn-primary" onclick="saveTest()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script>
+// ================================================================
+// CONFIG
+// ================================================================
+const firebaseConfig = {
+  apiKey:            "AIzaSyDQH32a1vvMFHe63VmkQwc59-BYiSVd45U",
+  authDomain:        "training-planner-7df8b.firebaseapp.com",
+  projectId:         "training-planner-7df8b",
+  storageBucket:     "training-planner-7df8b.firebasestorage.app",
+  messagingSenderId: "286030804156",
+  appId:             "1:286030804156:web:bc7279cf26586dc43e0cb9"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+// ---- Costanti ----
+const DISCIPLINES  = ['Nuoto','Bici','Rulli','Corsa','Palestra','Altro'];
+const DAY_NAMES    = ['Lu','Ma','Me','Gi','Ve','Sa','Do'];
+const DAY_LETTERS  = ['L','M','M','G','V','S','D'];
+const DISC_COLORS  = { Nuoto:'#3b82f6', Bici:'#f59e0b', Rulli:'#f97316', Corsa:'#22c55e', Palestra:'#a855f7', Altro:'#64748b' };
+const MONTH_NAMES  = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+const SLOT_KEYS    = { Mattina:'M', Pomeriggio:'P', Sera:'S' };
+
+// ---- Stato ----
+let currentUser       = null;
+let userRole          = null;
+let currentAthleteId  = null;   // UID dell'atleta visualizzato
+let currentWeekId     = getWeekId(new Date());
+let currentSessions   = {};
+let editingSession    = null;
+let currentIntensity  = null;
+let weekAvail         = {};   // { date: { disciplines:[], slots:[], note:'' } }
+let editingAvailDate  = null;
+let tempAvailSlots    = [];
+let tempAvailDiscs    = [];
+
+// ---- Collezioni scoped per atleta ----
+function sessionsCol() { return db.collection('users').doc(currentAthleteId).collection('sessions'); }
+function availCol()    { return db.collection('users').doc(currentAthleteId).collection('availability'); }
+function weeksCol()    { return db.collection('users').doc(currentAthleteId).collection('weeks'); }
+function testsCol()    { return db.collection('users').doc(currentAthleteId).collection('tests'); }
+
+// ================================================================
+// WEEK UTILS
+// ================================================================
+function getWeekId(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const y = d.getUTCFullYear();
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const w1mon = new Date(jan4);
+  w1mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() || 7) - 1));
+  const week = Math.round((d - w1mon) / (7 * 86400000)) + 1;
+  return `${y}-W${String(week).padStart(2,'0')}`;
+}
+function getWeekDates(wId) {
+  const [y, w] = wId.split('-W').map(Number);
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const mon  = new Date(jan4);
+  mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay()||7)-1) + (w-1)*7);
+  return Array.from({length:7}, (_,i) => { const d=new Date(mon); d.setUTCDate(mon.getUTCDate()+i); return d.toISOString().split('T')[0]; });
+}
+function addWeeks(wId, delta) {
+  const mon = new Date(getWeekDates(wId)[0]+'T00:00:00Z');
+  mon.setUTCDate(mon.getUTCDate() + delta*7);
+  return getWeekId(mon);
+}
+function fmtIT(iso)    { const [,m,d]=iso.split('-'); return `${d}/${m}`; }
+function weekLabel(id) { const d=getWeekDates(id); const[y,w]=id.split('-W'); return `Sett. ${parseInt(w,10)} — ${fmtIT(d[0])} al ${fmtIT(d[6])} ${y}`; }
+function parseMins(s)  { if(!s)return 0; const p=s.split(':').map(Number); return p.length===3?p[0]*60+p[1]+p[2]/60:p[0]*60+p[1]; }
+function fmtMins(m)    { const h=Math.floor(m/60),mm=Math.round(m%60); return h>0?`${h}h ${mm}m`:`${mm}m`; }
+function fmtDist(m)    { return m>=1000?`${(m/1000).toFixed(1)} km`:`${m} m`; }
+
+// ================================================================
+// AUTH
+// ================================================================
+async function login() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw    = document.getElementById('login-pw').value;
+  document.getElementById('login-error').textContent = '';
+  try {
+    await auth.signInWithEmailAndPassword(email, pw);
+  } catch(_) {
+    document.getElementById('login-error').textContent = 'Email o password non corretti.';
+  }
+}
+function logout() { auth.signOut(); }
+
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    currentUser = user;
+    const snap = await db.collection('users').doc(user.uid).get();
+    if (snap.exists && snap.data().role) {
+      userRole = snap.data().role;
+      // Aggiorna email nel documento (utile per il selettore atleta del trainer)
+      if (snap.data().email !== user.email)
+        db.collection('users').doc(user.uid).update({ email: user.email });
+      showApp();
+    } else {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('role-name').textContent = user.email;
+      document.getElementById('role-screen').classList.remove('hidden');
+    }
+  } else {
+    currentUser = userRole = null;
+    ['app','role-screen'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById('login-screen').classList.remove('hidden');
+  }
+});
+
+// ================================================================
+// APP
+// ================================================================
+function showApp() {
+  ['login-screen','role-screen'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('app').classList.remove('hidden');
+  const badge = document.getElementById('user-badge');
+  if (userRole === 'allenatore') {
+    badge.textContent = '🏋️ Allenatore'; badge.className = 'user-badge allenatore';
+    const ta = document.getElementById('trainer-actions'); ta.classList.remove('hidden'); ta.style.display = 'flex';
+    loadAthletes();
+  } else {
+    badge.textContent = '🏊 Atleta'; badge.className = 'user-badge';
+    currentAthleteId = currentUser.uid;
+    loadWeek(currentWeekId);
+  }
+}
+
+async function loadAthletes() {
+  const snap = await db.collection('users').where('role','==','atleta').get();
+  const sel = document.getElementById('athlete-select');
+  sel.innerHTML = '<option value="">— seleziona atleta —</option>';
+  snap.forEach(doc => {
+    const d = doc.data();
+    const opt = document.createElement('option');
+    opt.value = doc.id;
+    opt.textContent = d.name || d.email || doc.id;
+    sel.appendChild(opt);
+  });
+  document.getElementById('athlete-selector').style.display = 'flex';
+  // Auto-seleziona se c'è un solo atleta
+  if (snap.size === 1) {
+    sel.value = snap.docs[0].id;
+    selectAthlete(snap.docs[0].id);
+  }
+}
+
+function selectAthlete(uid) {
+  currentAthleteId = uid || null;
+  if (currentAthleteId) { loadWeek(currentWeekId); loadTests(); }
+  else { currentSessions = {}; renderCalendar(); }
+}
+
+// ================================================================
+// WEEK VIEW
+// ================================================================
+async function loadWeek(wId) {
+  if (!currentAthleteId) return;
+  currentWeekId = wId; currentSessions = {};
+  document.getElementById('week-title').textContent = weekLabel(wId);
+  const wDoc = await weeksCol().doc(wId).get();
+  document.getElementById('period-input').value = wDoc.exists ? (wDoc.data().periodName||'') : '';
+
+  const snap = await sessionsCol().where('weekId','==',wId).get();
+  snap.forEach(doc => { const s=doc.data(); currentSessions[`${s.date}-${s.discipline}`]={id:doc.id,...s}; });
+
+  // Load availability (single doc, no composite index needed)
+  const aDoc = await availCol().doc(wId).get();
+  weekAvail = aDoc.exists ? (aDoc.data().days || {}) : {};
+
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const dates = getWeekDates(currentWeekId);
+  const today = new Date().toISOString().split('T')[0];
+  const grid  = document.getElementById('calendar-grid');
+  grid.innerHTML = '';
+
+  // Totals
+  let pMins=0, aMins=0, dist=0, tot=0, done=0;
+  const dStats = {};
+  DISCIPLINES.forEach(d => { dStats[d] = {n:0, dist:0, pMins:0, aMins:0}; });
+  Object.values(currentSessions).forEach(s => {
+    tot++;
+    if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
+    if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
+    if (s.distanceMeters)   dist   += s.distanceMeters;
+    if (dStats[s.discipline]) {
+      dStats[s.discipline].n++;
+      if (s.distanceMeters) dStats[s.discipline].dist  += s.distanceMeters;
+      if (s.plannedDuration) dStats[s.discipline].pMins += parseMins(s.plannedDuration);
+      if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
+    }
+  });
+  const te = document.getElementById('week-totals');
+  te.innerHTML = tot === 0
+    ? '<span>Nessuna sessione pianificata</span>'
+    : `<span>📅 <strong>${tot}</strong> sessioni</span>`
+      + (pMins ? `<span>⏱ pianificate <strong>${fmtMins(pMins)}</strong></span>` : '')
+      + `<span>✓ <strong>${done}/${tot}</strong> completate</span>`
+      + (aMins ? `<span>⏱ effettuate <strong>${fmtMins(aMins)}</strong></span>` : '')
+      + (dist  ? `<span>📏 <strong>${fmtDist(dist)}</strong> totali</span>` : '');
+
+  const DISC_ICONS = {Nuoto:'🏊',Bici:'🚴',Rulli:'🎯',Corsa:'🏃',Palestra:'🏋️'};
+  const de = document.getElementById('disc-totals');
+  de.innerHTML = DISCIPLINES
+    .filter(d => dStats[d].n > 0)
+    .map(d => {
+      const st = dStats[d];
+      const parts = [];
+      if (st.dist)  parts.push(fmtDist(st.dist));
+      if (st.aMins) parts.push(fmtMins(st.aMins));
+      else if (st.pMins) parts.push(fmtMins(st.pMins));
+      return `<div class="disc-total-chip"><span class="dtc-name">${DISC_ICONS[d]} ${d}</span>`
+           + `<span class="dtc-val">${st.n} sess.${parts.length?' · '+parts.join(' · '):''}</span></div>`;
+    }).join('');
+
+  // Corner
+  grid.appendChild(mkEl('div',''));
+  // Headers
+  dates.forEach((date,i) => grid.appendChild(mkEl('div',
+    `<div class="day-name">${DAY_NAMES[i]}</div><div class="day-date">${fmtIT(date)}</div>`,
+    `cal-header${date===today?' today':''}`
+  )));
+
+  // Availability row
+  grid.appendChild(mkEl('div','Disponib.', 'avail-label'));
+  dates.forEach((date,i) => {
+    const av   = weekAvail[date] || {};
+    const discs = av.disciplines || [];
+    const slots = av.slots || [];
+    const hasAny = discs.length || slots.length || av.note;
+    const cell = document.createElement('div');
+    cell.className = 'avail-cell' + (hasAny ? ' has-avail' : '');
+    if (hasAny) {
+      let html = discs.map(d => `<span class="avail-chip chip-disc-${d}">${d}</span>`).join('');
+      if (slots.length) html += slots.map(s => `<span class="avail-chip chip-${SLOT_KEYS[s]}">${s}</span>`).join('');
+      if (av.note) html += `<div class="avail-cell-note">${av.note}</div>`;
+      cell.innerHTML = html;
+    } else {
+      cell.innerHTML = '<div class="avail-empty">+</div>';
+    }
+    // Athlete can edit; trainer sees read-only
+    if (userRole === 'atleta') {
+      cell.onclick = () => openAvailModal(date, DAY_NAMES[i]);
+    } else {
+      cell.style.cursor = 'default';
+    }
+    grid.appendChild(cell);
+  });
+
+  // Discipline rows
+  DISCIPLINES.forEach(disc => {
+    grid.appendChild(mkEl('div', disc, `disc-label disc-${disc}`));
+    dates.forEach((date,i) => {
+      const s = currentSessions[`${date}-${disc}`];
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      if (s) {
+        if (s.intensity) cell.classList.add(`int-${s.intensity}`);
+        if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
+        const notes = s.trainerNotes || '';
+        cell.innerHTML =
+          (s.distanceMeters  ? `<div class="cell-dist">${fmtDist(s.distanceMeters)}</div>` : '') +
+          (s.actualDuration  ? `<div class="cell-dur">✓ ${s.actualDuration}</div>`
+           : s.plannedDuration ? `<div class="cell-dur">${s.plannedDuration}</div>` : '') +
+          (notes ? `<div class="cell-notes">${notes}</div>` : '') +
+          (s.rpe ? `<div class="rpe-badge">${s.rpe}</div>` : '');
+      } else {
+        cell.innerHTML = '<div class="add-btn">+</div>';
+      }
+      cell.onclick = () => openSessionModal(date, disc, DAY_LETTERS[i], s);
+      grid.appendChild(cell);
+    });
+  });
+}
+
+function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.className=cls; e.innerHTML=html; return e; }
+function changeWeek(d)   { loadWeek(addWeeks(currentWeekId, d)); }
+function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
+async function savePeriod() {
+  await weeksCol().doc(currentWeekId).set({ periodName: document.getElementById('period-input').value.trim(), weekId: currentWeekId }, { merge:true });
+}
+
+// ================================================================
+// AVAILABILITY MODAL
+// ================================================================
+function openAvailModal(date, dayName) {
+  editingAvailDate = date;
+  const av = weekAvail[date] || {};
+  tempAvailSlots = [...(av.slots || [])];
+  tempAvailDiscs = [...(av.disciplines || [])];
+  document.getElementById('avail-modal-title').textContent = `${dayName} ${fmtIT(date)}`;
+  document.getElementById('avail-day-note').value = av.note || '';
+  DISCIPLINES.forEach(d => {
+    const btn = document.getElementById(`disc-${d}`);
+    btn.className = 'avail-disc-btn' + (tempAvailDiscs.includes(d) ? ` sel-${d}` : '');
+  });
+  ['Mattina','Pomeriggio','Sera'].forEach(s => {
+    const btn = document.getElementById(`slot-${SLOT_KEYS[s]}`);
+    btn.className = 'avail-slot-btn' + (tempAvailSlots.includes(s) ? ` sel-${SLOT_KEYS[s]}` : '');
+  });
+  document.getElementById('avail-modal').classList.remove('hidden');
+}
+function toggleAvailDisc(disc, btn) {
+  const idx = tempAvailDiscs.indexOf(disc);
+  if (idx >= 0) { tempAvailDiscs.splice(idx,1); btn.className = 'avail-disc-btn'; }
+  else           { tempAvailDiscs.push(disc);    btn.className = `avail-disc-btn sel-${disc}`; }
+}
+function toggleAvailSlot(slot, btn) {
+  const k = SLOT_KEYS[slot];
+  const idx = tempAvailSlots.indexOf(slot);
+  if (idx >= 0) { tempAvailSlots.splice(idx,1); btn.className = 'avail-slot-btn'; }
+  else           { tempAvailSlots.push(slot);    btn.className = `avail-slot-btn sel-${k}`; }
+}
+async function saveAvailDay() {
+  const note = document.getElementById('avail-day-note').value.trim();
+  weekAvail[editingAvailDate] = { disciplines: tempAvailDiscs, slots: tempAvailSlots, note };
+  await availCol().doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
+  closeAvailModal();
+  renderCalendar();
+  showToast('Disponibilità salvata ✓');
+}
+function closeAvailModal()  { document.getElementById('avail-modal').classList.add('hidden'); }
+function closeAvailOutside(e){ if(e.target===document.getElementById('avail-modal')) closeAvailModal(); }
+
+// ================================================================
+// SESSION MODAL
+// ================================================================
+function selInt(val, btn) {
+  currentIntensity = val;
+  document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
+  if (btn) btn.classList.add('selected');
+}
+function openSessionModal(date, disc, dayLetter, session) {
+  editingSession   = session ? session.id : null;
+  currentIntensity = session ? (session.intensity||null) : null;
+  document.getElementById('modal-title-text').textContent = `${dayLetter} ${fmtIT(date)} — ${disc}`;
+  document.getElementById('modal-dot').style.background   = DISC_COLORS[disc];
+  document.getElementById('m-distance').value         = session?.distanceMeters  || '';
+  document.getElementById('m-planned-duration').value  = session?.plannedDuration || '';
+  document.getElementById('m-trainer-notes').value    = session?.trainerNotes    || '';
+  document.getElementById('m-start-time').value       = session?.actualStartTime || '';
+  document.getElementById('m-actual-duration').value  = session?.actualDuration  || '';
+  document.getElementById('m-rpe').value              = session?.rpe             || '';
+  document.getElementById('m-weight').value           = session?.weightKg        || '';
+  document.getElementById('m-athlete-notes').value    = session?.athleteNotes    || '';
+  document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
+  const activeInt = document.querySelector(`.int-btn.${currentIntensity || 'none'}`);
+  if (activeInt) activeInt.classList.add('selected');
+  const ts = document.getElementById('trainer-section');
+  ts.querySelectorAll('input,textarea,select,.int-btn').forEach(el => el.disabled = (userRole==='atleta'));
+  ts.style.display = 'block';
+  document.getElementById('athlete-section').style.display = (userRole==='allenatore') ? 'none' : 'block';
+  document.getElementById('delete-session-btn').style.display = (session && userRole==='allenatore') ? 'inline-flex' : 'none';
+  const m = document.getElementById('modal');
+  m.dataset.date=date; m.dataset.disc=disc; m.dataset.weekId=currentWeekId;
+  m.classList.remove('hidden');
+}
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+  document.getElementById('trainer-section').querySelectorAll('input,textarea,select,.int-btn').forEach(el=>el.disabled=false);
+}
+function closeModalOutside(e){ if(e.target===document.getElementById('modal')) closeModal(); }
+
+async function saveSession() {
+  const m = document.getElementById('modal');
+  const data = {
+    weekId: m.dataset.weekId, date: m.dataset.date, discipline: m.dataset.disc,
+    distanceMeters:  parseInt(document.getElementById('m-distance').value)        || null,
+    plannedDuration: document.getElementById('m-planned-duration').value.trim()   || null,
+    trainerNotes:    document.getElementById('m-trainer-notes').value.trim()      || null,
+    intensity:       currentIntensity,
+    actualStartTime: document.getElementById('m-start-time').value                || null,
+    actualDuration:  document.getElementById('m-actual-duration').value.trim()    || null,
+    rpe:             parseInt(document.getElementById('m-rpe').value)             || null,
+    weightKg:        parseFloat(document.getElementById('m-weight').value)        || null,
+    athleteNotes:    document.getElementById('m-athlete-notes').value.trim()      || null,
+    updatedAt:       firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  Object.keys(data).forEach(k => { if(data[k]===null||data[k]===undefined) delete data[k]; });
+  try {
+    if (editingSession) await sessionsCol().doc(editingSession).update(data);
+    else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await sessionsCol().add(data); }
+    closeModal(); loadWeek(currentWeekId); showToast('Salvato ✓');
+  } catch(e) { console.error(e); showToast('Errore nel salvataggio'); }
+}
+async function deleteSession() {
+  if (!editingSession || !confirm('Eliminare?')) return;
+  await sessionsCol().doc(editingSession).delete();
+  closeModal(); loadWeek(currentWeekId); showToast('Eliminata');
+}
+
+// ================================================================
+// COPY PREV WEEK
+// ================================================================
+async function copyFromPrev() {
+  if (!confirm('Copiare le sessioni della settimana precedente?')) return;
+  const prev=addWeeks(currentWeekId,-1), pd=getWeekDates(prev), cd=getWeekDates(currentWeekId);
+  const snap=await sessionsCol().where('weekId','==',prev).get();
+  const batch=db.batch(); let n=0;
+  snap.forEach(doc => {
+    const s=doc.data(), i=pd.indexOf(s.date); if(i<0)return;
+    const nd={weekId:currentWeekId,date:cd[i],discipline:s.discipline,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+    if(s.distanceMeters)  nd.distanceMeters=s.distanceMeters;
+    if(s.plannedDuration) nd.plannedDuration=s.plannedDuration;
+    if(s.trainerNotes)    nd.trainerNotes=s.trainerNotes;
+    if(s.intensity)       nd.intensity=s.intensity;
+    batch.set(sessionsCol().doc(),nd); n++;
+  });
+  await batch.commit(); loadWeek(currentWeekId); showToast(`${n} sessioni copiate ✓`);
+}
+
+async function importSessionsJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = '';
+  let sessions;
+  try { sessions = JSON.parse(await file.text()); } catch(e) { alert('File JSON non valido.'); return; }
+  if (!Array.isArray(sessions) || sessions.length === 0) { alert('Nessuna sessione trovata nel file.'); return; }
+  if (!confirm(`Importare ${sessions.length} sessioni? Le sessioni esistenti con lo stesso ID verranno sovrascritte.`)) return;
+  const batch = db.batch();
+  sessions.forEach(s => {
+    const docId = `${s.weekId}-${s.discipline}-${s.date}`;
+    const doc = { weekId: s.weekId, date: s.date, discipline: s.discipline, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+    if (s.distanceMeters)  doc.distanceMeters  = s.distanceMeters;
+    if (s.startTime)       doc.startTime       = s.startTime;
+    if (s.plannedDuration) doc.plannedDuration  = s.plannedDuration;
+    if (s.actualDuration)  doc.actualDuration   = s.actualDuration;
+    if (s.trainerNotes)    doc.trainerNotes     = s.trainerNotes;
+    if (s.athleteNotes)    doc.athleteNotes     = s.athleteNotes;
+    if (s.intensity)       doc.intensity        = s.intensity;
+    if (s.rpe)             doc.rpe              = s.rpe;
+    if (s.weightKg)        doc.weightKg         = s.weightKg;
+    batch.set(sessionsCol().doc(docId), doc);
+  });
+  await batch.commit();
+  loadWeek(currentWeekId);
+  showToast(`${sessions.length} sessioni importate ✓`);
+}
+
+// ================================================================
+// TESTS
+// ================================================================
+async function loadTests() {
+  if (!currentAthleteId) return;
+  const snap=await testsCol().orderBy('date','desc').get();
+  const tbody=document.getElementById('tests-tbody');
+  if(snap.empty){tbody.innerHTML='<tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>';return;}
+  tbody.innerHTML='';
+  snap.forEach(doc=>{
+    const t=doc.data(),tr=document.createElement('tr');
+    tr.innerHTML=`<td>${t.date||''}</td><td>${t.discipline||''}</td><td>${t.testType||''}</td>
+      <td><strong>${t.result||''}</strong></td><td style="color:var(--muted);max-width:260px;">${t.notes||''}</td>
+      <td>${userRole==='allenatore'?`<button class="btn btn-danger btn-sm" onclick="deleteTest('${doc.id}')">🗑</button>`:''}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function openTestModal(){
+  document.getElementById('t-date').value=new Date().toISOString().split('T')[0];
+  ['t-type','t-result','t-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('test-modal').classList.remove('hidden');
+}
+async function saveTest(){
+  await testsCol().add({
+    date:document.getElementById('t-date').value, discipline:document.getElementById('t-discipline').value,
+    testType:document.getElementById('t-type').value.trim(), result:document.getElementById('t-result').value.trim(),
+    notes:document.getElementById('t-notes').value.trim(), createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  document.getElementById('test-modal').classList.add('hidden'); loadTests(); showToast('Test salvato ✓');
+}
+async function deleteTest(id){
+  if(!confirm('Eliminare?'))return; await testsCol().doc(id).delete(); loadTests();
+}
+
+// ================================================================
+// EXCEL EXPORT
+// ================================================================
+async function exportExcel(){
+  showToast('Preparazione export...');
+  const wb=XLSX.utils.book_new();
+  const tsn=await testsCol().orderBy('date','desc').get();
+  const tr=[['Disciplina','Data','Tipo test','Risultato','Note']];
+  tsn.forEach(d=>{const t=d.data();tr.push([t.discipline,t.date,t.testType,t.result,t.notes]);});
+  const wst=XLSX.utils.aoa_to_sheet(tr); wst['!cols']=[{wch:12},{wch:12},{wch:18},{wch:16},{wch:40}];
+  XLSX.utils.book_append_sheet(wb,wst,'Test e Prove');
+
+  const sn=await sessionsCol().orderBy('date').get();
+  const bm={};
+  sn.forEach(doc=>{const s=doc.data(),m=s.date?s.date.substring(0,7):'nd';if(!bm[m])bm[m]=[];bm[m].push({id:doc.id,...s});});
+  const hdr=['Giorno','Data','Disciplina','Distanza (m)','Ora inizio','Durata prevista','Durata effettiva','Intensità','Note allenatore','Note atleta','RPE','Kg','Disponibilità','Note disponibilità'];
+
+  for (const month of Object.keys(bm).sort()) {
+    const rows=[hdr], sessions=bm[month];
+    const bw={};
+    sessions.forEach(s=>{const w=getWeekId(new Date(s.date));if(!bw[w])bw[w]={};if(!bw[w][s.date])bw[w][s.date]={};bw[w][s.date][s.discipline]=s;});
+    for (const wId of Object.keys(bw).sort()) {
+      const [y,w]=wId.split('-W');
+      rows.push([`── Settimana ${parseInt(w,10)} del ${y} ──`]);
+      // Load availability for this week
+      const aDoc=await availCol().doc(wId).get();
+      const avDays=aDoc.exists?(aDoc.data().days||{}):{};
+      getWeekDates(wId).forEach((date,di)=>{
+        const dayData=bw[wId][date]||{};
+        const av=avDays[date]||{};
+        const avStr=(av.slots||[]).join(', ');
+        if(Object.keys(dayData).length){
+          DISCIPLINES.forEach(disc=>{
+            const s=dayData[disc]; if(!s)return;
+            rows.push([DAY_NAMES[di],date,disc,s.distanceMeters||'',s.actualStartTime||'',s.plannedDuration||'',
+              s.actualDuration||'',s.intensity||'',s.trainerNotes||'',s.athleteNotes||'',s.rpe||'',s.weightKg||'',avStr,av.note||'']);
+          });
+        } else {
+          rows.push([DAY_NAMES[di],date,'riposo','','','','','','','','','',avStr,av.note||'']);
+        }
+      });
+      rows.push([]);
+    }
+    const [y,m]=month.split('-');
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:5},{wch:12},{wch:10},{wch:12},{wch:10},{wch:14},{wch:14},{wch:10},{wch:40},{wch:35},{wch:5},{wch:7},{wch:25},{wch:30}];
+    XLSX.utils.book_append_sheet(wb,ws,`${MONTH_NAMES[parseInt(m,10)-1]} ${y}`.substring(0,31));
+  }
+  XLSX.writeFile(wb,`Training_${new Date().toISOString().split('T')[0]}.xlsx`);
+  showToast('Download avviato ✓');
+}
+
+// ================================================================
+// NAVIGATION & TOAST
+// ================================================================
+function showView(name, btn) {
+  ['settimana','test'].forEach(v=>document.getElementById(`view-${v}`).classList.toggle('hidden',v!==name));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if(name==='test') loadTests();
+}
+let toastTimer=null;
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.remove('hidden');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.add('hidden'),2800);
+}
+</script>
+</body>
+</html>

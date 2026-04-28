@@ -1,0 +1,46 @@
+name: Daily Firestore Backup
+
+on:
+  schedule:
+    - cron: '0 3 * * *'   # 03:00 UTC ogni notte (05:00 ora italiana estate)
+  workflow_dispatch:        # Avvio manuale dalla tab Actions
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # necessario per pushare sul branch backups
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # serve per creare/pushare branch
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install firebase-admin
+
+      - name: Run backup
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          python scripts/backup_firestore.py
+          echo "DATE=$DATE" >> $GITHUB_ENV
+        env:
+          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+          BACKUP_PATH: firestore-backup.json
+
+      - name: Commit backup to branch 'backups'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Crea il branch backups se non esiste
+          git fetch origin backups 2>/dev/null && git checkout backups || git checkout --orphan backups
+          # Sposta il file nella cartella backups/
+          mkdir -p backups
+          cp firestore-backup.json backups/firestore-backup-${{ env.DATE }}.json
+          git add backups/firestore-backup-${{ env.DATE }}.json
+          git diff --cached --quiet || git commit -m "Backup ${{ env.DATE }}"
+          git push origin backups
