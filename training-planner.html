@@ -28,48 +28,26 @@
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     .hidden { display: none !important; }
 
-    /* ---- Login / Role screen ---- */
-    .auth-screen {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #0f2a4a 0%, #2563eb 100%);
-    }
-    .auth-card {
-      background: white; padding: 2.5rem; border-radius: 1rem;
-      width: 100%; max-width: 380px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
+    /* ---- Login / Role ---- */
+    .auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #0f2a4a 0%, #2563eb 100%); }
+    .auth-card { background: white; padding: 2.5rem; border-radius: 1rem; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
     .auth-card h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
     .auth-card p  { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.75rem; }
     .auth-error   { color: #dc2626; font-size: 0.85rem; margin-top: 0.75rem; text-align: center; min-height: 1.2rem; }
 
-    .btn-google {
-      display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-      width: 100%; padding: 0.75rem; border-radius: 0.5rem;
-      border: 1px solid var(--border); background: white;
-      font-size: 0.95rem; font-weight: 500; cursor: pointer;
-      transition: background 0.15s; font-family: inherit;
-    }
-    .btn-google:hover { background: #f8fafc; }
-
-    /* ---- Form ---- */
+    /* ---- Forms ---- */
     .form-group { margin-bottom: 1rem; }
     .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.375rem; }
     .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 0.6rem 0.875rem;
-      border: 1px solid var(--border); border-radius: 0.5rem;
-      font-size: 0.9rem; transition: border-color 0.2s; background: white; font-family: inherit;
+      width: 100%; padding: 0.6rem 0.875rem; border: 1px solid var(--border);
+      border-radius: 0.5rem; font-size: 0.9rem; transition: border-color 0.2s;
+      background: white; font-family: inherit;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
     .form-group input:disabled, .form-group textarea:disabled, .form-group select:disabled { background: #f8fafc; color: var(--muted); cursor: default; }
 
     /* ---- Buttons ---- */
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.6rem 1.25rem; border-radius: 0.5rem;
-      font-size: 0.9rem; font-weight: 500; cursor: pointer;
-      border: none; transition: all 0.15s; font-family: inherit;
-    }
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: inherit; }
     .btn-primary   { background: var(--primary); color: white; }
     .btn-primary:hover  { background: #1d4ed8; }
     .btn-full      { width: 100%; justify-content: center; }
@@ -78,136 +56,84 @@
     .btn-danger    { background: #fee2e2; color: #dc2626; }
     .btn-danger:hover { background: #fecaca; }
     .btn-sm        { padding: 0.4rem 0.875rem; font-size: 0.82rem; }
-    .btn-icon {
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 1px solid var(--border); background: white;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; transition: background 0.15s;
-    }
+    .btn-icon { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: background 0.15s; }
     .btn-icon:hover { background: var(--bg); }
 
     /* ---- App shell ---- */
-    header {
-      background: white; border-bottom: 1px solid var(--border);
-      padding: 0 1.5rem; height: 56px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
-    }
+    header { background: white; border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 1rem; }
     header h1 { font-size: 1.05rem; font-weight: 700; }
     .user-badge { font-size: 0.78rem; padding: 0.25rem 0.6rem; border-radius: 9999px; background: #dbeafe; color: #1e40af; font-weight: 500; }
     .user-badge.allenatore { background: #dcfce7; color: #166534; }
-
     nav { background: white; border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; }
-    .nav-btn {
-      padding: 0.75rem 1.1rem; font-size: 0.875rem; font-weight: 500;
-      color: var(--muted); background: none; border: none;
-      border-bottom: 2px solid transparent; cursor: pointer;
-      transition: all 0.15s; margin-bottom: -1px; font-family: inherit;
-    }
+    .nav-btn { padding: 0.75rem 1.1rem; font-size: 0.875rem; font-weight: 500; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; margin-bottom: -1px; font-family: inherit; }
     .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
     .nav-btn:hover:not(.active) { color: var(--text); }
-
     main { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
 
-    /* ---- Week view ---- */
-    .week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
+    /* ---- Week header ---- */
+    .week-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
     .week-nav { display: flex; align-items: center; gap: 0.75rem; }
     .week-title { font-size: 1rem; font-weight: 600; min-width: 200px; text-align: center; }
-    .period-input {
-      border: none; font-size: 0.82rem; font-weight: 500; color: var(--muted);
-      background: transparent; text-align: center; cursor: pointer;
-      padding: 2px 6px; border-radius: 4px; font-family: inherit; width: 180px;
-    }
+    .period-input { border: none; font-size: 0.82rem; font-weight: 500; color: var(--muted); background: transparent; text-align: center; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-family: inherit; width: 180px; }
     .period-input:hover, .period-input:focus { background: #f1f5f9; outline: none; }
 
-    /* ---- Week totals bar ---- */
-    .week-totals {
-      display: flex; gap: 1.5rem; flex-wrap: wrap;
-      background: white; border: 1px solid var(--border); border-radius: 0.75rem;
-      padding: 0.75rem 1.25rem; margin-bottom: 1rem; font-size: 0.85rem;
-    }
+    /* ---- Week totals ---- */
+    .week-totals { display: flex; gap: 1.5rem; flex-wrap: wrap; background: white; border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.625rem 1.25rem; margin-bottom: 1rem; font-size: 0.83rem; }
     .week-totals span { color: var(--muted); }
     .week-totals strong { color: var(--text); }
 
     /* ---- Calendar grid ---- */
     .scroll-x { overflow-x: auto; padding-bottom: 0.5rem; }
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: 78px repeat(7, minmax(110px, 1fr));
-      gap: 3px; min-width: 680px;
-    }
+    .calendar-grid { display: grid; grid-template-columns: 78px repeat(7, minmax(110px, 1fr)); gap: 3px; min-width: 680px; }
     .cal-header { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.5rem 0.375rem; text-align: center; }
     .cal-header .day-name { font-weight: 700; font-size: 0.82rem; }
     .cal-header .day-date { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
     .cal-header.today { background: #dbeafe; border-color: #93c5fd; }
-    .disc-label {
-      display: flex; align-items: center; justify-content: center;
-      padding: 0.4rem; font-size: 0.75rem; font-weight: 700;
-      color: white; border-radius: 0.5rem;
-    }
+
+    /* Discipline labels */
+    .disc-label { display: flex; align-items: center; justify-content: center; padding: 0.4rem; font-size: 0.75rem; font-weight: 700; color: white; border-radius: 0.5rem; }
     .disc-Nuoto    { background: var(--nuoto); }
     .disc-Bici     { background: var(--bici); }
     .disc-Rulli    { background: var(--rulli); }
     .disc-Corsa    { background: var(--corsa); }
     .disc-Palestra { background: var(--palestra); }
 
-    .cal-cell {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 0.5rem; padding: 0.4rem;
-      min-height: 68px; cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      position: relative; font-size: 0.76rem;
-    }
-    .cal-cell:hover { border-color: var(--primary); box-shadow: 0 0 0 2px #dbeafe; }
+    /* Availability label */
+    .avail-label { display: flex; align-items: center; justify-content: center; padding: 0.4rem; font-size: 0.72rem; font-weight: 700; color: #475569; background: #f1f5f9; border-radius: 0.5rem; }
 
-    /* Intensity-based colors */
+    /* Session cells */
+    .cal-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 68px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; font-size: 0.76rem; }
+    .cal-cell:hover { border-color: var(--primary); box-shadow: 0 0 0 2px #dbeafe; }
     .cal-cell.int-low    { background: var(--int-low);    border-color: var(--int-low-b); }
     .cal-cell.int-medium { background: var(--int-medium); border-color: var(--int-medium-b); }
     .cal-cell.int-high   { background: var(--int-high);   border-color: var(--int-high-b); }
-    /* Completed overlay: slightly bolder border */
-    .cal-cell.done { opacity: 0.95; }
-    .cal-cell.done::after {
-      content: '✓'; position: absolute; bottom: 3px; right: 5px;
-      font-size: 0.7rem; font-weight: 700; color: #16a34a;
-    }
-
+    .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
-    .cell-notes {
-      color: var(--text); font-size: 0.73rem; margin-top: 2px;
-      overflow: hidden; display: -webkit-box;
-      -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    }
-    .rpe-badge {
-      position: absolute; top: 3px; right: 3px;
-      min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px;
-      background: #475569; color: white;
-      font-size: 0.64rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .rpe-badge { position: absolute; top: 3px; right: 3px; min-width: 20px; height: 20px; border-radius: 10px; padding: 0 4px; background: #475569; color: white; font-size: 0.64rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
     .add-btn { color: #cbd5e1; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 50px; }
+
+    /* Availability cells */
+    .avail-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 46px; cursor: pointer; transition: border-color 0.15s; display: flex; flex-wrap: wrap; gap: 2px; align-content: flex-start; }
+    .avail-cell:hover { border-color: var(--primary); }
+    .avail-cell.has-avail { background: #f0f9ff; border-color: #7dd3fc; }
+    .avail-chip { font-size: 0.68rem; font-weight: 600; padding: 1px 5px; border-radius: 9999px; }
+    .chip-M { background: #fef9c3; color: #854d0e; }
+    .chip-P { background: #dbeafe; color: #1e40af; }
+    .chip-S { background: #ede9fe; color: #5b21b6; }
+    .avail-cell-note { font-size: 0.68rem; color: var(--muted); width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
+    .avail-empty { color: #cbd5e1; font-size: 0.75rem; line-height: 36px; text-align: center; width: 100%; }
 
     /* ---- Intensity selector ---- */
     .intensity-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .int-btn {
-      padding: 0.35rem 0.875rem; border-radius: 9999px;
-      border: 2px solid transparent; font-size: 0.82rem; font-weight: 600;
-      cursor: pointer; transition: all 0.15s; font-family: inherit; background: white;
-    }
+    .int-btn { padding: 0.35rem 0.875rem; border-radius: 9999px; border: 2px solid transparent; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; background: white; }
     .int-btn.low    { border-color: var(--int-low-b);    background: var(--int-low);    color: #166534; }
     .int-btn.medium { border-color: var(--int-medium-b); background: var(--int-medium); color: #854d0e; }
     .int-btn.high   { border-color: var(--int-high-b);   background: var(--int-high);   color: #9f1239; }
     .int-btn.none   { border-color: var(--border); color: var(--muted); }
     .int-btn.selected { box-shadow: 0 0 0 3px rgba(37,99,235,0.35); }
-
-    /* ---- Availability ---- */
-    .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 0.875rem; margin-bottom: 1.25rem; }
-    .avail-day-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.875rem; }
-    .avail-day-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.625rem; }
-    .time-slots { display: flex; flex-wrap: wrap; gap: 0.375rem; }
-    .slot-btn { padding: 0.3rem 0.7rem; border-radius: 9999px; border: 1px solid var(--border); background: white; font-size: 0.78rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-    .slot-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
     /* ---- Tests ---- */
     .tests-table { width: 100%; border-collapse: collapse; background: white; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
@@ -226,6 +152,13 @@
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; flex-wrap: wrap; }
 
+    /* Availability modal slots */
+    .avail-slots { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .avail-slot-btn { padding: 0.4rem 1rem; border-radius: 9999px; border: 2px solid var(--border); background: white; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .avail-slot-btn.sel-M { border-color: #fcd34d; background: #fef9c3; color: #854d0e; }
+    .avail-slot-btn.sel-P { border-color: #93c5fd; background: #dbeafe; color: #1e40af; }
+    .avail-slot-btn.sel-S { border-color: #c4b5fd; background: #ede9fe; color: #5b21b6; }
+
     /* ---- Toast ---- */
     #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.7rem 1.2rem; background: #1e293b; color: white; border-radius: 0.5rem; font-size: 0.875rem; z-index: 300; transition: opacity 0.3s; pointer-events: none; }
 
@@ -243,29 +176,36 @@
 <div id="login-screen" class="auth-screen">
   <div class="auth-card">
     <h1>🏊‍♂️ Training Planner</h1>
-    <p>Accedi con il tuo account Google</p>
-    <button class="btn-google" onclick="loginWithGoogle()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 6.293C4.672 4.166 6.656 3.58 9 3.58z"/></svg>
-      Accedi con Google
-    </button>
+    <p>Accedi per continuare</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="email@esempio.com"
+             onkeydown="if(event.key==='Enter')document.getElementById('login-pw').focus()">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pw" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="login()">Accedi</button>
     <div id="login-error" class="auth-error"></div>
   </div>
 </div>
 
-<!-- ROLE SELECTION (first login only) -->
+<!-- ROLE SELECTION (primo accesso) -->
 <div id="role-screen" class="auth-screen hidden">
   <div class="auth-card">
     <h1>🏊‍♂️ Training Planner</h1>
-    <p>Benvenuto/a <strong id="role-screen-name"></strong>. Come vuoi accedere?</p>
-    <button class="btn btn-primary btn-full" style="margin-bottom:0.75rem;" onclick="setRole('atleta')">🏊 Sono l'atleta</button>
-    <button class="btn btn-secondary btn-full" onclick="showTrainerPin()">🏋️ Sono l'allenatore</button>
-    <div id="trainer-pin-section" class="hidden" style="margin-top:1rem;">
+    <p>Benvenuto/a <strong id="role-name"></strong>. Come vuoi accedere?</p>
+    <button class="btn btn-primary btn-full" style="margin-bottom:0.75rem" onclick="setRole('atleta')">🏊 Sono l'atleta</button>
+    <button class="btn btn-secondary btn-full" onclick="showPinSection()">🏋️ Sono l'allenatore</button>
+    <div id="pin-section" class="hidden" style="margin-top:1rem">
       <div class="form-group">
         <label>PIN allenatore</label>
-        <input type="password" id="trainer-pin-input" placeholder="••••••"
-               onkeydown="if(event.key==='Enter')checkTrainerPin()">
+        <input type="password" id="trainer-pin" placeholder="••••••"
+               onkeydown="if(event.key==='Enter')checkPin()">
       </div>
-      <button class="btn btn-primary btn-full" onclick="checkTrainerPin()">Conferma</button>
+      <button class="btn btn-primary btn-full" onclick="checkPin()">Conferma</button>
     </div>
     <div id="role-error" class="auth-error"></div>
   </div>
@@ -286,7 +226,6 @@
 
   <nav>
     <button class="nav-btn active" onclick="showView('settimana',this)">Settimana</button>
-    <button class="nav-btn" onclick="showView('disponibilita',this)">Disponibilità</button>
     <button class="nav-btn" onclick="showView('test',this)">Test & Prove</button>
   </nav>
 
@@ -303,7 +242,7 @@
           </div>
           <button class="btn-icon" onclick="changeWeek(1)">&#8594;</button>
         </div>
-        <div id="trainer-week-actions" class="hidden" style="display:flex;gap:0.5rem;">
+        <div id="trainer-actions" class="hidden" style="display:flex;gap:0.5rem;">
           <button class="btn btn-secondary btn-sm" onclick="goToCurrentWeek()">Oggi</button>
           <button class="btn btn-secondary btn-sm" onclick="copyFromPrev()">📋 Copia sett. prec.</button>
         </div>
@@ -311,28 +250,6 @@
       <div id="week-totals" class="week-totals"></div>
       <div class="scroll-x">
         <div id="calendar-grid" class="calendar-grid"></div>
-      </div>
-    </div>
-
-    <!-- DISPONIBILITÀ -->
-    <div id="view-disponibilita" class="hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
-        <div>
-          <h2 style="font-size:1.05rem;font-weight:700;">Disponibilità prossima settimana</h2>
-          <p style="color:var(--muted);font-size:0.83rem;margin-top:2px;" id="avail-week-label"></p>
-        </div>
-        <button id="avail-save-btn" class="btn btn-primary btn-sm" onclick="saveAvailability()">Salva</button>
-      </div>
-      <div id="avail-form">
-        <div id="avail-grid" class="avail-grid"></div>
-        <div class="form-group" style="max-width:520px;">
-          <label>Note generali per l'allenatore</label>
-          <textarea id="avail-notes" rows="3" placeholder="Es. Martedì solo la sera..."></textarea>
-        </div>
-      </div>
-      <div id="avail-trainer-view" class="hidden">
-        <p style="font-weight:600;margin-bottom:0.875rem;font-size:0.9rem;">Disponibilità dichiarata dall'atleta</p>
-        <div id="avail-display"></div>
       </div>
     </div>
 
@@ -345,10 +262,7 @@
       <div style="overflow-x:auto;">
         <table class="tests-table">
           <thead>
-            <tr>
-              <th>Data</th><th>Disciplina</th><th>Tipo test</th>
-              <th>Risultato</th><th>Note</th><th style="width:48px;"></th>
-            </tr>
+            <tr><th>Data</th><th>Disciplina</th><th>Tipo test</th><th>Risultato</th><th>Note</th><th style="width:48px;"></th></tr>
           </thead>
           <tbody id="tests-tbody">
             <tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>
@@ -366,47 +280,28 @@
       <span class="disc-dot" id="modal-dot"></span>
       <span id="modal-title-text"></span>
     </div>
-
-    <!-- Piano allenatore -->
     <div class="modal-section" id="trainer-section">
       <div class="modal-section-title">Piano allenatore</div>
       <div class="two-col">
-        <div class="form-group">
-          <label>Distanza (m)</label>
-          <input type="number" id="m-distance" placeholder="es. 10000">
-        </div>
-        <div class="form-group">
-          <label>Durata prevista (hh:mm:ss)</label>
-          <input type="text" id="m-planned-duration" placeholder="es. 00:45:00">
-        </div>
+        <div class="form-group"><label>Distanza (m)</label><input type="number" id="m-distance" placeholder="es. 10000"></div>
+        <div class="form-group"><label>Durata prevista (hh:mm:ss)</label><input type="text" id="m-planned-duration" placeholder="es. 00:45:00"></div>
       </div>
-      <div class="form-group">
-        <label>Istruzioni</label>
-        <textarea id="m-trainer-notes" rows="4" placeholder="Descrivi l'allenamento..."></textarea>
-      </div>
+      <div class="form-group"><label>Istruzioni</label><textarea id="m-trainer-notes" rows="4" placeholder="Descrivi l'allenamento..."></textarea></div>
       <div class="form-group">
         <label>Intensità</label>
-        <div class="intensity-btns" id="intensity-btns">
-          <button class="int-btn low"    onclick="selectIntensity('low',this)">● Bassa</button>
-          <button class="int-btn medium" onclick="selectIntensity('medium',this)">● Media</button>
-          <button class="int-btn high"   onclick="selectIntensity('high',this)">● Alta</button>
-          <button class="int-btn none"   onclick="selectIntensity(null,this)">✕ Nessuna</button>
+        <div class="intensity-btns">
+          <button class="int-btn low"    onclick="selInt('low',this)">● Bassa</button>
+          <button class="int-btn medium" onclick="selInt('medium',this)">● Media</button>
+          <button class="int-btn high"   onclick="selInt('high',this)">● Alta</button>
+          <button class="int-btn none"   onclick="selInt(null,this)">✕ Nessuna</button>
         </div>
       </div>
     </div>
-
-    <!-- Risultato atleta -->
     <div class="modal-section" id="athlete-section">
       <div class="modal-section-title">Risultato atleta</div>
       <div class="two-col">
-        <div class="form-group">
-          <label>Ora inizio</label>
-          <input type="time" id="m-start-time">
-        </div>
-        <div class="form-group">
-          <label>Durata effettiva (hh:mm:ss)</label>
-          <input type="text" id="m-actual-duration" placeholder="es. 00:47:30">
-        </div>
+        <div class="form-group"><label>Ora inizio</label><input type="time" id="m-start-time"></div>
+        <div class="form-group"><label>Durata effettiva (hh:mm:ss)</label><input type="text" id="m-actual-duration" placeholder="es. 00:47:30"></div>
       </div>
       <div class="two-col">
         <div class="form-group">
@@ -430,17 +325,10 @@
             <option value="20">20 – Sforzo massimale</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Peso corporeo (kg)</label>
-          <input type="number" id="m-weight" step="0.1" placeholder="es. 72.5">
-        </div>
+        <div class="form-group"><label>Peso (kg)</label><input type="number" id="m-weight" step="0.1" placeholder="es. 72.5"></div>
       </div>
-      <div class="form-group">
-        <label>Note post-allenamento</label>
-        <textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea>
-      </div>
+      <div class="form-group"><label>Note post-allenamento</label><textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea></div>
     </div>
-
     <div class="modal-actions">
       <button id="delete-session-btn" class="btn btn-danger btn-sm" onclick="deleteSession()" style="margin-right:auto">🗑 Elimina</button>
       <button class="btn btn-secondary" onclick="closeModal()">Chiudi</button>
@@ -449,37 +337,41 @@
   </div>
 </div>
 
+<!-- MODAL DISPONIBILITÀ -->
+<div id="avail-modal" class="modal-overlay hidden" onclick="closeAvailOutside(event)">
+  <div class="modal-card" style="max-width:420px;">
+    <div class="modal-title">📅 <span id="avail-modal-title"></span></div>
+    <div class="modal-section">
+      <div class="modal-section-title">Quando sei disponibile?</div>
+      <div class="avail-slots">
+        <button class="avail-slot-btn" id="slot-M" onclick="toggleAvailSlot('Mattina',this)">☀️ Mattina</button>
+        <button class="avail-slot-btn" id="slot-P" onclick="toggleAvailSlot('Pomeriggio',this)">🌤 Pomeriggio</button>
+        <button class="avail-slot-btn" id="slot-S" onclick="toggleAvailSlot('Sera',this)">🌙 Sera</button>
+      </div>
+      <div class="form-group"><label>Note per l'allenatore</label><textarea id="avail-day-note" rows="2" placeholder="Es. solo dopo le 19, preferisco corsa..."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeAvailModal()">Chiudi</button>
+      <button class="btn btn-primary" onclick="saveAvailDay()">Salva</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL TEST -->
-<div id="test-modal" class="modal-overlay hidden" onclick="closeTestModalOutside(event)">
+<div id="test-modal" class="modal-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
   <div class="modal-card" style="max-width:460px;">
     <div class="modal-title">Aggiungi test</div>
     <div class="two-col">
-      <div class="form-group">
-        <label>Data</label>
-        <input type="date" id="t-date">
-      </div>
-      <div class="form-group">
-        <label>Disciplina</label>
-        <select id="t-discipline">
-          <option>Nuoto</option><option>Bici</option><option>Rulli</option>
-          <option>Corsa</option><option>Palestra</option>
-        </select>
+      <div class="form-group"><label>Data</label><input type="date" id="t-date"></div>
+      <div class="form-group"><label>Disciplina</label>
+        <select id="t-discipline"><option>Nuoto</option><option>Bici</option><option>Rulli</option><option>Corsa</option><option>Palestra</option></select>
       </div>
     </div>
-    <div class="form-group">
-      <label>Tipo di test</label>
-      <input type="text" id="t-type" placeholder="es. FTP test, 1000m cronometrato...">
-    </div>
-    <div class="form-group">
-      <label>Risultato</label>
-      <input type="text" id="t-result" placeholder="es. 190W, 1:45/100m, 38:20...">
-    </div>
-    <div class="form-group">
-      <label>Note</label>
-      <textarea id="t-notes" rows="2" placeholder="Condizioni, osservazioni..."></textarea>
-    </div>
+    <div class="form-group"><label>Tipo di test</label><input type="text" id="t-type" placeholder="es. FTP test"></div>
+    <div class="form-group"><label>Risultato</label><input type="text" id="t-result" placeholder="es. 190W, 1:45/100m"></div>
+    <div class="form-group"><label>Note</label><textarea id="t-notes" rows="2" placeholder="Condizioni, osservazioni..."></textarea></div>
     <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeTestModal()">Annulla</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('test-modal').classList.add('hidden')">Annulla</button>
       <button class="btn btn-primary" onclick="saveTest()">Salva</button>
     </div>
   </div>
@@ -499,89 +391,75 @@ const firebaseConfig = {
   messagingSenderId: "286030804156",
   appId:             "1:286030804156:web:bc7279cf26586dc43e0cb9"
 };
-
-const TRAINER_PIN = "coach2024"; // Cambia questo PIN!
+const TRAINER_PIN = "coach2024"; // Cambia questo PIN
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
 // ---- Costanti ----
-const DISCIPLINES = ['Nuoto', 'Bici', 'Rulli', 'Corsa', 'Palestra'];
-const DAY_NAMES   = ['Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa', 'Do'];
-const DAY_LETTERS = ['L',  'M',  'M',  'G',  'V',  'S',  'D'];
-const TIME_SLOTS  = ['Mattina', 'Pomeriggio', 'Sera'];
-const DISC_COLORS = { Nuoto:'#3b82f6', Bici:'#f59e0b', Rulli:'#f97316', Corsa:'#22c55e', Palestra:'#a855f7' };
-const MONTH_NAMES = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+const DISCIPLINES  = ['Nuoto','Bici','Rulli','Corsa','Palestra'];
+const DAY_NAMES    = ['Lu','Ma','Me','Gi','Ve','Sa','Do'];
+const DAY_LETTERS  = ['L','M','M','G','V','S','D'];
+const DISC_COLORS  = { Nuoto:'#3b82f6', Bici:'#f59e0b', Rulli:'#f97316', Corsa:'#22c55e', Palestra:'#a855f7' };
+const MONTH_NAMES  = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+const SLOT_KEYS    = { Mattina:'M', Pomeriggio:'P', Sera:'S' };
 
 // ---- Stato ----
-let currentUser     = null;
-let userRole        = null;
-let currentWeekId   = getWeekId(new Date());
-let currentSessions = {};
-let editingSession  = null;
-let currentIntensity = null;
-let availSlots      = {};
+let currentUser       = null;
+let userRole          = null;
+let currentWeekId     = getWeekId(new Date());
+let currentSessions   = {};
+let editingSession    = null;
+let currentIntensity  = null;
+let weekAvail         = {};   // { date: { slots:[], note:'' } }
+let editingAvailDate  = null;
+let tempAvailSlots    = [];
 
 // ================================================================
-// WEEK UTILITIES
+// WEEK UTILS
 // ================================================================
 function getWeekId(date) {
-  // Find Thursday of the week
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const y = d.getUTCFullYear();
-  // Monday of ISO week 1 = Monday of the week containing Jan 4
   const jan4 = new Date(Date.UTC(y, 0, 4));
-  const weekOneMon = new Date(jan4);
-  weekOneMon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() || 7) - 1));
-  const week = Math.round((d - weekOneMon) / (7 * 86400000)) + 1;
-  return `${y}-W${String(week).padStart(2, '0')}`;
+  const w1mon = new Date(jan4);
+  w1mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() || 7) - 1));
+  const week = Math.round((d - w1mon) / (7 * 86400000)) + 1;
+  return `${y}-W${String(week).padStart(2,'0')}`;
 }
-
-function getWeekDates(weekId) {
-  const [year, week] = weekId.split('-W').map(Number);
-  const jan4 = new Date(Date.UTC(year, 0, 4));
+function getWeekDates(wId) {
+  const [y, w] = wId.split('-W').map(Number);
+  const jan4 = new Date(Date.UTC(y, 0, 4));
   const mon  = new Date(jan4);
-  mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay() || 7) - 1) + (week - 1) * 7);
-  return Array.from({length: 7}, (_, i) => {
-    const d = new Date(mon);
-    d.setUTCDate(mon.getUTCDate() + i);
-    return d.toISOString().split('T')[0];
-  });
+  mon.setUTCDate(jan4.getUTCDate() - ((jan4.getUTCDay()||7)-1) + (w-1)*7);
+  return Array.from({length:7}, (_,i) => { const d=new Date(mon); d.setUTCDate(mon.getUTCDate()+i); return d.toISOString().split('T')[0]; });
 }
-
-function addWeeks(weekId, delta) {
-  const mon = new Date(getWeekDates(weekId)[0] + 'T00:00:00Z');
-  mon.setUTCDate(mon.getUTCDate() + delta * 7);
+function addWeeks(wId, delta) {
+  const mon = new Date(getWeekDates(wId)[0]+'T00:00:00Z');
+  mon.setUTCDate(mon.getUTCDate() + delta*7);
   return getWeekId(mon);
 }
-
-function fmtIT(iso)    { const [,m,d] = iso.split('-'); return `${d}/${m}`; }
-function weekLabel(id) { const d = getWeekDates(id); const [y,w]=id.split('-W'); return `Sett. ${parseInt(w,10)} — ${fmtIT(d[0])} al ${fmtIT(d[6])} ${y}`; }
-
-function parseMins(str) {
-  if (!str) return 0;
-  const p = str.split(':').map(Number);
-  if (p.length === 3) return p[0]*60 + p[1] + p[2]/60;
-  if (p.length === 2) return p[0]*60 + p[1];
-  return 0;
-}
-function fmtMins(m) { const h=Math.floor(m/60), mm=Math.round(m%60); return h>0?`${h}h ${mm}m`:`${mm}m`; }
-function fmtDist(m) { return m >= 1000 ? `${(m/1000).toFixed(1)} km` : `${m} m`; }
+function fmtIT(iso)    { const [,m,d]=iso.split('-'); return `${d}/${m}`; }
+function weekLabel(id) { const d=getWeekDates(id); const[y,w]=id.split('-W'); return `Sett. ${parseInt(w,10)} — ${fmtIT(d[0])} al ${fmtIT(d[6])} ${y}`; }
+function parseMins(s)  { if(!s)return 0; const p=s.split(':').map(Number); return p.length===3?p[0]*60+p[1]+p[2]/60:p[0]*60+p[1]; }
+function fmtMins(m)    { const h=Math.floor(m/60),mm=Math.round(m%60); return h>0?`${h}h ${mm}m`:`${mm}m`; }
+function fmtDist(m)    { return m>=1000?`${(m/1000).toFixed(1)} km`:`${m} m`; }
 
 // ================================================================
 // AUTH
 // ================================================================
-async function loginWithGoogle() {
+async function login() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw    = document.getElementById('login-pw').value;
   document.getElementById('login-error').textContent = '';
   try {
-    await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    await auth.signInWithEmailAndPassword(email, pw);
   } catch(_) {
-    document.getElementById('login-error').textContent = 'Accesso annullato o non riuscito.';
+    document.getElementById('login-error').textContent = 'Email o password non corretti.';
   }
 }
-
 function logout() { auth.signOut(); }
 
 auth.onAuthStateChanged(async user => {
@@ -593,61 +471,43 @@ auth.onAuthStateChanged(async user => {
       showApp();
     } else {
       document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('role-screen-name').textContent = user.displayName || user.email;
+      document.getElementById('role-name').textContent = user.email;
       document.getElementById('role-screen').classList.remove('hidden');
     }
   } else {
     currentUser = userRole = null;
-    document.getElementById('app').classList.add('hidden');
-    document.getElementById('role-screen').classList.add('hidden');
+    ['app','role-screen'].forEach(id => document.getElementById(id).classList.add('hidden'));
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
 
-// ---- Role selection ----
-function showTrainerPin() {
-  document.getElementById('trainer-pin-section').classList.remove('hidden');
-  document.getElementById('trainer-pin-input').focus();
+function showPinSection() {
+  document.getElementById('pin-section').classList.remove('hidden');
+  document.getElementById('trainer-pin').focus();
 }
-
-async function checkTrainerPin() {
-  const pin = document.getElementById('trainer-pin-input').value;
-  if (pin === TRAINER_PIN) {
-    await setRole('allenatore');
-  } else {
-    document.getElementById('role-error').textContent = 'PIN non corretto.';
-  }
+async function checkPin() {
+  if (document.getElementById('trainer-pin').value === TRAINER_PIN) await setRole('allenatore');
+  else document.getElementById('role-error').textContent = 'PIN non corretto.';
 }
-
 async function setRole(role) {
-  await db.collection('users').doc(currentUser.uid).set({
-    role,
-    name:      currentUser.displayName || currentUser.email,
-    email:     currentUser.email,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  await db.collection('users').doc(currentUser.uid).set({ role, email: currentUser.email, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
   userRole = role;
   document.getElementById('role-screen').classList.add('hidden');
   showApp();
 }
 
 // ================================================================
-// APP INIT
+// APP
 // ================================================================
 function showApp() {
-  document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('role-screen').classList.add('hidden');
+  ['login-screen','role-screen'].forEach(id => document.getElementById(id).classList.add('hidden'));
   document.getElementById('app').classList.remove('hidden');
-
   const badge = document.getElementById('user-badge');
   if (userRole === 'allenatore') {
-    badge.textContent = '🏋️ Allenatore';
-    badge.className   = 'user-badge allenatore';
-    const ta = document.getElementById('trainer-week-actions');
-    ta.classList.remove('hidden'); ta.style.display = 'flex';
+    badge.textContent = '🏋️ Allenatore'; badge.className = 'user-badge allenatore';
+    const ta = document.getElementById('trainer-actions'); ta.classList.remove('hidden'); ta.style.display = 'flex';
   } else {
-    badge.textContent = '🏊 Atleta';
-    badge.className   = 'user-badge';
+    badge.textContent = '🏊 Atleta'; badge.className = 'user-badge';
   }
   loadWeek(currentWeekId);
 }
@@ -655,19 +515,19 @@ function showApp() {
 // ================================================================
 // WEEK VIEW
 // ================================================================
-async function loadWeek(weekId) {
-  currentWeekId   = weekId;
-  currentSessions = {};
-  document.getElementById('week-title').textContent = weekLabel(weekId);
+async function loadWeek(wId) {
+  currentWeekId = wId; currentSessions = {};
+  document.getElementById('week-title').textContent = weekLabel(wId);
+  const wDoc = await db.collection('weeks').doc(wId).get();
+  document.getElementById('period-input').value = wDoc.exists ? (wDoc.data().periodName||'') : '';
 
-  const weekDoc = await db.collection('weeks').doc(weekId).get();
-  document.getElementById('period-input').value = weekDoc.exists ? (weekDoc.data().periodName || '') : '';
+  const snap = await db.collection('sessions').where('weekId','==',wId).get();
+  snap.forEach(doc => { const s=doc.data(); currentSessions[`${s.date}-${s.discipline}`]={id:doc.id,...s}; });
 
-  const snap = await db.collection('sessions').where('weekId', '==', weekId).get();
-  snap.forEach(doc => {
-    const s = doc.data();
-    currentSessions[`${s.date}-${s.discipline}`] = { id: doc.id, ...s };
-  });
+  // Load availability (single doc, no composite index needed)
+  const aDoc = await db.collection('availability').doc(wId).get();
+  weekAvail = aDoc.exists ? (aDoc.data().days || {}) : {};
+
   renderCalendar();
 }
 
@@ -678,47 +538,62 @@ function renderCalendar() {
   grid.innerHTML = '';
 
   // Totals
-  let plannedMins=0, actualMins=0, totalDist=0, sessCount=0, doneCount=0;
+  let pMins=0, aMins=0, dist=0, tot=0, done=0;
   Object.values(currentSessions).forEach(s => {
-    sessCount++;
-    if (s.plannedDuration)  plannedMins += parseMins(s.plannedDuration);
-    if (s.actualDuration) { actualMins  += parseMins(s.actualDuration); doneCount++; }
-    if (s.distanceMeters)   totalDist   += s.distanceMeters;
+    tot++;
+    if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
+    if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
+    if (s.distanceMeters)   dist   += s.distanceMeters;
   });
-  const totalsEl = document.getElementById('week-totals');
-  if (sessCount === 0) {
-    totalsEl.innerHTML = '<span>Nessuna sessione pianificata</span>';
-  } else {
-    totalsEl.innerHTML =
-      `<span>📅 <strong>${sessCount}</strong> sessioni</span>` +
-      (plannedMins ? `<span>⏱ pianificate <strong>${fmtMins(plannedMins)}</strong></span>` : '') +
-      `<span>✓ completate <strong>${doneCount}/${sessCount}</strong></span>` +
-      (actualMins  ? `<span>⏱ effettuate <strong>${fmtMins(actualMins)}</strong></span>`  : '') +
-      (totalDist   ? `<span>📏 <strong>${fmtDist(totalDist)}</strong> totali</span>`       : '');
-  }
+  const te = document.getElementById('week-totals');
+  te.innerHTML = tot === 0
+    ? '<span>Nessuna sessione pianificata</span>'
+    : `<span>📅 <strong>${tot}</strong> sessioni</span>`
+      + (pMins ? `<span>⏱ pianificate <strong>${fmtMins(pMins)}</strong></span>` : '')
+      + `<span>✓ <strong>${done}/${tot}</strong> completate</span>`
+      + (aMins ? `<span>⏱ effettuate <strong>${fmtMins(aMins)}</strong></span>` : '')
+      + (dist  ? `<span>📏 <strong>${fmtDist(dist)}</strong></span>` : '');
 
   // Corner
-  grid.appendChild(mkEl('div', ''));
+  grid.appendChild(mkEl('div',''));
   // Headers
-  dates.forEach((date, i) => {
-    grid.appendChild(mkEl('div',
-      `<div class="day-name">${DAY_NAMES[i]}</div><div class="day-date">${fmtIT(date)}</div>`,
-      `cal-header${date === today ? ' today' : ''}`
-    ));
+  dates.forEach((date,i) => grid.appendChild(mkEl('div',
+    `<div class="day-name">${DAY_NAMES[i]}</div><div class="day-date">${fmtIT(date)}</div>`,
+    `cal-header${date===today?' today':''}`
+  )));
+
+  // Availability row
+  grid.appendChild(mkEl('div','📅', 'avail-label'));
+  dates.forEach((date,i) => {
+    const av   = weekAvail[date] || {};
+    const slots = av.slots || [];
+    const cell = document.createElement('div');
+    cell.className = 'avail-cell' + (slots.length ? ' has-avail' : '');
+    if (slots.length) {
+      cell.innerHTML = slots.map(s => `<span class="avail-chip chip-${SLOT_KEYS[s]}">${s}</span>`).join('')
+        + (av.note ? `<div class="avail-cell-note">${av.note}</div>` : '');
+    } else {
+      cell.innerHTML = '<div class="avail-empty">+</div>';
+    }
+    // Athlete can edit; trainer sees read-only
+    if (userRole === 'atleta') {
+      cell.onclick = () => openAvailModal(date, DAY_NAMES[i]);
+    } else {
+      cell.style.cursor = 'default';
+    }
+    grid.appendChild(cell);
   });
 
-  // Rows
+  // Discipline rows
   DISCIPLINES.forEach(disc => {
     grid.appendChild(mkEl('div', disc, `disc-label disc-${disc}`));
-    dates.forEach((date, i) => {
-      const s    = currentSessions[`${date}-${disc}`];
+    dates.forEach((date,i) => {
+      const s = currentSessions[`${date}-${disc}`];
       const cell = document.createElement('div');
       cell.className = 'cal-cell';
-
       if (s) {
         if (s.intensity) cell.classList.add(`int-${s.intensity}`);
         if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
-
         const notes = s.trainerNotes || '';
         cell.innerHTML =
           (s.distanceMeters  ? `<div class="cell-dist">${fmtDist(s.distanceMeters)}</div>` : '') +
@@ -729,44 +604,65 @@ function renderCalendar() {
       } else {
         cell.innerHTML = '<div class="add-btn">+</div>';
       }
-
       cell.onclick = () => openSessionModal(date, disc, DAY_LETTERS[i], s);
       grid.appendChild(cell);
     });
   });
 }
 
-function mkEl(tag, html, cls) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  e.innerHTML = html;
-  return e;
-}
-
-function changeWeek(delta)  { loadWeek(addWeeks(currentWeekId, delta)); }
-function goToCurrentWeek()  { loadWeek(getWeekId(new Date())); }
-
+function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.className=cls; e.innerHTML=html; return e; }
+function changeWeek(d)   { loadWeek(addWeeks(currentWeekId, d)); }
+function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
 async function savePeriod() {
-  const val = document.getElementById('period-input').value.trim();
-  await db.collection('weeks').doc(currentWeekId).set({ periodName: val, weekId: currentWeekId }, { merge: true });
+  await db.collection('weeks').doc(currentWeekId).set({ periodName: document.getElementById('period-input').value.trim(), weekId: currentWeekId }, { merge:true });
 }
+
+// ================================================================
+// AVAILABILITY MODAL
+// ================================================================
+function openAvailModal(date, dayName) {
+  editingAvailDate = date;
+  const av = weekAvail[date] || {};
+  tempAvailSlots   = [...(av.slots || [])];
+  document.getElementById('avail-modal-title').textContent = `${dayName} ${fmtIT(date)}`;
+  document.getElementById('avail-day-note').value = av.note || '';
+  // Update buttons
+  ['Mattina','Pomeriggio','Sera'].forEach(s => {
+    const btn = document.getElementById(`slot-${SLOT_KEYS[s]}`);
+    btn.className = 'avail-slot-btn' + (tempAvailSlots.includes(s) ? ` sel-${SLOT_KEYS[s]}` : '');
+  });
+  document.getElementById('avail-modal').classList.remove('hidden');
+}
+function toggleAvailSlot(slot, btn) {
+  const k = SLOT_KEYS[slot];
+  const idx = tempAvailSlots.indexOf(slot);
+  if (idx >= 0) { tempAvailSlots.splice(idx,1); btn.className = 'avail-slot-btn'; }
+  else           { tempAvailSlots.push(slot);    btn.className = `avail-slot-btn sel-${k}`; }
+}
+async function saveAvailDay() {
+  const note = document.getElementById('avail-day-note').value.trim();
+  weekAvail[editingAvailDate] = { slots: tempAvailSlots, note };
+  await db.collection('availability').doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
+  closeAvailModal();
+  renderCalendar();
+  showToast('Disponibilità salvata ✓');
+}
+function closeAvailModal()  { document.getElementById('avail-modal').classList.add('hidden'); }
+function closeAvailOutside(e){ if(e.target===document.getElementById('avail-modal')) closeAvailModal(); }
 
 // ================================================================
 // SESSION MODAL
 // ================================================================
-function selectIntensity(val, btn) {
+function selInt(val, btn) {
   currentIntensity = val;
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
   if (btn) btn.classList.add('selected');
 }
-
 function openSessionModal(date, disc, dayLetter, session) {
   editingSession   = session ? session.id : null;
-  currentIntensity = session ? (session.intensity || null) : null;
-
+  currentIntensity = session ? (session.intensity||null) : null;
   document.getElementById('modal-title-text').textContent = `${dayLetter} ${fmtIT(date)} — ${disc}`;
   document.getElementById('modal-dot').style.background   = DISC_COLORS[disc];
-
   document.getElementById('m-distance').value         = session?.distanceMeters  || '';
   document.getElementById('m-planned-duration').value  = session?.plannedDuration || '';
   document.getElementById('m-trainer-notes').value    = session?.trainerNotes    || '';
@@ -775,262 +671,50 @@ function openSessionModal(date, disc, dayLetter, session) {
   document.getElementById('m-rpe').value              = session?.rpe             || '';
   document.getElementById('m-weight').value           = session?.weightKg        || '';
   document.getElementById('m-athlete-notes').value    = session?.athleteNotes    || '';
-
-  // Intensity buttons
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
-  if (currentIntensity) {
-    const activeBtn = document.querySelector(`.int-btn.${currentIntensity}`);
-    if (activeBtn) activeBtn.classList.add('selected');
-  } else {
-    document.querySelector('.int-btn.none').classList.add('selected');
-  }
-
-  const trainerSec = document.getElementById('trainer-section');
-  const athleteSec = document.getElementById('athlete-section');
-  trainerSec.querySelectorAll('input,textarea,select,.int-btn')
-    .forEach(el => el.disabled = (userRole === 'atleta'));
-  trainerSec.style.display = 'block';
-  athleteSec.style.display = (userRole === 'allenatore') ? 'none' : 'block';
-
-  document.getElementById('delete-session-btn').style.display =
-    (session && userRole === 'allenatore') ? 'inline-flex' : 'none';
-
+  const activeInt = document.querySelector(`.int-btn.${currentIntensity || 'none'}`);
+  if (activeInt) activeInt.classList.add('selected');
+  const ts = document.getElementById('trainer-section');
+  ts.querySelectorAll('input,textarea,select,.int-btn').forEach(el => el.disabled = (userRole==='atleta'));
+  ts.style.display = 'block';
+  document.getElementById('athlete-section').style.display = (userRole==='allenatore') ? 'none' : 'block';
+  document.getElementById('delete-session-btn').style.display = (session && userRole==='allenatore') ? 'inline-flex' : 'none';
   const m = document.getElementById('modal');
-  m.dataset.date = date; m.dataset.disc = disc; m.dataset.weekId = currentWeekId;
+  m.dataset.date=date; m.dataset.disc=disc; m.dataset.weekId=currentWeekId;
   m.classList.remove('hidden');
 }
-
 function closeModal() {
   document.getElementById('modal').classList.add('hidden');
-  document.getElementById('trainer-section')
-    .querySelectorAll('input,textarea,select,.int-btn').forEach(el => el.disabled = false);
+  document.getElementById('trainer-section').querySelectorAll('input,textarea,select,.int-btn').forEach(el=>el.disabled=false);
 }
-function closeModalOutside(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+function closeModalOutside(e){ if(e.target===document.getElementById('modal')) closeModal(); }
 
 async function saveSession() {
   const m = document.getElementById('modal');
   const data = {
-    weekId:          m.dataset.weekId,
-    date:            m.dataset.date,
-    discipline:      m.dataset.disc,
-    distanceMeters:  parseInt(document.getElementById('m-distance').value)          || null,
-    plannedDuration: document.getElementById('m-planned-duration').value.trim()     || null,
-    trainerNotes:    document.getElementById('m-trainer-notes').value.trim()        || null,
+    weekId: m.dataset.weekId, date: m.dataset.date, discipline: m.dataset.disc,
+    distanceMeters:  parseInt(document.getElementById('m-distance').value)        || null,
+    plannedDuration: document.getElementById('m-planned-duration').value.trim()   || null,
+    trainerNotes:    document.getElementById('m-trainer-notes').value.trim()      || null,
     intensity:       currentIntensity,
-    actualStartTime: document.getElementById('m-start-time').value                  || null,
-    actualDuration:  document.getElementById('m-actual-duration').value.trim()      || null,
-    rpe:             parseInt(document.getElementById('m-rpe').value)               || null,
-    weightKg:        parseFloat(document.getElementById('m-weight').value)          || null,
-    athleteNotes:    document.getElementById('m-athlete-notes').value.trim()        || null,
+    actualStartTime: document.getElementById('m-start-time').value                || null,
+    actualDuration:  document.getElementById('m-actual-duration').value.trim()    || null,
+    rpe:             parseInt(document.getElementById('m-rpe').value)             || null,
+    weightKg:        parseFloat(document.getElementById('m-weight').value)        || null,
+    athleteNotes:    document.getElementById('m-athlete-notes').value.trim()      || null,
     updatedAt:       firebase.firestore.FieldValue.serverTimestamp(),
   };
-  Object.keys(data).forEach(k => { if (data[k] === null || data[k] === undefined) delete data[k]; });
-
+  Object.keys(data).forEach(k => { if(data[k]===null||data[k]===undefined) delete data[k]; });
   try {
-    if (editingSession) {
-      await db.collection('sessions').doc(editingSession).update(data);
-    } else {
-      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      await db.collection('sessions').add(data);
-    }
-    closeModal();
-    loadWeek(currentWeekId);
-    showToast('Salvato ✓');
+    if (editingSession) await db.collection('sessions').doc(editingSession).update(data);
+    else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await db.collection('sessions').add(data); }
+    closeModal(); loadWeek(currentWeekId); showToast('Salvato ✓');
   } catch(e) { console.error(e); showToast('Errore nel salvataggio'); }
 }
-
 async function deleteSession() {
-  if (!editingSession || !confirm('Eliminare questa sessione?')) return;
+  if (!editingSession || !confirm('Eliminare?')) return;
   await db.collection('sessions').doc(editingSession).delete();
-  closeModal();
-  loadWeek(currentWeekId);
-  showToast('Sessione eliminata');
-}
-
-// ================================================================
-// AVAILABILITY
-// ================================================================
-async function loadAvailability() {
-  const nextWk = addWeeks(getWeekId(new Date()), 1);
-  const dates  = getWeekDates(nextWk);
-  availSlots   = {};
-  document.getElementById('avail-week-label').textContent = `${fmtIT(dates[0])} – ${fmtIT(dates[6])}`;
-
-  if (userRole === 'atleta') {
-    document.getElementById('avail-form').style.display      = 'block';
-    document.getElementById('avail-save-btn').style.display  = 'inline-flex';
-    document.getElementById('avail-trainer-view').classList.add('hidden');
-
-    const snap = await db.collection('availability').where('weekId','==',nextWk)
-      .orderBy('createdAt','desc').limit(1).get();
-    if (!snap.empty) {
-      availSlots = snap.docs[0].data().slots || {};
-      document.getElementById('avail-notes').value = snap.docs[0].data().notes || '';
-    } else {
-      document.getElementById('avail-notes').value = '';
-    }
-    renderAvailForm(dates);
-  } else {
-    document.getElementById('avail-form').style.display     = 'none';
-    document.getElementById('avail-save-btn').style.display = 'none';
-    document.getElementById('avail-trainer-view').classList.remove('hidden');
-
-    const snap = await db.collection('availability').where('weekId','==',nextWk)
-      .orderBy('createdAt','desc').limit(1).get();
-    const display = document.getElementById('avail-display');
-    if (snap.empty) { display.innerHTML = '<p style="color:var(--muted)">Nessuna disponibilità inserita.</p>'; return; }
-
-    const d = snap.docs[0].data(); const slots = d.slots || {};
-    let html = '<div class="avail-grid">';
-    dates.forEach((date, i) => {
-      const ds = slots[date] || [];
-      html += `<div class="avail-day-card"><h3>${DAY_NAMES[i]} ${fmtIT(date)}</h3><div class="time-slots">
-        ${ds.length ? ds.map(s=>`<span class="slot-btn selected">${s}</span>`).join('') : '<span style="color:var(--muted);font-size:0.8rem">Non disponibile</span>'}
-      </div></div>`;
-    });
-    html += '</div>';
-    if (d.notes) html += `<div style="margin-top:1rem;padding:0.75rem;background:var(--bg);border-radius:0.5rem;font-size:0.875rem;"><strong>Note:</strong> ${d.notes}</div>`;
-    display.innerHTML = html;
-  }
-}
-
-function renderAvailForm(dates) {
-  const grid = document.getElementById('avail-grid');
-  grid.innerHTML = '';
-  dates.forEach((date, i) => {
-    const sel = availSlots[date] || [];
-    const card = document.createElement('div');
-    card.className = 'avail-day-card';
-    card.innerHTML = `<h3>${DAY_NAMES[i]} ${fmtIT(date)}</h3><div class="time-slots">
-      ${TIME_SLOTS.map(s=>`<button class="slot-btn${sel.includes(s)?' selected':''}"
-        onclick="toggleSlot('${date}','${s}',this)">${s}</button>`).join('')}
-    </div>`;
-    grid.appendChild(card);
-  });
-}
-
-function toggleSlot(date, slot, btn) {
-  if (!availSlots[date]) availSlots[date] = [];
-  const idx = availSlots[date].indexOf(slot);
-  if (idx >= 0) { availSlots[date].splice(idx,1); btn.classList.remove('selected'); }
-  else          { availSlots[date].push(slot);     btn.classList.add('selected'); }
-}
-
-async function saveAvailability() {
-  const nextWk = addWeeks(getWeekId(new Date()), 1);
-  await db.collection('availability').add({
-    weekId: nextWk, athleteId: currentUser.uid,
-    slots:  availSlots,
-    notes:  document.getElementById('avail-notes').value.trim(),
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  showToast('Disponibilità salvata ✓');
-}
-
-// ================================================================
-// TESTS
-// ================================================================
-async function loadTests() {
-  const snap  = await db.collection('tests').orderBy('date','desc').get();
-  const tbody = document.getElementById('tests-tbody');
-  if (snap.empty) { tbody.innerHTML = '<tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>'; return; }
-  tbody.innerHTML = '';
-  snap.forEach(doc => {
-    const t = doc.data(); const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${t.date||''}</td><td>${t.discipline||''}</td><td>${t.testType||''}</td>
-      <td><strong>${t.result||''}</strong></td><td style="color:var(--muted);max-width:260px;">${t.notes||''}</td>
-      <td>${userRole==='allenatore'?`<button class="btn btn-danger btn-sm" onclick="deleteTest('${doc.id}')">🗑</button>`:''}</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-function openTestModal() {
-  document.getElementById('t-date').value   = new Date().toISOString().split('T')[0];
-  document.getElementById('t-type').value   = '';
-  document.getElementById('t-result').value = '';
-  document.getElementById('t-notes').value  = '';
-  document.getElementById('test-modal').classList.remove('hidden');
-}
-function closeTestModal() { document.getElementById('test-modal').classList.add('hidden'); }
-function closeTestModalOutside(e) { if (e.target===document.getElementById('test-modal')) closeTestModal(); }
-
-async function saveTest() {
-  await db.collection('tests').add({
-    date:       document.getElementById('t-date').value,
-    discipline: document.getElementById('t-discipline').value,
-    testType:   document.getElementById('t-type').value.trim(),
-    result:     document.getElementById('t-result').value.trim(),
-    notes:      document.getElementById('t-notes').value.trim(),
-    createdAt:  firebase.firestore.FieldValue.serverTimestamp()
-  });
-  closeTestModal(); loadTests(); showToast('Test salvato ✓');
-}
-
-async function deleteTest(id) {
-  if (!confirm('Eliminare?')) return;
-  await db.collection('tests').doc(id).delete(); loadTests();
-}
-
-// ================================================================
-// EXCEL EXPORT
-// ================================================================
-async function exportExcel() {
-  showToast('Preparazione export...');
-  const wb = XLSX.utils.book_new();
-
-  const testsSnap = await db.collection('tests').orderBy('date','desc').get();
-  const testsRows = [['Disciplina','Data','Tipo test','Risultato','Note']];
-  testsSnap.forEach(doc => { const t=doc.data(); testsRows.push([t.discipline,t.date,t.testType,t.result,t.notes]); });
-  const wsT = XLSX.utils.aoa_to_sheet(testsRows);
-  wsT['!cols'] = [{wch:12},{wch:12},{wch:18},{wch:16},{wch:40}];
-  XLSX.utils.book_append_sheet(wb, wsT, 'Test e Prove');
-
-  const sessSnap = await db.collection('sessions').orderBy('date').get();
-  const byMonth  = {};
-  sessSnap.forEach(doc => {
-    const s=doc.data(), m=s.date?s.date.substring(0,7):'nd';
-    if (!byMonth[m]) byMonth[m]=[];
-    byMonth[m].push({id:doc.id,...s});
-  });
-
-  const hdr = ['Giorno','Data','Disciplina','Distanza (m)','Ora inizio','Durata prevista',
-                'Durata effettiva','Intensità','Note allenatore','Note atleta','RPE','Kg'];
-
-  Object.keys(byMonth).sort().forEach(month => {
-    const rows=[hdr], sessions=byMonth[month];
-    const byWeek={};
-    sessions.forEach(s => {
-      const w=getWeekId(new Date(s.date));
-      if(!byWeek[w]) byWeek[w]={};
-      if(!byWeek[w][s.date]) byWeek[w][s.date]={};
-      byWeek[w][s.date][s.discipline]=s;
-    });
-    Object.keys(byWeek).sort().forEach(wId => {
-      const [y,w]=wId.split('-W');
-      rows.push([`── Settimana ${parseInt(w,10)} del ${y} ──`]);
-      getWeekDates(wId).forEach((date,di) => {
-        const dayData=byWeek[wId][date]||{};
-        if (Object.keys(dayData).length) {
-          DISCIPLINES.forEach(disc => {
-            const s=dayData[disc]; if(!s) return;
-            rows.push([DAY_NAMES[di],date,disc,s.distanceMeters||'',s.actualStartTime||'',
-              s.plannedDuration||'',s.actualDuration||'',s.intensity||'',
-              s.trainerNotes||'',s.athleteNotes||'',s.rpe||'',s.weightKg||'']);
-          });
-        } else {
-          rows.push([DAY_NAMES[di],date,'riposo']);
-        }
-      });
-      rows.push([]);
-    });
-    const [y,m]=month.split('-');
-    const ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=[{wch:5},{wch:12},{wch:10},{wch:12},{wch:10},{wch:14},{wch:14},{wch:10},{wch:40},{wch:35},{wch:5},{wch:7}];
-    XLSX.utils.book_append_sheet(wb, ws, `${MONTH_NAMES[parseInt(m,10)-1]} ${y}`.substring(0,31));
-  });
-
-  XLSX.writeFile(wb, `Training_${new Date().toISOString().split('T')[0]}.xlsx`);
-  showToast('Download avviato ✓');
+  closeModal(); loadWeek(currentWeekId); showToast('Eliminata');
 }
 
 // ================================================================
@@ -1038,44 +722,119 @@ async function exportExcel() {
 // ================================================================
 async function copyFromPrev() {
   if (!confirm('Copiare le sessioni della settimana precedente?')) return;
-  const prevId=addWeeks(currentWeekId,-1), prevDates=getWeekDates(prevId), currDates=getWeekDates(currentWeekId);
-  const snap=await db.collection('sessions').where('weekId','==',prevId).get();
-  const batch=db.batch(); let count=0;
+  const prev=addWeeks(currentWeekId,-1), pd=getWeekDates(prev), cd=getWeekDates(currentWeekId);
+  const snap=await db.collection('sessions').where('weekId','==',prev).get();
+  const batch=db.batch(); let n=0;
   snap.forEach(doc => {
-    const s=doc.data(), di=prevDates.indexOf(s.date); if(di<0) return;
-    const nd={weekId:currentWeekId,date:currDates[di],discipline:s.discipline,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
+    const s=doc.data(), i=pd.indexOf(s.date); if(i<0)return;
+    const nd={weekId:currentWeekId,date:cd[i],discipline:s.discipline,createdAt:firebase.firestore.FieldValue.serverTimestamp()};
     if(s.distanceMeters)  nd.distanceMeters=s.distanceMeters;
     if(s.plannedDuration) nd.plannedDuration=s.plannedDuration;
     if(s.trainerNotes)    nd.trainerNotes=s.trainerNotes;
     if(s.intensity)       nd.intensity=s.intensity;
-    batch.set(db.collection('sessions').doc(),nd); count++;
+    batch.set(db.collection('sessions').doc(),nd); n++;
   });
-  await batch.commit();
-  loadWeek(currentWeekId);
-  showToast(`${count} sessioni copiate ✓`);
+  await batch.commit(); loadWeek(currentWeekId); showToast(`${n} sessioni copiate ✓`);
 }
 
 // ================================================================
-// NAVIGATION
+// TESTS
+// ================================================================
+async function loadTests() {
+  const snap=await db.collection('tests').orderBy('date','desc').get();
+  const tbody=document.getElementById('tests-tbody');
+  if(snap.empty){tbody.innerHTML='<tr><td colspan="6" class="tests-empty">Nessun test registrato</td></tr>';return;}
+  tbody.innerHTML='';
+  snap.forEach(doc=>{
+    const t=doc.data(),tr=document.createElement('tr');
+    tr.innerHTML=`<td>${t.date||''}</td><td>${t.discipline||''}</td><td>${t.testType||''}</td>
+      <td><strong>${t.result||''}</strong></td><td style="color:var(--muted);max-width:260px;">${t.notes||''}</td>
+      <td>${userRole==='allenatore'?`<button class="btn btn-danger btn-sm" onclick="deleteTest('${doc.id}')">🗑</button>`:''}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function openTestModal(){
+  document.getElementById('t-date').value=new Date().toISOString().split('T')[0];
+  ['t-type','t-result','t-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('test-modal').classList.remove('hidden');
+}
+async function saveTest(){
+  await db.collection('tests').add({
+    date:document.getElementById('t-date').value, discipline:document.getElementById('t-discipline').value,
+    testType:document.getElementById('t-type').value.trim(), result:document.getElementById('t-result').value.trim(),
+    notes:document.getElementById('t-notes').value.trim(), createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  document.getElementById('test-modal').classList.add('hidden'); loadTests(); showToast('Test salvato ✓');
+}
+async function deleteTest(id){
+  if(!confirm('Eliminare?'))return; await db.collection('tests').doc(id).delete(); loadTests();
+}
+
+// ================================================================
+// EXCEL EXPORT
+// ================================================================
+async function exportExcel(){
+  showToast('Preparazione export...');
+  const wb=XLSX.utils.book_new();
+  const tsn=await db.collection('tests').orderBy('date','desc').get();
+  const tr=[['Disciplina','Data','Tipo test','Risultato','Note']];
+  tsn.forEach(d=>{const t=d.data();tr.push([t.discipline,t.date,t.testType,t.result,t.notes]);});
+  const wst=XLSX.utils.aoa_to_sheet(tr); wst['!cols']=[{wch:12},{wch:12},{wch:18},{wch:16},{wch:40}];
+  XLSX.utils.book_append_sheet(wb,wst,'Test e Prove');
+
+  const sn=await db.collection('sessions').orderBy('date').get();
+  const bm={};
+  sn.forEach(doc=>{const s=doc.data(),m=s.date?s.date.substring(0,7):'nd';if(!bm[m])bm[m]=[];bm[m].push({id:doc.id,...s});});
+  const hdr=['Giorno','Data','Disciplina','Distanza (m)','Ora inizio','Durata prevista','Durata effettiva','Intensità','Note allenatore','Note atleta','RPE','Kg','Disponibilità','Note disponibilità'];
+
+  for (const month of Object.keys(bm).sort()) {
+    const rows=[hdr], sessions=bm[month];
+    const bw={};
+    sessions.forEach(s=>{const w=getWeekId(new Date(s.date));if(!bw[w])bw[w]={};if(!bw[w][s.date])bw[w][s.date]={};bw[w][s.date][s.discipline]=s;});
+    for (const wId of Object.keys(bw).sort()) {
+      const [y,w]=wId.split('-W');
+      rows.push([`── Settimana ${parseInt(w,10)} del ${y} ──`]);
+      // Load availability for this week
+      const aDoc=await db.collection('availability').doc(wId).get();
+      const avDays=aDoc.exists?(aDoc.data().days||{}):{};
+      getWeekDates(wId).forEach((date,di)=>{
+        const dayData=bw[wId][date]||{};
+        const av=avDays[date]||{};
+        const avStr=(av.slots||[]).join(', ');
+        if(Object.keys(dayData).length){
+          DISCIPLINES.forEach(disc=>{
+            const s=dayData[disc]; if(!s)return;
+            rows.push([DAY_NAMES[di],date,disc,s.distanceMeters||'',s.actualStartTime||'',s.plannedDuration||'',
+              s.actualDuration||'',s.intensity||'',s.trainerNotes||'',s.athleteNotes||'',s.rpe||'',s.weightKg||'',avStr,av.note||'']);
+          });
+        } else {
+          rows.push([DAY_NAMES[di],date,'riposo','','','','','','','','','',avStr,av.note||'']);
+        }
+      });
+      rows.push([]);
+    }
+    const [y,m]=month.split('-');
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:5},{wch:12},{wch:10},{wch:12},{wch:10},{wch:14},{wch:14},{wch:10},{wch:40},{wch:35},{wch:5},{wch:7},{wch:25},{wch:30}];
+    XLSX.utils.book_append_sheet(wb,ws,`${MONTH_NAMES[parseInt(m,10)-1]} ${y}`.substring(0,31));
+  }
+  XLSX.writeFile(wb,`Training_${new Date().toISOString().split('T')[0]}.xlsx`);
+  showToast('Download avviato ✓');
+}
+
+// ================================================================
+// NAVIGATION & TOAST
 // ================================================================
 function showView(name, btn) {
-  ['settimana','disponibilita','test'].forEach(v =>
-    document.getElementById(`view-${v}`).classList.toggle('hidden', v!==name));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  if (name==='disponibilita') loadAvailability();
-  if (name==='test')          loadTests();
+  ['settimana','test'].forEach(v=>document.getElementById(`view-${v}`).classList.toggle('hidden',v!==name));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  if(name==='test') loadTests();
 }
-
-// ================================================================
-// TOAST
-// ================================================================
 let toastTimer=null;
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.remove('hidden');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.add('hidden'),2800);
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.remove('hidden');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.add('hidden'),2800);
 }
 </script>
 </body>
