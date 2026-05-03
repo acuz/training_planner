@@ -404,6 +404,10 @@
         <div class="form-group"><label>Durata effettiva (hh:mm:ss)</label><input type="text" id="m-actual-duration" placeholder="es. 00:47:30"></div>
       </div>
       <div class="two-col">
+        <div class="form-group"><label>Distanza effettiva (km)</label><input type="number" id="m-actual-distance" step="0.01" min="0" placeholder="es. 10.5"></div>
+        <div class="form-group" id="elevation-group"><label>Dislivello (m)</label><input type="number" id="m-elevation" step="1" min="0" placeholder="es. 350"></div>
+      </div>
+      <div class="two-col">
         <div class="form-group">
           <label>RPE — sforzo percepito (6–20)</label>
           <select id="m-rpe">
@@ -778,8 +782,11 @@ function renderCalendar() {
         if (s.intensity) cell.classList.add(`int-${s.intensity}`);
         if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
         const notes = s.trainerNotes || '';
+        const distLine = s.actualDistanceMeters
+          ? `<div class="cell-dist">✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters ? ` <span style="color:var(--muted)">↑${s.elevationMeters}m</span>` : ''}</div>`
+          : s.distanceMeters ? `<div class="cell-dist">${fmtDist(s.distanceMeters)}</div>` : '';
         cell.innerHTML =
-          (s.distanceMeters  ? `<div class="cell-dist">${fmtDist(s.distanceMeters)}</div>` : '') +
+          distLine +
           (s.actualDuration  ? `<div class="cell-dur">✓ ${s.actualDuration}</div>`
            : s.plannedDuration ? `<div class="cell-dur">${s.plannedDuration}</div>` : '') +
           (notes ? `<div class="cell-notes">${notes}</div>` : '') +
@@ -875,10 +882,13 @@ function openSessionModal(date, disc, dayLetter, session) {
   document.getElementById('m-trainer-notes').value    = session?.trainerNotes    || '';
   document.getElementById('m-start-time').value       = session?.actualStartTime || '';
   document.getElementById('m-actual-duration').value  = session?.actualDuration  || '';
+  document.getElementById('m-actual-distance').value  = session?.actualDistanceMeters ? (session.actualDistanceMeters/1000).toFixed(2) : '';
+  document.getElementById('m-elevation').value        = session?.elevationMeters || '';
   document.getElementById('m-rpe').value              = session?.rpe             || '';
   document.getElementById('m-weight').value           = session?.weightKg        || '';
   document.getElementById('m-athlete-notes').value    = session?.athleteNotes    || '';
   document.getElementById('m-activity-url').value     = session?.activityUrl     || '';
+  document.getElementById('elevation-group').style.display = ['Corsa','Bici'].includes(disc) ? '' : 'none';
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
   const activeInt = document.querySelector(`.int-btn.${currentIntensity || 'none'}`);
   if (activeInt) activeInt.classList.add('selected');
@@ -907,9 +917,11 @@ async function saveSession() {
     plannedDuration: document.getElementById('m-planned-duration').value.trim()   || null,
     trainerNotes:    document.getElementById('m-trainer-notes').value.trim()      || null,
     intensity:       currentIntensity,
-    actualStartTime: document.getElementById('m-start-time').value                || null,
-    actualDuration:  document.getElementById('m-actual-duration').value.trim()    || null,
-    rpe:             parseInt(document.getElementById('m-rpe').value)             || null,
+    actualStartTime:      document.getElementById('m-start-time').value             || null,
+    actualDuration:       document.getElementById('m-actual-duration').value.trim() || null,
+    actualDistanceMeters: parseFloat(document.getElementById('m-actual-distance').value) ? Math.round(parseFloat(document.getElementById('m-actual-distance').value)*1000) : null,
+    elevationMeters:      parseInt(document.getElementById('m-elevation').value)    || null,
+    rpe:                  parseInt(document.getElementById('m-rpe').value)           || null,
     weightKg:        parseFloat(document.getElementById('m-weight').value)        || null,
     athleteNotes:    document.getElementById('m-athlete-notes').value.trim()      || null,
     activityUrl:     document.getElementById('m-activity-url').value.trim()       || null,
