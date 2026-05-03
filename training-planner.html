@@ -569,7 +569,7 @@ function fmtMins(m)    { const h=Math.floor(m/60),mm=Math.round(m%60); return h>
 function fmtDist(m)    { return m>=1000?`${(m/1000).toFixed(1)} km`:`${m} m`; }
 function activityBadge(url) {
   if (!url) return '';
-  const isStrava  = /strava\.com/i.test(url);
+  const isStrava  = /strava\.com|strava:\/\/|strava\.app\.link/i.test(url);
   const isGarmin  = /garmin\.com/i.test(url);
   const isKomoot  = /komoot\.com/i.test(url);
   const isBryton  = /bryton/i.test(url);
@@ -705,15 +705,17 @@ function renderCalendar() {
   // Totals
   let pMins=0, aMins=0, dist=0, tot=0, done=0;
   const dStats = {};
-  DISCIPLINES.forEach(d => { dStats[d] = {n:0, dist:0, pMins:0, aMins:0}; });
+  DISCIPLINES.forEach(d => { dStats[d] = {n:0, dist:0, actualDist:0, elev:0, pMins:0, aMins:0}; });
   Object.values(currentSessions).forEach(s => {
     tot++;
     if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
     if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
-    if (s.distanceMeters)   dist   += s.distanceMeters;
+    dist += s.actualDistanceMeters || s.distanceMeters || 0;
     if (dStats[s.discipline]) {
       dStats[s.discipline].n++;
-      if (s.distanceMeters) dStats[s.discipline].dist  += s.distanceMeters;
+      dStats[s.discipline].dist      += s.actualDistanceMeters || s.distanceMeters || 0;
+      dStats[s.discipline].actualDist+= s.actualDistanceMeters || 0;
+      dStats[s.discipline].elev      += s.elevationMeters || 0;
       if (s.plannedDuration) dStats[s.discipline].pMins += parseMins(s.plannedDuration);
       if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
     }
@@ -734,7 +736,7 @@ function renderCalendar() {
     .map(d => {
       const st = dStats[d];
       const parts = [];
-      if (st.dist)  parts.push(fmtDist(st.dist));
+      if (st.dist)  parts.push(`${st.actualDist>0?'✓ ':''}${fmtDist(st.dist)}${st.elev?` ↑${st.elev}m`:''}`);
       if (st.aMins) parts.push(fmtMins(st.aMins));
       else if (st.pMins) parts.push(fmtMins(st.pMins));
       return `<div class="disc-total-chip"><span class="dtc-name">${DISC_ICONS[d]} ${d}</span>`
@@ -1118,7 +1120,7 @@ function renderProgressCard(wId, sessions, meta) {
   let tot=sessions.length, done=0, dist=0, aMins=0;
   sessions.forEach(s => {
     if (s.actualDuration) { done++; aMins+=parseMins(s.actualDuration); }
-    if (s.distanceMeters) dist+=s.distanceMeters;
+    dist += s.actualDistanceMeters || s.distanceMeters || 0;
   });
   const statsStr = [`${tot} sess.`, done?`✓ ${done}/${tot}`:'', dist?fmtDist(dist):'', aMins?fmtMins(aMins):''].filter(Boolean).join(' · ');
   const noteHtml = meta.loadNote ? `<span class="pw-note">${meta.loadNote}</span>` : '';
@@ -1130,7 +1132,8 @@ function renderProgressCard(wId, sessions, meta) {
       const di = dates.indexOf(s.date);
       const day = di>=0 ? DAY_NAMES[di] : s.date.slice(8);
       const parts = [day];
-      if (s.distanceMeters) parts.push(fmtDist(s.distanceMeters));
+      if (s.actualDistanceMeters) parts.push(`✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters&&['Corsa','Bici'].includes(s.discipline)?` ↑${s.elevationMeters}m`:''}`);
+      else if (s.distanceMeters) parts.push(fmtDist(s.distanceMeters));
       if (s.actualDuration||s.plannedDuration) parts.push(s.actualDuration||s.plannedDuration);
       const done = s.actualDuration ? ' <span class="pw-done">✓</span>' : '';
       const rpeBg = s.rpe ? (s.rpe<=12?'#22c55e':s.rpe<=16?'#ca8a04':s.rpe<=18?'#f97316':'#ef4444') : null;
