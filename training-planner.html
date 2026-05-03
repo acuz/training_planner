@@ -890,7 +890,7 @@ function openSessionModal(date, disc, dayLetter, session) {
   document.getElementById('m-weight').value           = session?.weightKg        || '';
   document.getElementById('m-athlete-notes').value    = session?.athleteNotes    || '';
   document.getElementById('m-activity-url').value     = session?.activityUrl     || '';
-  document.getElementById('elevation-group').style.display = ['Corsa','Bici'].includes(disc) ? '' : 'none';
+  document.getElementById('elevation-group').style.display = ['Corsa','Bici','Rulli'].includes(disc) ? '' : 'none';
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
   const activeInt = document.querySelector(`.int-btn.${currentIntensity || 'none'}`);
   if (activeInt) activeInt.classList.add('selected');
@@ -1132,7 +1132,7 @@ function renderProgressCard(wId, sessions, meta) {
       const di = dates.indexOf(s.date);
       const day = di>=0 ? DAY_NAMES[di] : s.date.slice(8);
       const parts = [day];
-      if (s.actualDistanceMeters) parts.push(`✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters&&['Corsa','Bici'].includes(s.discipline)?` ↑${s.elevationMeters}m`:''}`);
+      if (s.actualDistanceMeters) parts.push(`✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters&&['Corsa','Bici','Rulli'].includes(s.discipline)?` ↑${s.elevationMeters}m`:''}`);
       else if (s.distanceMeters) parts.push(fmtDist(s.distanceMeters));
       if (s.actualDuration||s.plannedDuration) parts.push(s.actualDuration||s.plannedDuration);
       const done = s.actualDuration ? ' <span class="pw-done">✓</span>' : '';
