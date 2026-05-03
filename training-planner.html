@@ -151,8 +151,8 @@
     .cal-cell.int-hard   { background: var(--int-hard);   border: 2px solid var(--int-hard-b); }
     .cal-cell.int-high   { background: var(--int-high);   border: 2px solid var(--int-high-b); }
     .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
-    .cal-cell.rinunciata { opacity: 0.42; background: #f1f5f9 !important; border: 2px dashed #94a3b8 !important; }
-    .cal-cell.rinunciata::after { content: '✕'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
+    .cal-cell.sostituita { opacity: 0.42; background: #f1f5f9 !important; border: 2px dashed #94a3b8 !important; }
+    .cal-cell.sostituita::after { content: '✕'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
     .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
@@ -436,7 +436,7 @@
       <div class="form-group"><label>Note post-allenamento</label><textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea></div>
       <div class="form-group"><label>Link attività (Strava, Garmin…)</label><input type="url" id="m-activity-url" placeholder="https://www.strava.com/activities/…"></div>
       <div id="skip-btn-wrap" style="margin-top:0.25rem">
-        <button id="skip-toggle-btn" class="btn btn-sm btn-full btn-secondary" onclick="toggleSkip()">🚫 Rinuncia a questa sessione</button>
+        <button id="skip-toggle-btn" class="btn btn-sm btn-full btn-secondary" onclick="toggleSkip()">🔄 Sostituita con altra sessione</button>
       </div>
     </div>
     <div class="modal-actions">
@@ -794,7 +794,7 @@ function renderCalendar() {
       const cell = document.createElement('div');
       cell.className = 'cal-cell';
       if (s) {
-        if (s.skipped) { cell.classList.add('rinunciata'); }
+        if (s.skipped) { cell.classList.add('sostituita'); }
         else {
           if (s.intensity) cell.classList.add(`int-${s.intensity}`);
           if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
@@ -894,7 +894,7 @@ function selInt(val, btn) {
 function toggleSkip() {
   currentSkipped = !currentSkipped;
   const btn = document.getElementById('skip-toggle-btn');
-  btn.textContent = currentSkipped ? '↩ Ripristina sessione' : '🚫 Rinuncia a questa sessione';
+  btn.textContent = currentSkipped ? '↩ Ripristina' : '🔄 Sostituita con altra sessione';
   btn.style.color = currentSkipped ? '#7c3aed' : '';
 }
 function openSessionModal(date, disc, dayLetter, session) {
@@ -926,7 +926,7 @@ function openSessionModal(date, disc, dayLetter, session) {
   document.getElementById('delete-session-btn').style.display = (session && userRole==='allenatore') ? 'inline-flex' : 'none';
   currentSkipped = session?.skipped || false;
   const skipBtn = document.getElementById('skip-toggle-btn');
-  skipBtn.textContent = currentSkipped ? '↩ Ripristina sessione' : '🚫 Rinuncia a questa sessione';
+  skipBtn.textContent = currentSkipped ? '↩ Ripristina' : '🔄 Sostituita con altra sessione';
   skipBtn.style.color = currentSkipped ? '#7c3aed' : '';
   document.getElementById('skip-btn-wrap').style.display = (session && userRole==='atleta') ? '' : 'none';
   const m = document.getElementById('modal');
