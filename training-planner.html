@@ -151,6 +151,8 @@
     .cal-cell.int-hard   { background: var(--int-hard);   border: 2px solid var(--int-hard-b); }
     .cal-cell.int-high   { background: var(--int-high);   border: 2px solid var(--int-high-b); }
     .cal-cell.done::after { content: '✓'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #16a34a; }
+    .cal-cell.rinunciata { opacity: 0.42; background: #f1f5f9 !important; border: 2px dashed #94a3b8 !important; }
+    .cal-cell.rinunciata::after { content: '✕'; position: absolute; bottom: 3px; right: 5px; font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
     .cell-dist  { font-weight: 700; font-size: 0.8rem; }
     .cell-dur   { color: var(--muted); font-size: 0.73rem; }
     .cell-notes { color: var(--text); font-size: 0.73rem; margin-top: 2px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
@@ -433,6 +435,9 @@
       </div>
       <div class="form-group"><label>Note post-allenamento</label><textarea id="m-athlete-notes" rows="3" placeholder="Com'è andata, sensazioni..."></textarea></div>
       <div class="form-group"><label>Link attività (Strava, Garmin…)</label><input type="url" id="m-activity-url" placeholder="https://www.strava.com/activities/…"></div>
+      <div id="skip-btn-wrap" style="margin-top:0.25rem">
+        <button id="skip-toggle-btn" class="btn btn-sm btn-full btn-secondary" onclick="toggleSkip()">🚫 Rinuncia a questa sessione</button>
+      </div>
     </div>
     <div class="modal-actions">
       <button id="delete-session-btn" class="btn btn-danger btn-sm" onclick="deleteSession()" style="margin-right:auto">🗑 Elimina</button>
@@ -703,31 +708,38 @@ function renderCalendar() {
   grid.innerHTML = '';
 
   // Totals
-  let pMins=0, aMins=0, dist=0, tot=0, done=0;
+  let pMins=0, aMins=0, actualDistTotal=0, plannedDistTotal=0, tot=0, done=0;
   const dStats = {};
-  DISCIPLINES.forEach(d => { dStats[d] = {n:0, dist:0, actualDist:0, elev:0, pMins:0, aMins:0}; });
-  Object.values(currentSessions).forEach(s => {
+  DISCIPLINES.forEach(d => { dStats[d] = {n:0, actualDist:0, plannedDist:0, elev:0, pMins:0, aMins:0}; });
+  Object.values(currentSessions).filter(s => !s.skipped).forEach(s => {
     tot++;
     if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
     if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
-    dist += s.actualDistanceMeters || s.distanceMeters || 0;
+    actualDistTotal  += s.actualDistanceMeters || 0;
+    plannedDistTotal += s.distanceMeters || 0;
     if (dStats[s.discipline]) {
       dStats[s.discipline].n++;
-      dStats[s.discipline].dist      += s.actualDistanceMeters || s.distanceMeters || 0;
-      dStats[s.discipline].actualDist+= s.actualDistanceMeters || 0;
-      dStats[s.discipline].elev      += s.elevationMeters || 0;
+      dStats[s.discipline].actualDist  += s.actualDistanceMeters || 0;
+      dStats[s.discipline].plannedDist += s.distanceMeters || 0;
+      dStats[s.discipline].elev        += s.elevationMeters || 0;
       if (s.plannedDuration) dStats[s.discipline].pMins += parseMins(s.plannedDuration);
       if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
     }
   });
+  function fmtDistPair(actual, planned) {
+    const a = actual  ? `✓ ${fmtDist(actual)}`  : null;
+    const p = planned ? fmtDist(planned) : null;
+    return a && p ? `${a} / ${p}` : a || p || '';
+  }
   const te = document.getElementById('week-stats');
+  const distStr = fmtDistPair(actualDistTotal, plannedDistTotal);
   te.innerHTML = tot === 0
     ? '<span>Nessuna sessione pianificata</span>'
     : `<span>📅 <strong>${tot}</strong> sessioni</span>`
-      + (pMins ? `<span>⏱ pianificate <strong>${fmtMins(pMins)}</strong></span>` : '')
-      + `<span>✓ <strong>${done}/${tot}</strong> completate</span>`
-      + (aMins ? `<span>⏱ effettuate <strong>${fmtMins(aMins)}</strong></span>` : '')
-      + (dist  ? `<span>📏 <strong>${fmtDist(dist)}</strong> totali</span>` : '');
+      + (pMins ? `<span>⏱ pian. <strong>${fmtMins(pMins)}</strong></span>` : '')
+      + `<span>✓ <strong>${done}/${tot}</strong></span>`
+      + (aMins ? `<span>⏱ eff. <strong>${fmtMins(aMins)}</strong></span>` : '')
+      + (distStr ? `<span>📏 <strong>${distStr}</strong></span>` : '');
 
   const DISC_ICONS = {Nuoto:'🏊',Bici:'🚴',Rulli:'🎯',Corsa:'🏃',Palestra:'🏋️'};
   const de = document.getElementById('disc-totals');
@@ -736,7 +748,8 @@ function renderCalendar() {
     .map(d => {
       const st = dStats[d];
       const parts = [];
-      if (st.dist)  parts.push(`${st.actualDist>0?'✓ ':''}${fmtDist(st.dist)}${st.elev?` ↑${st.elev}m`:''}`);
+      const dp = fmtDistPair(st.actualDist, st.plannedDist);
+      if (dp) parts.push(dp + (st.elev ? ` ↑${st.elev}m` : ''));
       if (st.aMins) parts.push(fmtMins(st.aMins));
       else if (st.pMins) parts.push(fmtMins(st.pMins));
       return `<div class="disc-total-chip"><span class="dtc-name">${DISC_ICONS[d]} ${d}</span>`
@@ -781,8 +794,11 @@ function renderCalendar() {
       const cell = document.createElement('div');
       cell.className = 'cal-cell';
       if (s) {
-        if (s.intensity) cell.classList.add(`int-${s.intensity}`);
-        if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
+        if (s.skipped) { cell.classList.add('rinunciata'); }
+        else {
+          if (s.intensity) cell.classList.add(`int-${s.intensity}`);
+          if (s.actualDuration || s.athleteNotes) cell.classList.add('done');
+        }
         const notes = s.trainerNotes || '';
         const distLine = s.actualDistanceMeters
           ? `<div class="cell-dist">✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters ? ` <span style="color:var(--muted)">↑${s.elevationMeters}m</span>` : ''}</div>`
@@ -869,10 +885,17 @@ function closeAvailOutside(e){ if(e.target===document.getElementById('avail-moda
 // ================================================================
 // SESSION MODAL
 // ================================================================
+let currentSkipped = false;
 function selInt(val, btn) {
   currentIntensity = val;
   document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('selected'));
   if (btn) btn.classList.add('selected');
+}
+function toggleSkip() {
+  currentSkipped = !currentSkipped;
+  const btn = document.getElementById('skip-toggle-btn');
+  btn.textContent = currentSkipped ? '↩ Ripristina sessione' : '🚫 Rinuncia a questa sessione';
+  btn.style.color = currentSkipped ? '#7c3aed' : '';
 }
 function openSessionModal(date, disc, dayLetter, session) {
   editingSession   = session ? session.id : null;
@@ -901,6 +924,11 @@ function openSessionModal(date, disc, dayLetter, session) {
   as.style.display = 'block';
   as.querySelectorAll('input,textarea,select').forEach(el => el.disabled = (userRole==='allenatore'));
   document.getElementById('delete-session-btn').style.display = (session && userRole==='allenatore') ? 'inline-flex' : 'none';
+  currentSkipped = session?.skipped || false;
+  const skipBtn = document.getElementById('skip-toggle-btn');
+  skipBtn.textContent = currentSkipped ? '↩ Ripristina sessione' : '🚫 Rinuncia a questa sessione';
+  skipBtn.style.color = currentSkipped ? '#7c3aed' : '';
+  document.getElementById('skip-btn-wrap').style.display = (session && userRole==='atleta') ? '' : 'none';
   const m = document.getElementById('modal');
   m.dataset.date=date; m.dataset.disc=disc; m.dataset.weekId=currentWeekId;
   m.classList.remove('hidden');
@@ -927,6 +955,7 @@ async function saveSession() {
     weightKg:        parseFloat(document.getElementById('m-weight').value)        || null,
     athleteNotes:    document.getElementById('m-athlete-notes').value.trim()      || null,
     activityUrl:     document.getElementById('m-activity-url').value.trim()       || null,
+    skipped:         currentSkipped || null,
     updatedAt:       firebase.firestore.FieldValue.serverTimestamp(),
   };
   Object.keys(data).forEach(k => { if(data[k]===null||data[k]===undefined) delete data[k]; });
@@ -1117,15 +1146,16 @@ function renderProgressCard(wId, sessions, meta) {
   const dates = getWeekDates(wId);
   const loadCls = meta.loadColor ? ` load-${meta.loadColor}` : '';
   const headerBg = {green:'#dcfce7',yellow:'#fef9c3',orange:'#ffedd5',red:'#fee2e2'}[meta.loadColor] || '#f8fafc';
-  let tot=sessions.length, done=0, dist=0, aMins=0;
-  sessions.forEach(s => {
+  const active = sessions.filter(s => !s.skipped);
+  let tot=active.length, done=0, dist=0, aMins=0;
+  active.forEach(s => {
     if (s.actualDuration) { done++; aMins+=parseMins(s.actualDuration); }
     dist += s.actualDistanceMeters || s.distanceMeters || 0;
   });
   const statsStr = [`${tot} sess.`, done?`✓ ${done}/${tot}`:'', dist?fmtDist(dist):'', aMins?fmtMins(aMins):''].filter(Boolean).join(' · ');
   const noteHtml = meta.loadNote ? `<span class="pw-note">${meta.loadNote}</span>` : '';
   const byDisc = {};
-  sessions.forEach(s => { if(!byDisc[s.discipline]) byDisc[s.discipline]=[]; byDisc[s.discipline].push(s); });
+  active.forEach(s => { if(!byDisc[s.discipline]) byDisc[s.discipline]=[]; byDisc[s.discipline].push(s); });
   const discRows = DISCIPLINES.filter(d=>byDisc[d]).map(d => {
     const sorted = byDisc[d].sort((a,b)=>a.date.localeCompare(b.date));
     const chips = sorted.map(s => {
