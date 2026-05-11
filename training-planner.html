@@ -610,10 +610,11 @@ auth.onAuthStateChanged(async user => {
     const snap = await db.collection('users').doc(user.uid).get();
     if (snap.exists && snap.data().role) {
       userRole = snap.data().role;
-      // Aggiorna email e lastLogin nel documento
+      // Aggiorna email, lastLogin e device nel documento
       db.collection('users').doc(user.uid).update({
         email: user.email,
-        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+        lastDevice: navigator.userAgent
       });
       showApp();
     } else {
