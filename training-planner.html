@@ -610,9 +610,11 @@ auth.onAuthStateChanged(async user => {
     const snap = await db.collection('users').doc(user.uid).get();
     if (snap.exists && snap.data().role) {
       userRole = snap.data().role;
-      // Aggiorna email nel documento (utile per il selettore atleta del trainer)
-      if (snap.data().email !== user.email)
-        db.collection('users').doc(user.uid).update({ email: user.email });
+      // Aggiorna email e lastLogin nel documento
+      db.collection('users').doc(user.uid).update({
+        email: user.email,
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      });
       showApp();
     } else {
       document.getElementById('login-screen').classList.add('hidden');
