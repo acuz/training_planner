@@ -97,6 +97,21 @@
     .load-note-input::placeholder { font-weight: 400; color: #94a3b8; }
     .load-note-input:read-only { cursor: default; }
     .disc-totals { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    /* Multi-week atleta view */
+    .mw-section { margin-bottom: 2rem; }
+    .mw-section:last-child { margin-bottom: 0; }
+    .mw-week-label { font-size: 0.82rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; padding-left: 0.25rem; }
+    .mw-section.mw-current .mw-week-label { color: var(--primary); }
+    .mw-totals { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: white; border: 1px solid var(--border); border-left-width: 4px; border-radius: 0.75rem; padding: 0.5rem 1rem; margin-bottom: 0.4rem; font-size: 0.83rem; border-left-color: var(--border); }
+    .mw-totals.load-green  { background:#f0fdf4; border-color:#86efac; border-left-color:#22c55e; }
+    .mw-totals.load-yellow { background:#fefce8; border-color:#fde047; border-left-color:#eab308; }
+    .mw-totals.load-orange { background:#fff7ed; border-color:#fdba74; border-left-color:#f97316; }
+    .mw-totals.load-red    { background:#fff1f2; border-color:#fca5a5; border-left-color:#ef4444; }
+    .mw-stats { display: flex; flex-wrap: wrap; gap: 1rem; flex: 1; }
+    .mw-stats span { color: var(--muted); }
+    .mw-stats strong { color: var(--text); }
+    .mw-note { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-left: auto; padding-left: 0.75rem; border-left: 1px solid var(--border); }
+    .mw-disc-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
     .disc-total-chip { display: flex; align-items: center; gap: 0.3rem; background: white; border: 1px solid var(--border); border-radius: 9999px; padding: 0.2rem 0.65rem; font-size: 0.78rem; }
     .disc-total-chip .dtc-name { font-weight: 700; }
     .disc-total-chip .dtc-val  { color: var(--muted); }
@@ -326,23 +341,30 @@
           <button class="btn btn-secondary btn-sm" onclick="copyFromPrev()">📋 Copia sett. prec.</button>
         </div>
       </div>
-      <div id="week-totals" class="week-totals">
-        <div id="week-stats" class="week-stats-inner"></div>
-        <div id="load-panel" class="load-panel">
-          <div id="load-color-btns" class="load-color-btns" style="display:none">
-            <button class="load-color-dot" data-color="green"  style="background:#22c55e" onclick="setLoadColor('green')"  title="Leggero"></button>
-            <button class="load-color-dot" data-color="yellow" style="background:#eab308" onclick="setLoadColor('yellow')" title="Moderato"></button>
-            <button class="load-color-dot" data-color="orange" style="background:#f97316" onclick="setLoadColor('orange')" title="Alto"></button>
-            <button class="load-color-dot" data-color="red"    style="background:#ef4444" onclick="setLoadColor('red')"    title="Massimo"></button>
+
+      <!-- Allenatore: singola settimana (invariato) -->
+      <div id="single-week-view">
+        <div id="week-totals" class="week-totals">
+          <div id="week-stats" class="week-stats-inner"></div>
+          <div id="load-panel" class="load-panel">
+            <div id="load-color-btns" class="load-color-btns" style="display:none">
+              <button class="load-color-dot" data-color="green"  style="background:#22c55e" onclick="setLoadColor('green')"  title="Leggero"></button>
+              <button class="load-color-dot" data-color="yellow" style="background:#eab308" onclick="setLoadColor('yellow')" title="Moderato"></button>
+              <button class="load-color-dot" data-color="orange" style="background:#f97316" onclick="setLoadColor('orange')" title="Alto"></button>
+              <button class="load-color-dot" data-color="red"    style="background:#ef4444" onclick="setLoadColor('red')"    title="Massimo"></button>
+            </div>
+            <input id="load-note-input" class="load-note-input" placeholder="Note settimana..."
+                   onblur="saveLoadNote()" onkeydown="if(event.key==='Enter')this.blur()">
           </div>
-          <input id="load-note-input" class="load-note-input" placeholder="Note settimana..."
-                 onblur="saveLoadNote()" onkeydown="if(event.key==='Enter')this.blur()">
+        </div>
+        <div id="disc-totals" class="disc-totals"></div>
+        <div class="scroll-x">
+          <div id="calendar-grid" class="calendar-grid"></div>
         </div>
       </div>
-      <div id="disc-totals" class="disc-totals"></div>
-      <div class="scroll-x">
-        <div id="calendar-grid" class="calendar-grid"></div>
-      </div>
+
+      <!-- Atleta: 4 settimane stacked -->
+      <div id="multi-week-view" class="hidden"></div>
     </div>
 
     <!-- PROGRESSO -->
@@ -535,6 +557,9 @@ let weekAvail         = {};   // { date: { disciplines:[], slots:[], note:'' } }
 let editingAvailDate  = null;
 let tempAvailSlots    = [];
 let tempAvailDiscs    = [];
+// Multi-week atleta view
+let topWeekId         = getWeekId(new Date());
+let weekData          = {};   // { weekId: { sessions, avail, meta } }
 
 // ---- Collezioni scoped per atleta ----
 function sessionsCol() { return db.collection('users').doc(currentAthleteId).collection('sessions'); }
@@ -643,7 +668,10 @@ function showApp() {
   } else {
     badge.textContent = '🏊 Atleta'; badge.className = 'user-badge';
     currentAthleteId = currentUser.uid;
-    loadWeek(currentWeekId);
+    document.getElementById('single-week-view').classList.add('hidden');
+    document.getElementById('multi-week-view').classList.remove('hidden');
+    topWeekId = getWeekId(new Date());
+    loadMultiWeek(topWeekId);
   }
 }
 
@@ -702,6 +730,188 @@ async function loadWeek(wId) {
   weekAvail = aDoc.exists ? (aDoc.data().days || {}) : {};
 
   renderCalendar();
+}
+
+// ================================================================
+// MULTI-WEEK VIEW (atleta)
+// ================================================================
+async function loadMultiWeek(top) {
+  if (!currentAthleteId) return;
+  topWeekId = top;
+  const weekIds = [top, addWeeks(top,-1), addWeeks(top,-2), addWeeks(top,-3)];
+  document.getElementById('week-title').textContent = weekLabel(top);
+
+  await Promise.all(weekIds.map(async wId => {
+    const [sessSnap, aDoc, wDoc] = await Promise.all([
+      sessionsCol().where('weekId','==',wId).get(),
+      availCol().doc(wId).get(),
+      weeksCol().doc(wId).get()
+    ]);
+    const sessions = {};
+    sessSnap.forEach(doc => { const s=doc.data(); sessions[`${s.date}-${s.discipline}`]={id:doc.id,...s}; });
+    weekData[wId] = {
+      sessions,
+      avail: aDoc.exists ? (aDoc.data().days||{}) : {},
+      meta:  wDoc.exists ? wDoc.data() : {}
+    };
+  }));
+
+  renderMultiWeek(weekIds);
+}
+
+function renderMultiWeek(weekIds) {
+  const container = document.getElementById('multi-week-view');
+  container.innerHTML = '';
+  const today = getWeekId(new Date());
+  weekIds.forEach(wId => {
+    const isCurrent = (wId === today);
+    const data = weekData[wId] || { sessions:{}, avail:{}, meta:{} };
+    const section = buildWeekSection(wId, data, isCurrent);
+    container.appendChild(section);
+  });
+}
+
+function buildWeekSection(wId, data, isCurrent) {
+  const { sessions, avail, meta } = data;
+  const dates  = getWeekDates(wId);
+  const today  = new Date().toISOString().split('T')[0];
+
+  // ---- Stats ----
+  let pMins=0, aMins=0, actualDistTotal=0, plannedDistTotal=0, tot=0, done=0;
+  const dStats = {};
+  DISCIPLINES.forEach(d => { dStats[d]={n:0,actualDist:0,plannedDist:0,elev:0,pMins:0,aMins:0}; });
+  Object.values(sessions).filter(s=>!s.skipped).forEach(s => {
+    tot++;
+    if (s.plannedDuration)  pMins += parseMins(s.plannedDuration);
+    if (s.actualDuration) { aMins  += parseMins(s.actualDuration); done++; }
+    actualDistTotal  += s.actualDistanceMeters || 0;
+    plannedDistTotal += s.distanceMeters || 0;
+    if (dStats[s.discipline]) {
+      dStats[s.discipline].n++;
+      dStats[s.discipline].actualDist  += s.actualDistanceMeters || 0;
+      dStats[s.discipline].plannedDist += s.distanceMeters || 0;
+      dStats[s.discipline].elev        += s.elevationMeters || 0;
+      if (s.plannedDuration) dStats[s.discipline].pMins += parseMins(s.plannedDuration);
+      if (s.actualDuration)  dStats[s.discipline].aMins += parseMins(s.actualDuration);
+    }
+  });
+  function fmtPair(a,p) {
+    const as=a?`✓ ${fmtDist(a)}`:null, ps=p?fmtDist(p):null;
+    return as&&ps?`${as} / ${ps}`:as||ps||'';
+  }
+  const distStr = fmtPair(actualDistTotal, plannedDistTotal);
+  const statsHtml = tot===0
+    ? '<span>Nessuna sessione</span>'
+    : `<span>📅 <strong>${tot}</strong> sess.</span>`
+      + (pMins?`<span>⏱ pian. <strong>${fmtMins(pMins)}</strong></span>`:'')
+      + `<span>✓ <strong>${done}/${tot}</strong></span>`
+      + (aMins?`<span>⏱ eff. <strong>${fmtMins(aMins)}</strong></span>`:'')
+      + (distStr?`<span>📏 <strong>${distStr}</strong></span>`:'');
+
+  const DISC_ICONS = {Nuoto:'🏊',Bici:'🚴',Rulli:'🎯',Corsa:'🏃',Palestra:'🏋️'};
+  const discHtml = DISCIPLINES.filter(d=>dStats[d].n>0).map(d => {
+    const st=dStats[d], parts=[];
+    const dp=fmtPair(st.actualDist,st.plannedDist);
+    if(dp) parts.push(dp+(st.elev?` ↑${st.elev}m`:''));
+    if(st.aMins) parts.push(fmtMins(st.aMins));
+    else if(st.pMins) parts.push(fmtMins(st.pMins));
+    return `<div class="disc-total-chip"><span class="dtc-name">${DISC_ICONS[d]||''} ${d}</span>`
+         + `<span class="dtc-val">${st.n} sess.${parts.length?' · '+parts.join(' · '):''}</span></div>`;
+  }).join('');
+
+  const loadCls = meta.loadColor ? ` load-${meta.loadColor}` : '';
+  const noteHtml = meta.loadNote ? `<span class="mw-note">${meta.loadNote}</span>` : '';
+
+  // ---- Outer section ----
+  const section = document.createElement('div');
+  section.className = `mw-section${isCurrent?' mw-current':''}`;
+
+  // Label
+  const labelDiv = document.createElement('div');
+  labelDiv.className = 'mw-week-label';
+  labelDiv.textContent = (isCurrent ? '📍 ' : '') + weekLabel(wId);
+  section.appendChild(labelDiv);
+
+  // Totals bar
+  const totalsDiv = document.createElement('div');
+  totalsDiv.className = `mw-totals${loadCls}`;
+  totalsDiv.innerHTML = `<div class="mw-stats">${statsHtml}</div>${noteHtml}`;
+  section.appendChild(totalsDiv);
+
+  // Disc chips
+  if (discHtml) {
+    const discDiv = document.createElement('div');
+    discDiv.className = 'mw-disc-chips';
+    discDiv.innerHTML = discHtml;
+    section.appendChild(discDiv);
+  }
+
+  // Calendar grid
+  const scrollDiv = document.createElement('div');
+  scrollDiv.className = 'scroll-x';
+  const grid = document.createElement('div');
+  grid.className = 'calendar-grid';
+
+  // Corner
+  grid.appendChild(mkEl('div',''));
+  // Day headers
+  dates.forEach((date,i) => grid.appendChild(mkEl('div',
+    `<div class="day-name">${DAY_NAMES[i]}</div><div class="day-date">${fmtIT(date)}</div>`,
+    `cal-header${date===today?' today':''}`
+  )));
+
+  // Availability row
+  grid.appendChild(mkEl('div','Disponib.','avail-label'));
+  dates.forEach((date,i) => {
+    const av=avail[date]||{}, discs=av.disciplines||[], slots=av.slots||[];
+    const hasAny=discs.length||slots.length||av.note;
+    const cell=document.createElement('div');
+    cell.className='avail-cell'+(hasAny?' has-avail':'');
+    if(hasAny){
+      let html=discs.map(d=>`<span class="avail-chip chip-disc-${d}">${d}</span>`).join('');
+      if(slots.length) html+=slots.map(s=>`<span class="avail-chip chip-${SLOT_KEYS[s]}">${s}</span>`).join('');
+      if(av.note) html+=`<div class="avail-cell-note">${av.note}</div>`;
+      cell.innerHTML=html;
+    } else { cell.innerHTML='<div class="avail-empty">+</div>'; }
+    cell.onclick=()=>openAvailModal(date,DAY_NAMES[i]);
+    grid.appendChild(cell);
+  });
+
+  // Discipline rows
+  DISCIPLINES.forEach(disc => {
+    grid.appendChild(mkEl('div',disc,`disc-label disc-${disc}`));
+    dates.forEach((date,i) => {
+      const s=sessions[`${date}-${disc}`];
+      const cell=document.createElement('div');
+      cell.className='cal-cell';
+      if(s){
+        if(s.skipped){ cell.classList.add('sostituita'); }
+        else {
+          if(s.intensity) cell.classList.add(`int-${s.intensity}`);
+          if(s.actualDuration||s.athleteNotes) cell.classList.add('done');
+        }
+        const notes=s.trainerNotes||'';
+        const distLine=s.actualDistanceMeters
+          ?`<div class="cell-dist">✓ ${fmtDist(s.actualDistanceMeters)}${s.elevationMeters?` <span style="color:var(--muted)">↑${s.elevationMeters}m</span>`:''}</div>`
+          :s.distanceMeters?`<div class="cell-dist">${fmtDist(s.distanceMeters)}</div>`:'';
+        cell.innerHTML=distLine
+          +(s.actualDuration?`<div class="cell-dur">✓ ${s.actualDuration}`:s.plannedDuration?`<div class="cell-dur">${s.plannedDuration}`:'')
+          +(s.actualDuration||s.plannedDuration?'</div>':'')
+          +(notes?`<div class="cell-notes">${notes}</div>`:'')
+          +rpeBadge(s.rpe)+activityBadge(s.activityUrl);
+      } else { cell.innerHTML='<div class="add-btn">+</div>'; }
+      cell.onclick=()=>{
+        currentSessions=sessions;
+        currentWeekId=wId;
+        openSessionModal(date,disc,DAY_LETTERS[i],s);
+      };
+      grid.appendChild(cell);
+    });
+  });
+
+  scrollDiv.appendChild(grid);
+  section.appendChild(scrollDiv);
+  return section;
 }
 
 function renderCalendar() {
@@ -823,7 +1033,10 @@ function renderCalendar() {
 }
 
 function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.className=cls; e.innerHTML=html; return e; }
-function changeWeek(d)   { loadWeek(addWeeks(currentWeekId, d)); }
+function changeWeek(d) {
+  if (userRole === 'atleta') { topWeekId = addWeeks(topWeekId, d); loadMultiWeek(topWeekId); }
+  else loadWeek(addWeeks(currentWeekId, d));
+}
 function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
 async function setLoadColor(color) {
   const bar = document.getElementById('week-totals');
@@ -965,13 +1178,19 @@ async function saveSession() {
   try {
     if (editingSession) await sessionsCol().doc(editingSession).update(data);
     else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await sessionsCol().add(data); }
-    closeModal(); loadWeek(currentWeekId); showToast('Salvato ✓');
+    closeModal();
+    if (userRole === 'atleta') loadMultiWeek(topWeekId);
+    else loadWeek(currentWeekId);
+    showToast('Salvato ✓');
   } catch(e) { console.error(e); showToast('Errore nel salvataggio'); }
 }
 async function deleteSession() {
   if (!editingSession || !confirm('Eliminare?')) return;
   await sessionsCol().doc(editingSession).delete();
-  closeModal(); loadWeek(currentWeekId); showToast('Eliminata');
+  closeModal();
+  if (userRole === 'atleta') loadMultiWeek(topWeekId);
+  else loadWeek(currentWeekId);
+  showToast('Eliminata');
 }
 
 // ================================================================
