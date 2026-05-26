@@ -176,7 +176,7 @@
     .add-btn { color: #cbd5e1; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 50px; }
 
     /* Availability cells */
-    .avail-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 46px; cursor: pointer; transition: border-color 0.15s; display: flex; flex-wrap: wrap; gap: 2px; align-content: flex-start; }
+    .avail-cell { background: var(--card); border: 1px solid var(--border); border-radius: 0.5rem; padding: 0.4rem; min-height: 72px; cursor: pointer; transition: border-color 0.15s; display: flex; flex-wrap: wrap; gap: 2px; align-content: flex-start; }
     .avail-cell:hover { border-color: var(--primary); }
     .avail-cell.has-avail { background: #f0f9ff; border-color: #7dd3fc; }
     .avail-chip { font-size: 0.68rem; font-weight: 600; padding: 1px 5px; border-radius: 9999px; }
@@ -188,8 +188,8 @@
     .chip-disc-Rulli    { background: #ffedd5; color: #9a3412; }
     .chip-disc-Corsa    { background: #dcfce7; color: #166534; }
     .chip-disc-Palestra { background: #f3e8ff; color: #6b21a8; }
-    .avail-cell-note { font-size: 0.68rem; color: var(--muted); width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 1px; }
-    .avail-empty { color: #cbd5e1; font-size: 0.75rem; line-height: 36px; text-align: center; width: 100%; }
+    .avail-cell-note { font-size: 0.68rem; color: var(--muted); width: 100%; white-space: normal; margin-top: 2px; line-height: 1.35; }
+    .avail-empty { color: #cbd5e1; font-size: 0.75rem; line-height: 62px; text-align: center; width: 100%; }
     .avail-disc-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .avail-disc-btn { padding: 0.3rem 0.75rem; border-radius: 9999px; border: 2px solid var(--border); background: white; font-size: 0.82rem; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
     .avail-disc-btn.sel-Nuoto    { border-color: #93c5fd; background: #dbeafe; color: #1e40af; }
@@ -661,6 +661,8 @@ function showApp() {
   ['login-screen','role-screen'].forEach(id => document.getElementById(id).classList.add('hidden'));
   document.getElementById('app').classList.remove('hidden');
   const badge = document.getElementById('user-badge');
+  document.getElementById('single-week-view').classList.add('hidden');
+  document.getElementById('multi-week-view').classList.remove('hidden');
   if (userRole === 'allenatore') {
     badge.textContent = '🏋️ Allenatore'; badge.className = 'user-badge allenatore';
     const ta = document.getElementById('trainer-actions'); ta.classList.remove('hidden'); ta.style.display = 'flex';
@@ -668,8 +670,6 @@ function showApp() {
   } else {
     badge.textContent = '🏊 Atleta'; badge.className = 'user-badge';
     currentAthleteId = currentUser.uid;
-    document.getElementById('single-week-view').classList.add('hidden');
-    document.getElementById('multi-week-view').classList.remove('hidden');
     topWeekId = getWeekId(new Date());
     loadMultiWeek(topWeekId);
   }
@@ -696,8 +696,8 @@ async function loadAthletes() {
 
 function selectAthlete(uid) {
   currentAthleteId = uid || null;
-  if (currentAthleteId) { loadWeek(currentWeekId); loadTests(); }
-  else { currentSessions = {}; weekAvail = {}; renderCalendar(); }
+  if (currentAthleteId) { topWeekId = getWeekId(new Date()); loadMultiWeek(topWeekId); loadTests(); }
+  else { document.getElementById('multi-week-view').innerHTML = ''; }
 }
 
 // ================================================================
@@ -835,7 +835,20 @@ function buildWeekSection(wId, data, isCurrent) {
   // Totals bar
   const totalsDiv = document.createElement('div');
   totalsDiv.className = `mw-totals${loadCls}`;
-  totalsDiv.innerHTML = `<div class="mw-stats">${statsHtml}</div>${noteHtml}`;
+  totalsDiv.dataset.weekid = wId;
+  let trainerControls = '';
+  if (userRole === 'allenatore') {
+    const colors = [{c:'green',bg:'#22c55e',t:'Leggero'},{c:'yellow',bg:'#eab308',t:'Moderato'},{c:'orange',bg:'#f97316',t:'Alto'},{c:'red',bg:'#ef4444',t:'Massimo'}];
+    const dots = colors.map(({c,bg,t}) =>
+      `<button class="load-color-dot${meta.loadColor===c?' active':''}" data-color="${c}" style="background:${bg}" onclick="setLoadColorMW('${c}','${wId}',this)" title="${t}"></button>`
+    ).join('');
+    trainerControls = `<div class="load-panel" style="margin-left:auto">
+      <div class="load-color-btns">${dots}</div>
+      <input class="load-note-input" placeholder="Note settimana..." value="${(meta.loadNote||'').replace(/"/g,'&quot;')}"
+             onblur="saveLoadNoteMW(this,'${wId}')" onkeydown="if(event.key==='Enter')this.blur()">
+    </div>`;
+  }
+  totalsDiv.innerHTML = `<div class="mw-stats">${statsHtml}</div>${noteHtml}${trainerControls}`;
   section.appendChild(totalsDiv);
 
   // Disc chips
@@ -1034,10 +1047,26 @@ function renderCalendar() {
 
 function mkEl(tag, html, cls) { const e=document.createElement(tag); if(cls)e.className=cls; e.innerHTML=html; return e; }
 function changeWeek(d) {
-  if (userRole === 'atleta') { topWeekId = addWeeks(topWeekId, d); loadMultiWeek(topWeekId); }
-  else loadWeek(addWeeks(currentWeekId, d));
+  topWeekId = addWeeks(topWeekId, d);
+  loadMultiWeek(topWeekId);
 }
-function goToCurrentWeek(){ loadWeek(getWeekId(new Date())); }
+function goToCurrentWeek(){ topWeekId = getWeekId(new Date()); loadMultiWeek(topWeekId); }
+async function setLoadColorMW(color, wId, btn) {
+  const bar = btn.closest('.mw-totals');
+  const cur = [...bar.classList].find(c => c.startsWith('load-'))?.replace('load-','');
+  const next = cur === color ? null : color;
+  bar.className = `mw-totals${next ? ` load-${next}` : ''}`;
+  bar.dataset.weekid = wId;
+  bar.querySelectorAll('.load-color-dot').forEach(d =>
+    d.classList.toggle('active', d.dataset.color === next));
+  await weeksCol().doc(wId).set({ loadColor: next||null, weekId: wId }, { merge:true });
+  if (weekData[wId]) weekData[wId].meta.loadColor = next||null;
+}
+async function saveLoadNoteMW(input, wId) {
+  const note = input.value.trim();
+  await weeksCol().doc(wId).set({ loadNote: note, weekId: wId }, { merge:true });
+  if (weekData[wId]) weekData[wId].meta.loadNote = note;
+}
 async function setLoadColor(color) {
   const bar = document.getElementById('week-totals');
   const cur = [...bar.classList].find(c => c.startsWith('load-'))?.replace('load-','');
