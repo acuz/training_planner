@@ -886,7 +886,11 @@ function buildWeekSection(wId, data, isCurrent) {
       if(av.note) html+=`<div class="avail-cell-note">${av.note}</div>`;
       cell.innerHTML=html;
     } else { cell.innerHTML='<div class="avail-empty">+</div>'; }
-    cell.onclick=()=>openAvailModal(date,DAY_NAMES[i]);
+    cell.onclick=()=>{
+      weekAvail = avail;
+      currentWeekId = wId;
+      openAvailModal(date,DAY_NAMES[i]);
+    };
     grid.appendChild(cell);
   });
 
@@ -1120,8 +1124,9 @@ async function saveAvailDay() {
   const note = document.getElementById('avail-day-note').value.trim();
   weekAvail[editingAvailDate] = { disciplines: tempAvailDiscs, slots: tempAvailSlots, note };
   await availCol().doc(currentWeekId).set({ days: weekAvail, weekId: currentWeekId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true });
+  if (weekData[currentWeekId]) weekData[currentWeekId].avail = weekAvail;
   closeAvailModal();
-  renderCalendar();
+  renderMultiWeek(Object.keys(weekData).sort().reverse().slice(0,4));
   showToast('Disponibilità salvata ✓');
 }
 function closeAvailModal()  { document.getElementById('avail-modal').classList.add('hidden'); }
