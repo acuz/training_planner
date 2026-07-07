@@ -1,0 +1,1551 @@
+{
+  "5HOrWQoYbrVX6CUuYQp8vMgey5X2": {
+    "lastLogin": "2026-06-27 09:48:51.677000+00:00",
+    "role": "allenatore",
+    "email": "nico.pratesi@gmail.com",
+    "allenatore": "",
+    "lastDevice": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+    "sessions": {},
+    "availability": {},
+    "weeks": {},
+    "tests": {}
+  },
+  "KV7tMMt1c9hwWeOxC9IvYgJErGr2": {
+    "atleta": "",
+    "lastLogin": "2026-07-02 15:46:03.754000+00:00",
+    "role": "atleta",
+    "email": "angelo.cuzzola@gmail.com",
+    "lastDevice": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+    "sessions": {
+      "0UANpAH5HKYzNNMhu9oh": {
+        "activityUrl": "https://www.strava.com/activities/18496210553",
+        "weekId": "2026-W20",
+        "updatedAt": "2026-05-21 16:09:54.289000+00:00",
+        "trainerNotes": "30' a 100 rpm ad intensit\u00e0 molto facile",
+        "intensity": "low",
+        "createdAt": "2026-05-14 08:56:11.837000+00:00",
+        "athleteNotes": "Agile, pedalata facile",
+        "plannedDuration": "00:30:00",
+        "actualDistanceMeters": 10319,
+        "discipline": "Rulli",
+        "actualDuration": "00:25:35",
+        "actualStartTime": "23:13",
+        "rpe": 9,
+        "date": "2026-05-13",
+        "distanceMeters": 10000
+      },
+      "0tDO3RNXkDKfjuQ6dO21": {
+        "activityUrl": "https://www.strava.com/activities/19150800584",
+        "weekId": "2026-W27",
+        "discipline": "Bici",
+        "updatedAt": "2026-07-04 10:49:21.883000+00:00",
+        "actualDuration": "01:09:13",
+        "createdAt": "2026-07-02 15:41:27.301000+00:00",
+        "elevationMeters": 262,
+        "date": "2026-07-02",
+        "rpe": 17,
+        "actualDistanceMeters": 32942,
+        "actualStartTime": "14:35"
+      },
+      "2026-W17-Bici-2026-04-26": {
+        "actualStartTime": "18:30",
+        "weekId": "2026-W17",
+        "discipline": "Bici",
+        "updatedAt": "2026-05-11 14:02:57.778000+00:00",
+        "actualDuration": "01:26:00",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "distanceMeters": 50520,
+        "athleteNotes": "uscita in piano in solitaria provando a tenere un buon ritmo. Andata con vento a favore",
+        "plannedDuration": "01:26:00",
+        "date": "2026-04-26",
+        "rpe": 14,
+        "actualDistanceMeters": 50500,
+        "startTime": "18:40"
+      },
+      "2026-W17-Corsa-2026-04-24": {
+        "distanceMeters": 10230,
+        "weekId": "2026-W17",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-11 14:02:51.371000+00:00",
+        "actualDuration": "00:44:00",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "athleteNotes": "10km in pgr (4.42 - 4.33 - 4.29 - 4.22 - 4.24 - 4.11 - 4.05 - 4.02 - 3.56 - 4.03), sono partito pi\u00f9 veloce di quanto avessi programmato ma ho provato a tenere, sensazioni buone, la sera non ero troppo stanco, progressione venuta bene a parte ultimo km in cui ho perso secondi per virata e semaforo",
+        "plannedDuration": "00:44:00",
+        "date": "2026-04-24",
+        "rpe": 15,
+        "actualDistanceMeters": 10200,
+        "startTime": "18:43"
+      },
+      "2026-W17-Corsa-2026-04-26": {
+        "actualStartTime": "20:00",
+        "weekId": "2026-W17",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-11 14:03:03.167000+00:00",
+        "actualDuration": "00:58:00",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "distanceMeters": 11040,
+        "athleteNotes": "corsa dopo bici, primi 5,5km zona tre bassa, ultimi 5,5 corsi con Irene",
+        "plannedDuration": "00:58:00",
+        "date": "2026-04-26",
+        "rpe": 13,
+        "actualDistanceMeters": 11000,
+        "startTime": "20:16"
+      },
+      "2026-W17-Nuoto-2026-04-23": {
+        "distanceMeters": 2100,
+        "weekId": "2026-W17",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-05-11 14:02:44.631000+00:00",
+        "actualDuration": "00:53:00",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "athleteNotes": "300m risc + 8x50m rec.10\"  (target 1.56) + 10 x 100m rec.15\" (target 2.04)",
+        "plannedDuration": "00:46:20",
+        "date": "2026-04-23",
+        "rpe": 14,
+        "actualDistanceMeters": 2100,
+        "startTime": "13:06"
+      },
+      "2026-W17-Rulli-2026-04-21": {
+        "distanceMeters": 26520,
+        "weekId": "2026-W17",
+        "discipline": "Rulli",
+        "updatedAt": "2026-05-11 14:02:32.598000+00:00",
+        "actualDuration": "00:53:13",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "athleteNotes": "rampe aerobiche da 5 min 2x 117-149W, 3x  136-169W, 2min a 115w tra le rampe",
+        "plannedDuration": "00:53:13",
+        "date": "2026-04-21",
+        "rpe": 13,
+        "actualDistanceMeters": 26520,
+        "startTime": "19:26"
+      },
+      "2026-W18-Bici-2026-04-30": {
+        "weekId": "2026-W18",
+        "discipline": "Bici",
+        "updatedAt": "2026-05-03 22:39:40.185000+00:00",
+        "trainerNotes": "20' risc - 5 sprint da 10\" ogni 4' - 3 x 1' al medio 80 rpm rec.3' a 100 rpm - 5' aerobici ogni 4' vuol dire che se ti chiedo di fare 10\" di sprint hai 3'50\" per recuperare attivamente pedalando agile",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "skipped": true,
+        "date": "2026-04-30",
+        "distanceMeters": 35000
+      },
+      "2026-W18-Corsa-2026-04-29": {
+        "activityUrl": "https://www.strava.com/activities/18305163503/laps",
+        "weekId": "2026-W18",
+        "elevationMeters": 68,
+        "updatedAt": "2026-05-03 22:26:20.447000+00:00",
+        "trainerNotes": "15' risc - 5' andature - 4 all da 100m rec.30\" - 8 x 500m al medio/soglia rec.1'15\" - 5' aero - risc = riscaldaldamento (corri a bassa intensit\u00e0 per il tempo richiesto) andature (sono gli skip basso, skip alto, cal\u00ecciata dietro ecc.) - sentiamoci per teledono !!! all = allunghi (tratto di corsa in cui enfatizzi la lunghezza del passo con un aleggera progressione) medio / soglia = diciamo che esegui il tratto ad una velocit\u00e0 che ti porta ad affaticarti parecchio",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "athleteNotes": "Testa poca. Ho fatto un 500 in meno perch\u00e9 ho perso il conto. Il resto ok. Allunghi intorno a 3.50. 500 sui 4.15",
+        "actualDistanceMeters": 10040,
+        "discipline": "Corsa",
+        "actualDuration": "00:54:10",
+        "actualStartTime": "13:15",
+        "rpe": 15,
+        "date": "2026-04-29",
+        "distanceMeters": 9000
+      },
+      "2026-W18-Corsa-2026-05-02": {
+        "activityUrl": "https://strava.app.link/xpneYzisM2b",
+        "weekId": "2026-W18",
+        "elevationMeters": 170,
+        "updatedAt": "2026-05-03 22:24:18.497000+00:00",
+        "trainerNotes": "15' risc - 5' andature - 3 all da 100m rec.30\" - 10 km (500 piu veloci + 1500m piu tranquilli) -  fammi avere il tempo dei 500m e dei 1500m",
+        "intensity": "medium",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "athleteNotes": "Allungato un po' per rientrare a casa\n500m intorno ai 4 (da 3.48 il pi\u00f9 veloce a 4.08 il pi\u00f9 lento), 1500 intorno ai 4.30",
+        "actualDistanceMeters": 19280,
+        "discipline": "Corsa",
+        "actualDuration": "01:35:04",
+        "actualStartTime": "11:40",
+        "rpe": 14,
+        "date": "2026-05-02",
+        "distanceMeters": 13500
+      },
+      "2026-W18-Nuoto-2026-04-28": {
+        "activityUrl": "https://www.strava.com/activities/18297380378",
+        "weekId": "2026-W18",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-05-03 22:26:13.626000+00:00",
+        "actualDuration": "00:34:10",
+        "intensity": "medium",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "trainerNotes": "300 risc - 6 x 50m (25m in pgr + 25 aero) rec.10\" - 8 x 25m v.max rec,20\" - 100 aero - 8 x 50m molto aero pgr = progressione - aero = aerobici / molto aero = nuotati tranquilli v.max = Velocit\u00e0 Massima",
+        "athleteNotes": "Con traffico difficile fare bene le 8x50. In generale non ho tanto controllo delle velocit\u00e0, ne ho solo tre: vel max, sostenuta, relax",
+        "distanceMeters": 1500,
+        "actualStartTime": "13:07",
+        "rpe": 12,
+        "actualDistanceMeters": 1500,
+        "date": "2026-04-28"
+      },
+      "2026-W18-Rulli-2026-04-30": {
+        "activityUrl": "https://strava.app.link/xpneYzisM2b",
+        "weekId": "2026-W18",
+        "discipline": "Rulli",
+        "updatedAt": "2026-05-03 22:46:00.404000+00:00",
+        "trainerNotes": "15' risc - 6 sprint da 10\" ogni 4' - 3 x 1' al medio 80 rpm rec.3' a 100 rpm - 5' aerobici al medio = 90% della Soglia Anaerobica = senti affanno ma tutto sommatio riesci a sostenerlo",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "medium",
+        "actualDuration": "00:56:00",
+        "elevationMeters": 368,
+        "actualStartTime": "14:20",
+        "date": "2026-04-30",
+        "rpe": 13,
+        "actualDistanceMeters": 22740,
+        "distanceMeters": 30000
+      },
+      "2026-W19-Corsa-2026-05-04": {
+        "activityUrl": "https://www.strava.com/activities/18375810361",
+        "weekId": "2026-W19",
+        "elevationMeters": 52,
+        "updatedAt": "2026-05-11 08:31:23.823000+00:00",
+        "trainerNotes": "15' risc - 5' andature - 4 all da 100m rec.30\" - 5 x 1000m (400 Lungo + 300 Medio + 300 Soglia) rec.1' - Lungo = 80% della Soglia Anaerobica (\u00e8 un'intensit\u00e0 aerobica molto tranquilla Medio = 90% della Soglia Anaerobica (\u00e8 una intensit\u00e0 media in cui accusi affanno ma riesci a Soglia = 100% della Soglia Anaerobica (\u00e8 una intensit\u00e0 che tieni per pochi minuti, dai 3 ai 7')",
+        "createdAt": "2026-04-28 16:53:33.845000+00:00",
+        "intensity": "hard",
+        "athleteNotes": "Non sono riuscito a variare bene tutte le andature per mancanza di concentrazione",
+        "actualDistanceMeters": 11710,
+        "discipline": "Corsa",
+        "actualDuration": "00:58:41",
+        "distanceMeters": 10000,
+        "rpe": 14,
+        "date": "2026-05-04",
+        "actualStartTime": "19:39"
+      },
+      "23cqv4XnE8JOtju7tqVI": {
+        "weekId": "2026-W21",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-25 11:17:28.032000+00:00",
+        "trainerNotes": "15' riscaldamento \n4 allunghi flda 100m rec.1'\n10 km corsi molto tranquilli",
+        "createdAt": "2026-05-19 19:18:17.085000+00:00",
+        "skipped": true,
+        "date": "2026-05-24",
+        "distanceMeters": 13500
+      },
+      "2EA2n7gK0F331SQDebmI": {
+        "activityUrl": "https://www.strava.com/activities/19166869057",
+        "weekId": "2026-W27",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-07-04 10:49:20.956000+00:00",
+        "actualDuration": "00:40:32",
+        "createdAt": "2026-07-04 10:49:20.776000+00:00",
+        "date": "2026-07-03",
+        "rpe": 17,
+        "actualDistanceMeters": 1800,
+        "actualStartTime": "19:45"
+      },
+      "2ILiwuAYi0y9Sg2cB4oN": {
+        "activityUrl": "https://www.strava.com/activities/19038619217",
+        "weekId": "2026-W26",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-07-04 10:49:29.032000+00:00",
+        "trainerNotes": "300 riscaldamento \n6 x 50m (25 m in progressione + 25 m aerobici)\n2 x 400m ritmo gara (tempo?) rec.1'\n2 x 200m ritmo gara (tempo?) rec.40\"\n2 x 100m ritmo gara (tempo?) rec.30\"",
+        "createdAt": "2026-06-22 12:47:26.120000+00:00",
+        "actualDuration": "00:46:39",
+        "distanceMeters": 2000,
+        "athleteNotes": "tempo 400 -> 8.40\ntempo 200 -> 4.20\ntempo 100 -> 2.11",
+        "date": "2026-06-23",
+        "rpe": 18,
+        "actualDistanceMeters": 2100,
+        "actualStartTime": "18:36"
+      },
+      "4rnIbrUad1cKDJLwFiD5": {
+        "activityUrl": "https://www.strava.com/activities/18920710234",
+        "weekId": "2026-W24",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-06-14 22:31:26.271000+00:00",
+        "actualDuration": "00:46:19",
+        "createdAt": "2026-06-14 22:31:26.101000+00:00",
+        "date": "2026-06-14",
+        "rpe": 20,
+        "actualDistanceMeters": 2000,
+        "actualStartTime": "18:04"
+      },
+      "5uCQkE75aRbKxvaoGGOQ": {
+        "activityUrl": "https://www.strava.com/activities/18640151752",
+        "discipline": "Nuoto",
+        "weekId": "2026-W21",
+        "updatedAt": "2026-05-25 11:16:37.176000+00:00",
+        "actualDuration": "00:44:02",
+        "createdAt": "2026-05-25 11:15:47.761000+00:00",
+        "date": "2026-05-24",
+        "rpe": 12,
+        "actualDistanceMeters": 1960,
+        "actualStartTime": "17:12"
+      },
+      "6tkh4LNmEBsVV1DFKVHL": {
+        "activityUrl": "https://www.strava.com/activities/18611905897",
+        "weekId": "2026-W21",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-25 11:15:51.205000+00:00",
+        "trainerNotes": "20' riscaldamento \n5' andature\n8 x 30m Sprint in salita rec.1'\n5 allunghi da 100m rec.1'\n10' corsa aerobica\n10' stretching",
+        "createdAt": "2026-05-19 19:12:31.754000+00:00",
+        "elevationMeters": 72,
+        "actualDuration": "00:46:36",
+        "distanceMeters": 7000,
+        "date": "2026-05-22",
+        "rpe": 14,
+        "actualDistanceMeters": 8094,
+        "actualStartTime": "19:56"
+      },
+      "6wX9ZlNGldBFvIzgR1Mt": {
+        "activityUrl": "https://www.strava.com/activities/19052774774",
+        "weekId": "2026-W26",
+        "discipline": "Bici",
+        "updatedAt": "2026-07-04 10:49:28.257000+00:00",
+        "trainerNotes": "40' riscaldamento \n3 x salita di Agnano con rapporto duro, rec.5' agili\n3 x salita di Agnano con rapporto agile, rec.5' agili\n20' agili",
+        "createdAt": "2026-06-22 12:48:56.946000+00:00",
+        "actualDuration": "01:22:35",
+        "elevationMeters": 446,
+        "athleteNotes": "ho accorciato un po' i recuperi e tolto 5 min al riscaldamento e 5 min alla fine, ma ho fatto tutto",
+        "date": "2026-06-24",
+        "rpe": 18,
+        "actualDistanceMeters": 37385,
+        "actualStartTime": "19:10"
+      },
+      "6zCCovibWCVgtctCgk2J": {
+        "activityUrl": "https://www.strava.com/activities/18397618558",
+        "weekId": "2026-W19",
+        "updatedAt": "2026-05-11 08:31:07.956000+00:00",
+        "trainerNotes": "300 risc - 6x 50m (25m in pgr + 25 aero) rec.15\" - 12 x 25m v.max rec,20\" - 100 aero - 4 x 100m aerobici rec.15\" - 6 x 50m aerobici rec.15\"",
+        "createdAt": "2026-05-06 14:09:30.034000+00:00",
+        "intensity": "hard",
+        "athleteNotes": "Molto utile il lavoro in progressione sui 50 e le ripetute di velocit\u00e0. Dopo effetivamente risultava pi\u00f9 facile tenere un buon ritmo",
+        "plannedDuration": "00:45:00",
+        "actualDistanceMeters": 2000,
+        "discipline": "Nuoto",
+        "actualDuration": "49:10",
+        "weightKg": 57,
+        "date": "2026-05-06",
+        "rpe": 15,
+        "actualStartTime": "12:15",
+        "distanceMeters": 2000
+      },
+      "7FmVgkx0wMfkIqqItASa": {
+        "athleteNotes": "riposo",
+        "weekId": "2026-W27",
+        "discipline": "Altro",
+        "updatedAt": "2026-06-30 08:17:11.467000+00:00",
+        "date": "2026-06-29",
+        "createdAt": "2026-06-30 08:17:11.467000+00:00"
+      },
+      "8ggIsO0CjIMrhxQF6oux": {
+        "activityUrl": "https://www.strava.com/activities/18620915962",
+        "discipline": "Palestra",
+        "weekId": "2026-W21",
+        "updatedAt": "2026-05-25 11:17:18.036000+00:00",
+        "actualDuration": "00:34:59",
+        "createdAt": "2026-05-25 11:15:48.940000+00:00",
+        "athleteNotes": "Esercizi per la parte superiore e core",
+        "date": "2026-05-23",
+        "rpe": 7,
+        "actualStartTime": "13:59"
+      },
+      "AQjoKaUtrkOmofhvysG2": {
+        "activityUrl": "https://www.strava.com/activities/18503628204",
+        "weekId": "2026-W20",
+        "updatedAt": "2026-05-21 16:09:52.442000+00:00",
+        "trainerNotes": "- 300m riscaldamento \n- 6 x 50 (25 in pgr + 25 aerobici) REC.15\"\n- 100 m aerobici\n- 8 x 25 m v.max REC.20\"\n- 100 aerobici\n- 8 x 25 m v.max REC.25\"\n- 100 aerobici\n- 8 x 50 m aerobici rec.10\"\n- 100 def",
+        "intensity": "medium",
+        "createdAt": "2026-05-14 08:56:59.405000+00:00",
+        "athleteNotes": "Stavo male in acqua. Giornata no",
+        "plannedDuration": "00:50:00",
+        "actualDistanceMeters": 1800,
+        "discipline": "Nuoto",
+        "actualDuration": "00:38:50",
+        "distanceMeters": 2000,
+        "rpe": 11,
+        "date": "2026-05-14",
+        "actualStartTime": "13:46"
+      },
+      "AhAeBORTAcmNAwLBk8rd": {
+        "activityUrl": "https://www.strava.com/activities/18673954393",
+        "discipline": "Nuoto",
+        "weekId": "2026-W22",
+        "updatedAt": "2026-06-03 07:44:29.731000+00:00",
+        "actualDuration": "00:07:24",
+        "createdAt": "2026-06-01 08:39:09.779000+00:00",
+        "date": "2026-05-27",
+        "rpe": 12,
+        "actualDistanceMeters": 280,
+        "actualStartTime": "13:37"
+      },
+      "BpWr8uAMG9HMVUDJFag9": {
+        "weekId": "2026-W22",
+        "discipline": "Altro",
+        "updatedAt": "2026-05-27 22:31:56.468000+00:00",
+        "date": "2026-05-30",
+        "createdAt": "2026-05-27 22:31:56.468000+00:00",
+        "trainerNotes": "RIPOSO (Oppure l'allenamento segnato a ieri se non l'hai gi\u00e0 svolto ieri)"
+      },
+      "D5CnSlHlDSIafsjX4Er0": {
+        "activityUrl": "https://strava.app.link/NJg4LPTd22b",
+        "weekId": "2026-W19",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-10 19:34:27.015000+00:00",
+        "trainerNotes": "lungo di corsa (nei primi 3 km scaldati bene \u2026 poi corri a senzazione stando meglio",
+        "createdAt": "2026-05-07 07:38:55.208000+00:00",
+        "intensity": "medium",
+        "actualDuration": "01:22:23",
+        "athleteNotes": "Tutto ok. Niente di particolare",
+        "distanceMeters": 15000,
+        "date": "2026-05-10",
+        "rpe": 14,
+        "actualDistanceMeters": 15120,
+        "actualStartTime": "19:58"
+      },
+      "DpRGaenSSdfayETMLfQS": {
+        "activityUrl": "https://www.strava.com/activities/18986592451",
+        "weekId": "2026-W25",
+        "discipline": "Corsa",
+        "updatedAt": "2026-06-27 09:48:44.119000+00:00",
+        "actualDuration": "00:49:05",
+        "createdAt": "2026-06-22 07:20:05.211000+00:00",
+        "elevationMeters": 82,
+        "date": "2026-06-19",
+        "rpe": 20,
+        "actualDistanceMeters": 9849,
+        "actualStartTime": "18:12"
+      },
+      "FUAuuH9sc0Qqebtu5p1N": {
+        "activityUrl": "https://www.strava.com/activities/18803665161",
+        "weekId": "2026-W23",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-06-10 09:19:07.883000+00:00",
+        "actualDuration": "00:43:08",
+        "createdAt": "2026-06-09 08:15:26.244000+00:00",
+        "date": "2026-06-05",
+        "rpe": 19,
+        "actualDistanceMeters": 1950,
+        "actualStartTime": "13:52"
+      },
+      "FhIfpD11Z9me2hhwokqF": {
+        "activityUrl": "https://www.strava.com/activities/18733303771",
+        "discipline": "Rulli",
+        "weekId": "2026-W22",
+        "updatedAt": "2026-06-03 07:44:27.580000+00:00",
+        "actualDuration": "00:22:18",
+        "createdAt": "2026-06-01 08:39:07.863000+00:00",
+        "elevationMeters": 100,
+        "date": "2026-05-31",
+        "rpe": 7,
+        "actualDistanceMeters": 8664,
+        "actualStartTime": "20:00"
+      },
+      "H28g3yRn6bNcKWeik4lS": {
+        "activityUrl": "https://www.strava.com/activities/18889628525",
+        "weekId": "2026-W24",
+        "discipline": "Rulli",
+        "updatedAt": "2026-06-14 22:31:28.494000+00:00",
+        "actualDuration": "00:49:27",
+        "createdAt": "2026-06-14 22:31:28.340000+00:00",
+        "elevationMeters": 9,
+        "date": "2026-06-12",
+        "rpe": 14,
+        "actualDistanceMeters": 26461,
+        "actualStartTime": "13:07"
+      },
+      "JOfmSSEMuELpFGfEZfVA": {
+        "activityUrl": "https://www.strava.com/activities/18853841491",
+        "weekId": "2026-W24",
+        "discipline": "Rulli",
+        "updatedAt": "2026-06-14 22:31:30.546000+00:00",
+        "actualDuration": "00:57:05",
+        "createdAt": "2026-06-10 09:19:05.457000+00:00",
+        "elevationMeters": 76,
+        "date": "2026-06-09",
+        "rpe": 15,
+        "actualDistanceMeters": 30615,
+        "actualStartTime": "18:43"
+      },
+      "Q0YCMqbD0pZleLnr1tBg": {
+        "activityUrl": "https://strava.app.link/9T3tzXG4T2b",
+        "weekId": "2026-W19",
+        "elevationMeters": 31,
+        "updatedAt": "2026-05-11 08:35:06.445000+00:00",
+        "trainerNotes": "15' riscaldamento \n\n- 4 sprint da 10\" ogni 3'\n- 4 x 1' al medio 60-70 rpm (devi lavorare forza,.pedalata dura) rec.3' a 100 rpm\n- 4 x 1' al medio agile (95-100 rpm) rec.3'\n-  5' aerobici tranquilli agili",
+        "createdAt": "2026-05-05 21:39:29.672000+00:00",
+        "intensity": "hard",
+        "athleteNotes": "Tutto ok. Niente da rilevare",
+        "plannedDuration": "01:00:00",
+        "actualDistanceMeters": 31700,
+        "discipline": "Rulli",
+        "actualDuration": "00:59:30",
+        "date": "2026-05-05",
+        "rpe": 15,
+        "actualStartTime": "20:08",
+        "distanceMeters": 30000
+      },
+      "SCzHvr4sNJfB9pJDb6d0": {
+        "weekId": "2026-W21",
+        "discipline": "Rulli",
+        "updatedAt": "2026-05-21 07:21:41.401000+00:00",
+        "trainerNotes": "20' riscaldamento \n6 sprint da 10\" ogni 4'\n10' aerobici agili",
+        "createdAt": "2026-05-19 19:14:50.836000+00:00",
+        "skipped": true,
+        "plannedDuration": "00:55:00",
+        "date": "2026-05-20",
+        "distanceMeters": 29000
+      },
+      "TW3Wc4LF3ExHM55Lpg4F": {
+        "activityUrl": "https://www.strava.com/activities/18516136365",
+        "weekId": "2026-W20",
+        "discipline": "Rulli",
+        "updatedAt": "2026-05-21 16:09:51.444000+00:00",
+        "actualDuration": "00:49:12",
+        "createdAt": "2026-05-15 16:36:17.882000+00:00",
+        "elevationMeters": 347,
+        "date": "2026-05-15",
+        "rpe": 13,
+        "actualDistanceMeters": 24210,
+        "actualStartTime": "13:40"
+      },
+      "TaecrQa2UMju7y414gVR": {
+        "activityUrl": "https://www.strava.com/activities/18760661293",
+        "weekId": "2026-W23",
+        "discipline": "Rulli",
+        "updatedAt": "2026-06-10 09:19:10.280000+00:00",
+        "actualDuration": "00:58:52",
+        "createdAt": "2026-06-03 07:44:25.666000+00:00",
+        "elevationMeters": 69,
+        "date": "2026-06-02",
+        "rpe": 15,
+        "actualDistanceMeters": 30946,
+        "actualStartTime": "20:32"
+      },
+      "UHm91IGNHAVCfdaK4oz4": {
+        "activityUrl": "https://www.strava.com/activities/18619990973",
+        "weekId": "2026-W21",
+        "discipline": "Bici",
+        "updatedAt": "2026-05-25 11:15:50.255000+00:00",
+        "trainerNotes": "Se riesci fai 2he30' - 3h00' di percorso in bici su percorso collinare o comunque non piatto.\nIntegrati ogni 50-60' con barretta o gel o altro (scrivimi cosa hai mangiato e quando nel giro)",
+        "createdAt": "2026-05-19 19:16:49.511000+00:00",
+        "elevationMeters": 121,
+        "actualDuration": "01:16:21",
+        "distanceMeters": 80000,
+        "date": "2026-05-23",
+        "rpe": 10,
+        "actualDistanceMeters": 37120,
+        "actualStartTime": "12:05"
+      },
+      "WMCLtY3nUqrn8A9o9kul": {
+        "activityUrl": "https://www.strava.com/activities/18665693917",
+        "weekId": "2026-W22",
+        "discipline": "Rulli",
+        "updatedAt": "2026-06-03 07:44:30.608000+00:00",
+        "trainerNotes": "20' riscaldamento \n6 sprint da 10\" ogni 4'\n10' aerobici agili",
+        "createdAt": "2026-05-26 10:58:03.406000+00:00",
+        "actualDuration": "00:48:42",
+        "elevationMeters": 135,
+        "date": "2026-05-26",
+        "rpe": 14,
+        "actualDistanceMeters": 23328,
+        "actualStartTime": "20:38"
+      },
+      "WcArlkjarx2nIgQCy9Cl": {
+        "activityUrl": "https://www.strava.com/activities/18542760792",
+        "weekId": "2026-W20",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-21 16:09:50.471000+00:00",
+        "actualDuration": "01:26:00",
+        "createdAt": "2026-05-19 09:02:49.092000+00:00",
+        "elevationMeters": 113,
+        "date": "2026-05-17",
+        "rpe": 20,
+        "actualDistanceMeters": 18538,
+        "actualStartTime": "13:33"
+      },
+      "XNGs4xDQQz89xCqGyCJc": {
+        "activityUrl": "https://www.strava.com/activities/18787048387",
+        "weekId": "2026-W23",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-06-10 09:19:09.562000+00:00",
+        "actualDuration": "00:46:43",
+        "createdAt": "2026-06-09 08:15:28.196000+00:00",
+        "date": "2026-06-03",
+        "rpe": 12,
+        "actualDistanceMeters": 2025,
+        "actualStartTime": "18:03"
+      },
+      "XT9OGJ5O2Mf84VcEvUsD": {
+        "activityUrl": "https://www.strava.com/activities/18495957718",
+        "weekId": "2026-W20",
+        "elevationMeters": 54,
+        "updatedAt": "2026-05-21 16:09:55.297000+00:00",
+        "trainerNotes": "- 15' riscaldamento \n- 5' andature\n- 4 allunghi da 100m rec. 45\"\n- 6 sprint in salita da 30 metri (pendenza della salita 5-8 % circa) rec.1'15\"\n- 8 x 300 al medio/soglia rec.1'\n- 5' aerobici defaticanti \n- 5' stretching",
+        "intensity": "medium",
+        "createdAt": "2026-05-14 08:55:26.682000+00:00",
+        "athleteNotes": "Tutto ok",
+        "plannedDuration": "00:45:00",
+        "actualDistanceMeters": 9307,
+        "discipline": "Corsa",
+        "actualDuration": "00:51:59",
+        "date": "2026-05-13",
+        "rpe": 13,
+        "actualStartTime": "22:15",
+        "distanceMeters": 9000
+      },
+      "Z5FEBCbww0daEv3WvPa3": {
+        "activityUrl": "https://www.strava.com/activities/18555009924",
+        "weekId": "2026-W21",
+        "discipline": "Bici",
+        "updatedAt": "2026-05-21 16:09:49.330000+00:00",
+        "actualDuration": "02:21:28",
+        "createdAt": "2026-05-19 09:02:47.998000+00:00",
+        "elevationMeters": 496,
+        "date": "2026-05-18",
+        "rpe": 20,
+        "actualDistanceMeters": 72024,
+        "actualStartTime": "13:23"
+      },
+      "ZxzQdLyd4HJ9zagIvMAq": {
+        "activityUrl": "https://www.strava.com/activities/18429178321",
+        "weekId": "2026-W19",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-10 17:36:40.685000+00:00",
+        "trainerNotes": "15' risc - 5' andature - 4 all da 100m rec.30\" - 9 km (1000m al medio/soglia + 1000m al lungo/medio) - 5' corsa defaticante - 10' stretching leggero",
+        "intensity": "hard",
+        "createdAt": "2026-05-07 07:37:08.146000+00:00",
+        "actualDuration": "01:07:11",
+        "athleteNotes": "1km 4.18 alternato a 1km a 4.45",
+        "distanceMeters": 13500,
+        "date": "2026-05-08",
+        "rpe": 16,
+        "actualDistanceMeters": 13500,
+        "actualStartTime": "19:47"
+      },
+      "b8WH5or0YH7a5YnX8G22": {
+        "activityUrl": "https://www.strava.com/activities/18413774307",
+        "weekId": "2026-W19",
+        "updatedAt": "2026-05-11 08:31:17.915000+00:00",
+        "trainerNotes": "300 risc - 6 x 50m (25m in pgr + 25 aero) rec.15\" - 6 x 100m ritmno gara rec.10-15\" - 8x50m ritmo gara\nrec. 10\" - 100 def",
+        "intensity": "hard",
+        "createdAt": "2026-05-07 07:36:43.430000+00:00",
+        "athleteNotes": "tutto ok",
+        "actualDistanceMeters": 2000,
+        "discipline": "Nuoto",
+        "actualDuration": "00:46:11",
+        "weightKg": 57,
+        "distanceMeters": 1800,
+        "rpe": 15,
+        "date": "2026-05-07",
+        "actualStartTime": "13:00"
+      },
+      "cuw3YG7IoiqzR5Mxr2HR": {
+        "athleteNotes": "Allenamento saltato. Dovevo andare la sera. Ma ero troppo stanco tra il caldo e il lavoro",
+        "weekId": "2026-W26",
+        "discipline": "Corsa",
+        "updatedAt": "2026-06-29 15:21:30.460000+00:00",
+        "date": "2026-06-22",
+        "createdAt": "2026-06-22 12:44:20.514000+00:00",
+        "trainerNotes": "15 riscaldamento\n5' andature \n4 allunghi da 100m Rec.1'\n6 x 1000 a soglia rec.1'15\" \n5' aerobici\n10' stretching"
+      },
+      "ddgcclSpyvQ5M5Lntvyz": {
+        "activityUrl": "https://www.strava.com/activities/18740386055",
+        "weekId": "2026-W23",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-06-10 09:19:11.064000+00:00",
+        "actualDuration": "00:48:09",
+        "createdAt": "2026-06-03 07:44:26.719000+00:00",
+        "date": "2026-06-01",
+        "rpe": 16,
+        "actualDistanceMeters": 2100,
+        "actualStartTime": "12:31"
+      },
+      "eSQSatJGV7CWXmGyWI1D": {
+        "activityUrl": "https://www.strava.com/activities/18597021758",
+        "weekId": "2026-W21",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-05-25 11:15:52.383000+00:00",
+        "trainerNotes": "\u00e9 lo stesso allenamento della settimana scorsa, che hai scritto che \"stavi male\" in acqua\"\n\n- 300m riscaldamento \n- 6 x 50 (25 in pgr + 25 aerobici) REC.15\"\n- 100 m aerobici\n- 8 x 25 m v.max REC.20\"\n- 100 aerobici\n- 8 x 25 m v.max REC.25\"\n- 100 aerobici\n- 8 x 50 m aerobici rec.10\"\n- 100 def",
+        "createdAt": "2026-05-19 19:11:16.451000+00:00",
+        "actualDuration": "00:42:03",
+        "distanceMeters": 1800,
+        "date": "2026-05-21",
+        "rpe": 14,
+        "actualDistanceMeters": 1975,
+        "actualStartTime": "13:46"
+      },
+      "eyhvUwDcvFl1u5sdQmxI": {
+        "activityUrl": "https://www.strava.com/activities/18908464265",
+        "weekId": "2026-W24",
+        "discipline": "Bici",
+        "updatedAt": "2026-06-14 22:31:27.587000+00:00",
+        "actualDuration": "02:20:10",
+        "createdAt": "2026-06-14 22:31:27.422000+00:00",
+        "elevationMeters": 1038,
+        "date": "2026-06-13",
+        "rpe": 20,
+        "actualDistanceMeters": 56348,
+        "actualStartTime": "17:45"
+      },
+      "fGeBSVO4Iovzc0iBLZ7m": {
+        "activityUrl": "https://www.strava.com/activities/18474538893",
+        "weekId": "2026-W20",
+        "updatedAt": "2026-05-21 16:09:56.345000+00:00",
+        "trainerNotes": "- 300m risc \n- 6 x 50m (25 in pgr + 25 aero) REC.15\"\n- 3 x 100m ritmo gara rec.10\"\n- 1000m continui (cerca di care il miglior tempo che puoi e fammi poi sapere quanto hai impiegato\n- 100 molto aerobici defaticanti",
+        "intensity": "medium",
+        "createdAt": "2026-05-14 08:53:32.501000+00:00",
+        "athleteNotes": "Poca confidenza con l'acqua ultimamente. 1000m in 21.36. Peggiorando significativamente rispetto ai ritmi dello scorso anno",
+        "plannedDuration": "00:40:00",
+        "actualDistanceMeters": 2000,
+        "discipline": "Nuoto",
+        "actualDuration": "00:43:14",
+        "distanceMeters": 2000,
+        "rpe": 16,
+        "date": "2026-05-12",
+        "actualStartTime": "11:16"
+      },
+      "gpBasNbVMqL6FsFThjVx": {
+        "activityUrl": "https://www.strava.com/activities/18807761389",
+        "weekId": "2026-W23",
+        "discipline": "Bici",
+        "updatedAt": "2026-06-10 09:19:07.014000+00:00",
+        "actualDuration": "01:43:05",
+        "createdAt": "2026-06-09 08:15:25.157000+00:00",
+        "elevationMeters": 688,
+        "date": "2026-06-06",
+        "rpe": 20,
+        "actualDistanceMeters": 45304,
+        "actualStartTime": "10:46"
+      },
+      "hJ4fp4n9tHVfteSPH5vL": {
+        "activityUrl": "https://www.strava.com/activities/19085256040",
+        "weekId": "2026-W26",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-07-04 10:49:25.069000+00:00",
+        "actualDuration": "00:56:20",
+        "createdAt": "2026-06-29 13:57:17.212000+00:00",
+        "athleteNotes": "Tutto ok. Bella nuotata in tranquillit\u00e0",
+        "date": "2026-06-27",
+        "rpe": 17,
+        "actualDistanceMeters": 2500,
+        "actualStartTime": "13:15"
+      },
+      "iHASh4l3WiXZ7ThVRndF": {
+        "activityUrl": "https://www.strava.com/activities/19060410154",
+        "weekId": "2026-W26",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-07-04 10:49:27.338000+00:00",
+        "trainerNotes": "300 riscaldamento \n6 x 50m (25 m in progressione + 25 m aerobici)\n8 x 25m v.max REC.25\"\n200 aerobici\n8 x 25m v.max REC.25\"\n200 aerobici\n8 x 25m v.max REC.25\"\n200 aerobici",
+        "createdAt": "2026-06-22 12:52:35.547000+00:00",
+        "actualDuration": "00:39:12",
+        "athleteNotes": "ok, niente da rilevare. A cose normale avrei fatto agili altri 200, ma ero un po' stanco",
+        "date": "2026-06-25",
+        "rpe": 17,
+        "actualDistanceMeters": 1775,
+        "actualStartTime": "12:23"
+      },
+      "jn2bDwuS0OZZOZ66q0uF": {
+        "activityUrl": "https://www.strava.com/activities/18921229781",
+        "weekId": "2026-W24",
+        "discipline": "Corsa",
+        "updatedAt": "2026-06-14 22:31:25.260000+00:00",
+        "actualDuration": "00:49:34",
+        "createdAt": "2026-06-14 22:31:25.053000+00:00",
+        "elevationMeters": 71,
+        "date": "2026-06-14",
+        "rpe": 19,
+        "actualDistanceMeters": 9615,
+        "actualStartTime": "19:36"
+      },
+      "k0uf1M9ZfD8JSyAfbkCq": {
+        "activityUrl": "https://www.strava.com/activities/18712624952",
+        "discipline": "Corsa",
+        "weekId": "2026-W22",
+        "updatedAt": "2026-06-03 07:44:28.396000+00:00",
+        "actualDuration": "00:21:05",
+        "createdAt": "2026-06-01 08:39:08.779000+00:00",
+        "elevationMeters": 44,
+        "date": "2026-05-30",
+        "rpe": 8,
+        "actualDistanceMeters": 3676,
+        "actualStartTime": "11:29"
+      },
+      "kjQAM92VA3sO9tkAj93C": {
+        "activityUrl": "https://www.strava.com/activities/19104376403",
+        "weekId": "2026-W26",
+        "discipline": "Bici",
+        "updatedAt": "2026-07-04 10:49:24.238000+00:00",
+        "actualDuration": "02:39:12",
+        "createdAt": "2026-06-29 13:57:16.077000+00:00",
+        "elevationMeters": 917,
+        "athleteNotes": "Partito da santallago, sceso a buti partito per fare giro orario, ma avevo vento contro -> invertita la rotta, sono salito da s. andrea -> abbastanza cotto mentre salivo",
+        "date": "2026-06-28",
+        "rpe": 19,
+        "actualDistanceMeters": 69214,
+        "actualStartTime": "18:09"
+      },
+      "leXx8MWScG0VvqD0S0JN": {
+        "activityUrl": "https://www.strava.com/activities/18959134789",
+        "weekId": "2026-W25",
+        "discipline": "Bici",
+        "updatedAt": "2026-06-27 09:48:45.442000+00:00",
+        "actualDuration": "03:12:28",
+        "createdAt": "2026-06-22 07:20:06.822000+00:00",
+        "elevationMeters": 1104,
+        "date": "2026-06-17",
+        "rpe": 20,
+        "actualDistanceMeters": 73598,
+        "actualStartTime": "09:38"
+      },
+      "lkxuTT3ZmJKi3cwF4XTW": {
+        "activityUrl": "https://www.strava.com/activities/19141302508",
+        "weekId": "2026-W27",
+        "discipline": "Corsa",
+        "updatedAt": "2026-07-04 10:49:22.940000+00:00",
+        "actualDuration": "00:50:55",
+        "createdAt": "2026-07-02 15:41:28.555000+00:00",
+        "elevationMeters": 119,
+        "date": "2026-07-01",
+        "rpe": 16,
+        "actualDistanceMeters": 9997,
+        "actualStartTime": "19:56"
+      },
+      "px9RdDZ4iNkzOmxMn9NK": {
+        "athleteNotes": "s\u00ec \u00e8 perfettos scriverlo qui",
+        "weekId": "2026-W22",
+        "discipline": "Altro",
+        "updatedAt": "2026-05-26 08:44:42.656000+00:00",
+        "date": "2026-05-25",
+        "createdAt": "2026-05-19 19:18:59.114000+00:00",
+        "trainerNotes": "RIPOSO (se devi riposare devo scrivertelo qui?). S\u00ec benissimo scriverlo qui"
+      },
+      "vBVvOAqhWQcNpxewZuzh": {
+        "weekId": "2026-W22",
+        "discipline": "Nuoto",
+        "updatedAt": "2026-05-27 22:29:00.704000+00:00",
+        "date": "2026-05-28",
+        "createdAt": "2026-05-27 22:29:00.704000+00:00",
+        "trainerNotes": "- 300 riscaldamento \n- 6 x 50m (25 veloci + 25 aero) rec.15\"\n- 6 x 100m ritmo gara rec.10\"\n- 100 m aerobici\n- 6 x 100m ritmo gara rec.10\"\n- 100 m aerobici",
+        "distanceMeters": 2000
+      },
+      "wRQzCmqNZyMFmN0q5NLD": {
+        "activityUrl": "https://www.strava.com/activities/18443041822",
+        "weekId": "2026-W19",
+        "elevationMeters": 886,
+        "updatedAt": "2026-05-10 17:36:19.355000+00:00",
+        "trainerNotes": "70 km di bici percorso vario possi bilmente NON pianeggiante, sarebbe meglio vallonato e collinare",
+        "createdAt": "2026-05-07 07:38:25.115000+00:00",
+        "intensity": "hard",
+        "athleteNotes": "Ciapino + Pozzuolo da Gattaiola + Agnano + Calci fino al circolo",
+        "actualDistanceMeters": 71350,
+        "discipline": "Bici",
+        "actualDuration": "02:37:00",
+        "distanceMeters": 70000,
+        "rpe": 17,
+        "date": "2026-05-09",
+        "actualStartTime": "17:55"
+      },
+      "wrirlwI3KH3XIjrdljbe": {
+        "activityUrl": "https://www.strava.com/activities/18467920714",
+        "weekId": "2026-W20",
+        "discipline": "Palestra",
+        "updatedAt": "2026-05-21 16:09:57.257000+00:00",
+        "actualDuration": "00:26:08",
+        "createdAt": "2026-05-14 15:03:09.501000+00:00",
+        "athleteNotes": "Ciclo da 6 esercizi per core pi\u00f9 braccia",
+        "date": "2026-05-11",
+        "rpe": 7,
+        "actualStartTime": "20:45"
+      },
+      "xIjucUxj979t8Pr20XeG": {
+        "weekId": "2026-W22",
+        "discipline": "Corsa",
+        "updatedAt": "2026-05-27 22:31:04.208000+00:00",
+        "date": "2026-05-29",
+        "createdAt": "2026-05-27 22:31:04.208000+00:00",
+        "trainerNotes": "- 20' corsa tranquilla come riscaldamento \n- 5' andature\n- 5 allunghi da 100m rec.1'\n- 5' aerobici\n- 10' stretching",
+        "distanceMeters": 6500
+      },
+      "xqioOLJPnXsEEVvPjwQW": {
+        "activityUrl": "https://www.strava.com/activities/19077294616",
+        "weekId": "2026-W26",
+        "discipline": "Corsa",
+        "updatedAt": "2026-07-04 10:49:26.320000+00:00",
+        "trainerNotes": "15 riscaldamento\n5' andature \n4 allunghi da 100m Rec.1'\n10 x 400 a soglia rec.1'15\" \n5' aerobici\n10' stretching",
+        "createdAt": "2026-06-22 12:53:35.593000+00:00",
+        "actualDuration": "01:04:47",
+        "elevationMeters": 172,
+        "athleteNotes": "Molto impegnativo per il caldo. Ripetute intorno ai 4'. Qualcuna sopra, qualcuna sotto.",
+        "date": "2026-06-26",
+        "rpe": 17,
+        "actualDistanceMeters": 12297,
+        "actualStartTime": "20:48"
+      },
+      "y5Ut9gUc0Xj5CKjbh3Dg": {
+        "activityUrl": "https://www.strava.com/activities/18787023966",
+        "weekId": "2026-W23",
+        "discipline": "Rulli",
+        "updatedAt": "2026-06-10 09:19:08.882000+00:00",
+        "actualDuration": "00:32:58",
+        "createdAt": "2026-06-09 08:15:27.250000+00:00",
+        "elevationMeters": 116,
+        "date": "2026-06-04",
+        "rpe": 14,
+        "actualDistanceMeters": 18390,
+        "actualStartTime": "19:12"
+      },
+      "ytGtGLs01G1iU2vPs2sZ": {
+        "activityUrl": "https://www.strava.com/activities/18573385982",
+        "weekId": "2026-W21",
+        "discipline": "Rulli",
+        "updatedAt": "2026-05-21 16:09:48.323000+00:00",
+        "actualDuration": "00:51:10",
+        "createdAt": "2026-05-19 22:42:26.406000+00:00",
+        "elevationMeters": 63,
+        "date": "2026-05-19",
+        "rpe": 10,
+        "actualDistanceMeters": 25572,
+        "actualStartTime": "21:24"
+      },
+      "zNnhrcGsr5NGI22Osd8r": {
+        "activityUrl": "https://www.strava.com/activities/18881525914",
+        "weekId": "2026-W24",
+        "discipline": "Corsa",
+        "updatedAt": "2026-06-14 22:31:29.741000+00:00",
+        "actualDuration": "00:45:47",
+        "createdAt": "2026-06-14 22:31:29.574000+00:00",
+        "elevationMeters": 66,
+        "date": "2026-06-11",
+        "rpe": 20,
+        "actualDistanceMeters": 9919,
+        "actualStartTime": "19:28"
+      },
+      "zwNNraBB08b8l6XTMwxM": {
+        "weekId": "2026-W22",
+        "discipline": "Bici",
+        "updatedAt": "2026-05-27 22:33:26.701000+00:00",
+        "date": "2026-05-31",
+        "createdAt": "2026-05-27 22:33:26.701000+00:00",
+        "trainerNotes": "Percorso collinare o comunque non pianeggiante\nRicordati quando vai in bici che devo allenarti a mangiare...ogni 40-50' devi integrarti sempre",
+        "distanceMeters": 80000
+      }
+    },
+    "availability": {
+      "2026-W18": {
+        "weekId": "2026-W18",
+        "updatedAt": "2026-04-28 16:59:53.983000+00:00",
+        "days": {
+          "2026-04-28": {
+            "slots": [],
+            "note": "Un buon giorno per fare nuoto 50/60 min di durata effettiva allenamento Posso fare anche rulli serali (1h,1h15), ma non sia nuoto che rulli",
+            "disciplines": [
+              "Nuoto",
+              "Rulli"
+            ]
+          }
+        }
+      },
+      "2026-W19": {
+        "weekId": "2026-W19",
+        "updatedAt": "2026-05-06 14:15:12.926000+00:00",
+        "days": {
+          "2026-05-05": {
+            "slots": [
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Rulli"
+            ]
+          },
+          "2026-05-07": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Corsa",
+              "Rulli"
+            ]
+          },
+          "2026-05-06": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Corsa",
+              "Rulli"
+            ]
+          },
+          "2026-05-10": {
+            "slots": [],
+            "note": "Buono per un lungo anche 2h e mezza o anche per allenamento doppio",
+            "disciplines": [
+              "Bici",
+              "Corsa",
+              "Rulli"
+            ]
+          },
+          "2026-05-08": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Bici",
+              "Corsa",
+              "Palestra",
+              "Rulli"
+            ]
+          },
+          "2026-05-09": {
+            "slots": [],
+            "note": "Buono per un lungo 2h e mezza. Anche per allenamento doppio",
+            "disciplines": [
+              "Nuoto",
+              "Corsa",
+              "Bici"
+            ]
+          }
+        }
+      },
+      "2026-W20": {
+        "weekId": "2026-W20",
+        "updatedAt": "2026-05-10 17:28:41.630000+00:00",
+        "days": {
+          "2026-05-13": {
+            "slots": [
+              "Mattina",
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Rulli",
+              "Corsa",
+              "Palestra"
+            ]
+          },
+          "2026-05-16": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "giornata ok per un lungo di corsa la mattina",
+            "disciplines": [
+              "Corsa"
+            ]
+          },
+          "2026-05-14": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-05-15": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Rulli",
+              "Nuoto",
+              "Corsa"
+            ]
+          },
+          "2026-05-12": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-05-17": {
+            "slots": [],
+            "note": "lungo di bici, anche in doppio con la corsa",
+            "disciplines": [
+              "Bici",
+              "Corsa"
+            ]
+          },
+          "2026-05-11": {
+            "slots": [
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Palestra",
+              "Rulli",
+              "Corsa"
+            ]
+          }
+        }
+      },
+      "2026-W21": {
+        "weekId": "2026-W21",
+        "updatedAt": "2026-05-18 22:38:49.191000+00:00",
+        "days": {
+          "2026-05-23": {
+            "slots": [],
+            "note": "Solito lungo",
+            "disciplines": [
+              "Corsa",
+              "Bici"
+            ]
+          },
+          "2026-05-18": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Bici"
+            ]
+          },
+          "2026-05-19": {
+            "slots": [
+              "Mattina",
+              "Pomeriggio"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-05-20": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Corsa",
+              "Rulli"
+            ]
+          },
+          "2026-05-24": {
+            "slots": [],
+            "note": "Ho una mezza idea di andare a Bologna in bici",
+            "disciplines": [
+              "Bici",
+              "Corsa"
+            ]
+          },
+          "2026-05-22": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Corsa",
+              "Nuoto",
+              "Palestra"
+            ]
+          },
+          "2026-05-21": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Corsa",
+              "Rulli",
+              "Palestra"
+            ]
+          }
+        }
+      },
+      "2026-W22": {
+        "weekId": "2026-W22",
+        "updatedAt": "2026-05-26 09:14:46.023000+00:00",
+        "days": {
+          "2026-05-31": {
+            "slots": [],
+            "note": "Spero un po' di rulli la sera verso le 18 quando rientro",
+            "disciplines": [
+              "Rulli",
+              "Bici"
+            ]
+          },
+          "2026-05-29": {
+            "slots": [],
+            "note": "Oggi giornata complicata in ogni caso",
+            "disciplines": [
+              "Corsa",
+              "Palestra"
+            ]
+          },
+          "2026-05-28": {
+            "slots": [],
+            "note": "Forse riesco a fare nuoto",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-05-30": {
+            "slots": [],
+            "note": "Forse corsa ma probabilmente niente",
+            "disciplines": [
+              "Corsa"
+            ]
+          },
+          "2026-05-26": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Rulli"
+            ]
+          },
+          "2026-05-27": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          }
+        }
+      },
+      "2026-W23": {
+        "weekId": "2026-W23",
+        "updatedAt": "2026-06-01 08:47:59.833000+00:00",
+        "days": {
+          "2026-06-07": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Nuoto"
+            ]
+          },
+          "2026-06-06": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Nuoto"
+            ]
+          },
+          "2026-06-04": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Rulli",
+              "Palestra"
+            ]
+          },
+          "2026-06-01": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-06-05": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Rulli",
+              "Palestra"
+            ]
+          },
+          "2026-06-02": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Rulli",
+              "Bici",
+              "Nuoto"
+            ]
+          },
+          "2026-06-03": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          }
+        }
+      },
+      "2026-W24": {
+        "weekId": "2026-W24",
+        "updatedAt": "2026-06-09 14:09:03.645000+00:00",
+        "days": {
+          "2026-06-09": {
+            "slots": [
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Rulli"
+            ]
+          },
+          "2026-06-11": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Rulli",
+              "Palestra",
+              "Nuoto"
+            ]
+          },
+          "2026-06-10": {
+            "slots": [
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Palestra",
+              "Nuoto",
+              "Bici",
+              "Rulli"
+            ]
+          },
+          "2026-06-14": {
+            "slots": [],
+            "note": "anche corsa ma preferirei non troppo lungo",
+            "disciplines": [
+              "Corsa"
+            ]
+          },
+          "2026-06-13": {
+            "slots": [],
+            "note": "ok, per un lungo di bici",
+            "disciplines": [
+              "Bici"
+            ]
+          },
+          "2026-06-12": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Corsa",
+              "Palestra",
+              "Nuoto",
+              "Bici",
+              "Rulli"
+            ]
+          }
+        }
+      },
+      "2026-W25": {
+        "weekId": "2026-W25",
+        "updatedAt": "2026-06-16 15:11:15.575000+00:00",
+        "days": {
+          "2026-06-20": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "Sono al mare la Mattina, posso fare un po' di nuoto in mare oppure organizzare un allenamento di corsa prima di pranzo",
+            "disciplines": [
+              "Corsa",
+              "Nuoto"
+            ]
+          },
+          "2026-06-19": {
+            "slots": [],
+            "note": "Sono in viaggio. Forse riesco a nuotare in mare aperto o a correre",
+            "disciplines": [
+              "Corsa",
+              "Nuoto"
+            ]
+          },
+          "2026-06-17": {
+            "slots": [],
+            "note": "Faccio un lungo di 70/90km. Serra, un po' di collinare sottomonte lato Lucca, Balbano e poi mare",
+            "disciplines": [
+              "Bici"
+            ]
+          },
+          "2026-06-18": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-06-21": {
+            "slots": [],
+            "note": "Mi sa che non riesco a fare niente",
+            "disciplines": []
+          },
+          "2026-06-16": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Corsa"
+            ]
+          }
+        }
+      },
+      "2026-W26": {
+        "weekId": "2026-W26",
+        "updatedAt": "2026-06-27 10:01:54.090000+00:00",
+        "days": {
+          "2026-06-24": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Rulli",
+              "Palestra",
+              "Nuoto",
+              "Corsa"
+            ]
+          },
+          "2026-06-27": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-06-25": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-06-26": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Bici",
+              "Rulli",
+              "Corsa",
+              "Palestra",
+              "Nuoto"
+            ]
+          },
+          "2026-06-28": {
+            "slots": [],
+            "note": "Ok anche fare il doppio",
+            "disciplines": [
+              "Bici"
+            ]
+          },
+          "2026-06-23": {
+            "slots": [
+              "Mattina"
+            ],
+            "note": "",
+            "disciplines": [
+              "Nuoto"
+            ]
+          },
+          "2026-06-22": {
+            "slots": [
+              "Sera"
+            ],
+            "note": "",
+            "disciplines": [
+              "Corsa"
+            ]
+          }
+        }
+      },
+      "2026-W27": {
+        "weekId": "2026-W27",
+        "updatedAt": "2026-06-30 08:18:19.382000+00:00",
+        "days": {
+          "2026-06-29": {
+            "slots": [],
+            "note": "Riposo",
+            "disciplines": []
+          },
+          "2026-07-04": {
+            "slots": [],
+            "note": "Ancora non so come sono messo",
+            "disciplines": []
+          },
+          "2026-06-30": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Corsa"
+            ]
+          },
+          "2026-07-05": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Corsa"
+            ]
+          },
+          "2026-07-01": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Bici",
+              "Corsa"
+            ]
+          },
+          "2026-07-03": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Bici",
+              "Corsa"
+            ]
+          },
+          "2026-07-02": {
+            "slots": [],
+            "note": "",
+            "disciplines": [
+              "Nuoto",
+              "Bici",
+              "Corsa"
+            ]
+          }
+        }
+      }
+    },
+    "weeks": {
+      "2026-W17": {
+        "weekId": "2026-W17",
+        "loadColor": "orange",
+        "loadNote": "Settimana 0"
+      },
+      "2026-W18": {
+        "weekId": "2026-W18",
+        "loadColor": "yellow",
+        "periodName": "1\u00b0 carico",
+        "loadNote": "1\u00b0 Carico"
+      },
+      "2026-W19": {
+        "weekId": "2026-W19",
+        "loadColor": "orange",
+        "loadNote": "2\u00b0 Carico"
+      },
+      "2026-W21": {
+        "weekId": "2026-W21",
+        "loadColor": "yellow"
+      }
+    },
+    "tests": {
+      "VnfHonDDbMAl0m6hr8Iw": {
+        "discipline": "Rulli",
+        "result": "190w",
+        "date": "2026-04-28",
+        "createdAt": "2026-04-28 20:11:16.483000+00:00",
+        "notes": "",
+        "testType": "FTP test"
+      }
+    }
+  }
+}
